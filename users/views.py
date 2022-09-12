@@ -2,15 +2,15 @@ from django.shortcuts import render
 
 
 def login(request):
-    context = {}
+    context = {'url': 'login'}
     return render(request, 'login.html', context)
 
 
 def logout(request):
-    context = {}
+    context = {'url': 'logout'}
     return render(request, 'logout.html', context)
 
 
 def signup(request):
-    context = {}
+    context = {'url': 'signup'}
     return render(request, 'signup.html', context)
