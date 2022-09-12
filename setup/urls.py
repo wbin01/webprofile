@@ -29,4 +29,5 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path(ADMIN_ROUTE, admin.site.urls),
     path('', include('webprofile.urls')),
+    path('', include('users.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
