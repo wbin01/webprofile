@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ### NAV ### -->
+{% include 'partials/_nav.html'%}
+
+<!-- ### CONTAINER ### -->
+<div class="container">
+    <!-- ### TITLE ### -->
+    <h1>Content</h1>
+    <!-- / TITLE -->
+
+    <!-- ### FIGURE ### -->
+    <figure class="figure">
+        <img src="..." class="figure-img img-fluid rounded" alt="...">
+        <figcaption class="figure-caption">A caption for the above image.</figcaption>
+    </figure>
+    <!-- / FIGURE -->
+
+    <p>Lorem ipsum</p>
+
+<!-- / CONTAINER -->
+</div>
+
+<!-- ### FOOTER ### -->
+{% include 'partials/_footer.html'%}
+
+{% endblock %}
+
