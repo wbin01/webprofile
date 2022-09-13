@@ -9,10 +9,10 @@
 <!-- ### CONTAINER ### -->
 <div class="container mt-5 mb-5">
     <section class="container col-8" >
-        <h1>Entrar</h1>
+        <h1>Acessar sua conta</h1>
         <p class="mb-4">&nbsp;Preencha os campos</p>
 
-        <form action="{% url 'index' %}" method="post">
+        <form action="{% url 'login' %}" method="post">
             {% csrf_token %}
             {% for field in user_forms.visible_fields %}
             <div class="form-group mb-2">

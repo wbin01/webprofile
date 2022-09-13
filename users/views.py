@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib import auth
 from users.forms import SignUpForms, LoginForms
 import string
 
@@ -10,6 +11,32 @@ def login(request):
         'url': 'login',
         'user_forms': user_forms,
         'message_err': None}
+
+    if request.method == 'POST':
+        # Username
+        username = request.POST['username']
+        if not username.strip():
+            context['message_err'] = 'Preencha o nome de usuário'
+
+        # Password
+        password = request.POST['password']
+        if not password.strip():
+            context['message_err'] = 'Preencha a senha'
+
+        # User
+        if User.objects.filter(username=username).exists():
+            user = auth.authenticate(
+                request, username=username, password=password)
+
+            # Auth
+            if user is not None:
+                auth.login(request, user)
+                return redirect('index')
+
+            # Errors
+            if context['message_err']:
+                return render(request, 'login.html', context)
+
     return render(request, 'login.html', context)
 
 
