@@ -9,8 +9,8 @@
 <!-- ### CONTAINER ### -->
 <div class="container mt-5 mb-5">
     <section class="container col-8" >
-        <h1>Realizar Cadatro</h1>
-        <p class="mb-4">Complete as informações</p>
+        <h1>Realizar Cadastro</h1>
+        <p class="mb-4">&nbsp;Complete as informações</p>
         <form action="#" method="post">
             {% csrf_token %}
             {% for field in user_forms.visible_fields %}
@@ -24,7 +24,7 @@
             </section>
             {% endfor %}
             {% endfor %}
-            <input type="submit" value="Ok" class="btn btn-success">
+            <input type="submit" value="Cadastrar" class="btn btn-success">
         </form>
     </section>
 
