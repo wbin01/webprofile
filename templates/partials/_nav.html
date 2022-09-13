@@ -17,8 +17,12 @@
           {% endif %}
         </li>
 
-        <li class="nav-item" hidden>
-          <a class="nav-link" href="#">Link</a>
+        <li class="nav-item">
+          {% if url == 'login' %}
+          <a class="nav-link active bg-success" href="{% url 'login' %}">Entrar</a>
+          {% else %}
+          <a class="nav-link" href="{% url 'login' %}">Entrar</a>
+          {% endif %}
         </li>
         <li class="nav-item dropdown" hidden>
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

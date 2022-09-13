@@ -1,10 +1,15 @@
 from django.shortcuts import render, redirect
-from users.forms import UserForms
+from django.contrib.auth.models import User
+from users.forms import SignUpForms, LoginForms
 import string
 
 
 def login(request):
-    context = {'url': 'login'}
+    user_forms = LoginForms
+    context = {
+        'url': 'login',
+        'user_forms': user_forms,
+        'message_err': None}
     return render(request, 'login.html', context)
 
 
@@ -14,7 +19,7 @@ def logout(request):
 
 
 def signup(request):
-    user_forms = UserForms
+    user_forms = SignUpForms
     context = {
         'url': 'signup',
         'user_forms': user_forms,
@@ -22,15 +27,31 @@ def signup(request):
 
     if request.method == 'POST':
         name = request.POST['name']
+        username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
         password_confirm = request.POST['password_confirm']
-        valid_password_chars = list(string.ascii_letters + string.digits)
+        valid_chars = list(string.ascii_letters + string.digits)
 
+        # Name
         if not name.strip():
             context['message_err'] = 'Preencha o nome'
+        elif len(name) >= 200:
+            context['message_err'] = 'Nome muito longo'
+        elif any(char not in valid_chars + [' '] for char in name):
+            context['message_err'] = 'Nome nulo! Use letras, números e espaços'
+
+        # Username
+        elif not username.strip():
+            context['message_err'] = 'Preencha o nome de usuário'
+        elif not username.isalpha():
+            context['message_err'] = 'Nome de usuário só pode conter letras'
+
+        # Email
         elif not email.strip():
             context['message_err'] = 'Preencha o email'
+
+        # Password
         elif not password.strip() or not password_confirm.strip():
             context['message_err'] = 'Preencha a senha'
         elif password != password_confirm:
@@ -38,12 +59,24 @@ def signup(request):
         elif (len(password) < 8 or
               all(char.isalpha() for char in password) or
               all(char.isdigit() for char in password) or
-              any(char not in valid_password_chars for char in password)):
+              any(char not in valid_chars for char in password)):
             context['message_err'] = 'Senha inválida'
 
+        # Exists
+        if User.objects.filter(username=username).exists():
+            context['message_err'] = 'Usuário já cadastrado'
+        if User.objects.filter(email=email).exists():
+            context['message_err'] = 'Email já cadastrado'
+
+        # Errors
         if context['message_err']:
             return render(request, 'signup.html', context)
-        else:
-            return redirect('login')
+
+        # User
+        user = User.objects.create_user(
+            username=username, first_name=name, email=email, password=password)
+        user.save()
+
+        return redirect('login')
 
     return render(request, 'signup.html', context)
