@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from users.forms import UserForms
 
 
 def login(request):
@@ -12,5 +13,6 @@ def logout(request):
 
 
 def signup(request):
-    context = {'url': 'signup'}
+    user_forms = UserForms
+    context = {'url': 'signup', 'user_forms': user_forms}
     return render(request, 'signup.html', context)
