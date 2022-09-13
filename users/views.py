@@ -41,8 +41,8 @@ def login(request):
 
 
 def logout(request):
-    context = {'url': 'logout'}
-    return render(request, 'logout.html', context)
+    auth.logout(request)
+    return redirect('index')
 
 
 def signup(request):
