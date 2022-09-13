@@ -11,7 +11,7 @@ class Post(models.Model):
     content = models.TextField()
     category = models.CharField(max_length=100)
     publication_date = models.DateTimeField(default=datetime.now, blank=True)
-    post_is_published = models.BooleanField(default=False)
+    post_is_published = models.BooleanField()
 
     def __str__(self):
         return self.title

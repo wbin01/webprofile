@@ -1,59 +1,34 @@
-from datetime import datetime
 from django import forms
-from tempus_dominus.widgets import DatePicker
 from webprofile.models import Post
 
 
-Choice_value = [('1', 'First'), ('2', 'Second'), ('3', 'Third')]
-
-
 class PostForms(forms.ModelForm):
-    publication_date = forms.DateTimeField(
-        initial=datetime.now,
-        label='Data de publicação',
-        disabled=True)
-    # post_is_published = forms.BooleanField(
-    #     initial=False, label='Marcar como publicado')
+    post_is_published = forms.ChoiceField(
+        label='Marcar como publicado',
+        choices=(('yes', 'Sim'), ('no', 'Não'),))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
 
+            if 'name="publication_date"' in str(visible):
+                # visible.field.widget = forms.HiddenInput()
+                visible.field.widget.attrs['readonly'] = 'readonly'
+
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = exclude = ['user']  # '__all__'
         labels = {
-            'user': 'Usuário',
             'title': 'Título',
             'image': 'Imagem',
             'summary': 'Resumo',
             'content': 'Conteúdo',
             'category': 'Categoria',
-            'post_is_published': 'Marcar como publicado',
+            'publication_date': 'Data de publicação',
         }
 
         widgets = {
-            'publication_date': DatePicker(),
-            'post_is_published': forms.CheckboxInput(),
+            'summary': forms.Textarea(attrs={'rows': 2}),  # 'cols': 15
+            'content': forms.Textarea(attrs={'rows': 10}),
         }
-
-    # def clean(self):
-    #     fields = {
-    #         'username': self.cleaned_data.get('username'),
-    #         'password': self.cleaned_data.get('password')}
-    #
-    #     errors = {}
-    #
-    #     for key, value in fields.items():
-    #         if not value.strip():
-    #             errors[key] = 'Preencha este campo'
-    #
-    #     if not fields['username'].isalpha():
-    #         errors['name'] = 'Só é permitido letras neste campo'
-    #
-    #     if errors:
-    #         for erro in errors:
-    #             error_message = errors[erro]
-    #             self.add_error(erro, error_message)
-    #     return self.cleaned_data
