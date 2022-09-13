@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from webprofile.forms import PostForms
+from django.contrib import auth
 
 
 def index(request):
@@ -12,5 +14,10 @@ def content(request):
 
 
 def create(request):
-    context = {'url': 'create'}
+    post_forms = PostForms
+    context = {
+        'url': 'login',
+        'post_forms': post_forms,
+        'message_err': None}
+
     return render(request, 'create.html', context)

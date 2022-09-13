@@ -1,7 +1,4 @@
-from datetime import datetime
 from django import forms
-from tempus_dominus.widgets import DatePicker
-from webprofile.models import Post
 from users.models import FormUser
 
 
@@ -56,7 +53,7 @@ class SignUpForms(forms.ModelForm):
             'name': 'Nome',
             'username': 'Nome de usuário (Letras)',
             'email': 'Email',
-            'password': 'Senha (Mínimo 8 Letras e números)',
+            'password': 'Senha (Mínimo 8 letras e números)',
             'password_confirm': 'Senha novamente',
         }
         widgets = {
@@ -86,32 +83,3 @@ class SignUpForms(forms.ModelForm):
                 error_message = errors[erro]
                 self.add_error(erro, error_message)
         return self.cleaned_data
-
-
-class PostForms(forms.ModelForm):
-    publication_date = forms.DateTimeField(
-        initial=datetime.now,
-        label='Data de publicação',
-        disabled=True)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
-
-    class Meta:
-        model = Post
-        fields = '__all__'
-        labels = {
-            'user': 'Usuário',
-            'title': 'Título',
-            'image': 'Imagem',
-            'summary': 'Resumo',
-            'content': 'Conteúdo',
-            'category': 'Categoria',
-            'post_is_published': 'Marcar como publicado',
-        }
-
-        widgets = {
-            'publication_date': DatePicker(),
-        }
