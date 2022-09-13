@@ -22,7 +22,30 @@ class UserForms(forms.ModelForm):
         }
         widgets = {
             'password': forms.PasswordInput(),
+            'password_confirm': forms.PasswordInput(),
         }
+
+    def clean(self):
+        fields = {
+            'name': self.cleaned_data.get('name'),
+            'email': self.cleaned_data.get('email'),
+            'password': self.cleaned_data.get('password'),
+            'password_confirm': self.cleaned_data.get('password_confirm')}
+
+        errors = {}
+
+        for key, value in fields.items():
+            if not value.strip():
+                errors[key] = 'Preencha este campo'
+
+        if any(char.isdigit() for char in fields['name']):
+            errors['name'] = 'Não inclua números neste campo'
+
+        if errors:
+            for erro in errors:
+                error_message = errors[erro]
+                self.add_error(erro, error_message)
+        return self.cleaned_data
 
 
 class PostForms(forms.ModelForm):

@@ -11,7 +11,12 @@
     <section class="container col-8" >
         <h1>Realizar Cadastro</h1>
         <p class="mb-4">&nbsp;Complete as informações</p>
-        <form action="#" method="post">
+
+        {% if message_err %}
+        <p class="bg-danger p-2 bg-opacity-50">{{ message_err }}</p>
+        {% endif %}
+
+        <form action="{% url 'signup' %}" method="post">
             {% csrf_token %}
             {% for field in user_forms.visible_fields %}
             <div class="form-group mb-2">
@@ -24,6 +29,9 @@
             </section>
             {% endfor %}
             {% endfor %}
+            <p class="bg-warning p-2 bg-opacity-25">
+                <small>A senha precisa ter no mínimo 8 caracteres e incluir letras e números</small>
+            </p>
             <input type="submit" value="Cadastrar" class="btn btn-success">
         </form>
     </section>
