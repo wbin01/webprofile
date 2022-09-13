@@ -18,7 +18,7 @@ class PostForms(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = exclude = ['user']  # '__all__'
+        exclude = ['user']  # '__all__'
         labels = {
             'title': 'Título',
             'image': 'Imagem',
