@@ -18,7 +18,7 @@ def content(request):
 def create(request):
     post_forms = PostForms
     context = {
-        'url': 'login',
+        'url': 'create',
         'post_forms': post_forms,
         'message_err': None}
 
