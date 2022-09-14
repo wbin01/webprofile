@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.utils import timezone
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import User
 from webprofile.forms import PostForms
-from django.contrib import auth
+from webprofile.models import Post
 
 
 def index(request):
@@ -21,28 +23,24 @@ def create(request):
         'message_err': None}
 
     if request.method == 'POST':
-        get_title = request.POST['title']
-        get_image = request.POST['image']
-        get_summary = request.POST['summary']
-        get_content = request.POST['content']
-        get_category = request.POST['category']
-        get_publication_date = request.POST['publication_date']
-        get_post_is_published = request.POST['post_is_published']
-
         # name: request.user.first_name
         # username: request.user.username
-        # username 2: auth.get_user(request)
+        # username: auth.get_user(request)
         # email: request.user.email
         # password: request.user.password
 
-        print('title:', get_title)
-        print('image:', get_image)
-        print('summary:', get_summary)
-        print('content:', get_content)
-        print('category:', get_category)
-        print('publication_date:', get_publication_date)
-        print('post_is_published:', get_post_is_published)
-
-        # post = PostForms()
+        post = Post.objects.create(  # type: ignore
+            user=get_object_or_404(User, pk=request.user.id),
+            title=request.POST['title'],
+            image=request.POST['image'],
+            summary=request.POST['summary'],
+            content=request.POST['content'],
+            category=request.POST['category'].lower(),
+            publication_date=timezone.now(),
+            post_is_published=(
+                False if request.POST['post_is_published'] == 'no' else True)
+        )
+        post.save()
+        return redirect('index')
 
     return render(request, 'create.html', context)

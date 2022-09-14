@@ -18,14 +18,13 @@ class PostForms(forms.ModelForm):
 
     class Meta:
         model = Post
-        exclude = ['user']  # '__all__'
+        exclude = ['user', 'publication_date']  # '__all__'
         labels = {
             'title': 'Título',
             'image': 'Imagem',
             'summary': 'Resumo',
             'content': 'Conteúdo',
             'category': 'Categoria',
-            'publication_date': 'Data de publicação',
         }
 
         widgets = {
