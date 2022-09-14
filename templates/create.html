@@ -15,7 +15,7 @@
         <p class="bg-danger p-2 bg-opacity-50">{{ message_err }}</p>
         {% endif %}
 
-        <form action="{% url 'create' %}" method="post">
+        <form action="{% url 'create' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in post_forms.visible_fields %}
             <div class="form-group mb-2">

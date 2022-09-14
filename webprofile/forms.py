@@ -16,6 +16,10 @@ class PostForms(forms.ModelForm):
                 # visible.field.widget = forms.HiddenInput()
                 visible.field.widget.attrs['readonly'] = 'readonly'
 
+            if 'name="publication_date"' in str(visible):
+                # visible.field.widget = forms.HiddenInput()
+                visible.field.widget.attrs['readonly'] = 'readonly'
+
     class Meta:
         model = Post
         exclude = ['user', 'publication_date']  # '__all__'

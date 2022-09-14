@@ -32,7 +32,7 @@ def create(request):
         post = Post.objects.create(  # type: ignore
             user=get_object_or_404(User, pk=request.user.id),
             title=request.POST['title'],
-            image=request.POST['image'],
+            image=request.FILES['image'],
             summary=request.POST['summary'],
             content=request.POST['content'],
             category=request.POST['category'].lower(),
