@@ -13,8 +13,8 @@ class PostForms(forms.ModelForm):
             visible.field.widget.attrs['class'] = 'form-control'
 
             if 'name="publication_date"' in str(visible):
-                # visible.field.widget = forms.HiddenInput()
                 visible.field.widget.attrs['readonly'] = 'readonly'
+                # visible.field.widget = forms.HiddenInput()
 
     class Meta:
         model = Post
