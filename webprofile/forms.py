@@ -31,3 +31,17 @@ class PostForms(forms.ModelForm):
             'summary': forms.Textarea(attrs={'rows': 2}),  # 'cols': 15
             'content': forms.Textarea(attrs={'rows': 10}),
         }
+
+    def clean(self):
+        # wayfinder_map_form.cleaned_data['media_file']
+        img = self.cleaned_data.get('image')
+        errors = {}
+
+        if not img:
+            errors['image'] = 'Cadê a imagem pô?!'
+
+        if errors:
+            for erro in errors:
+                error_message = errors[erro]
+                self.add_error(erro, error_message)
+        return self.cleaned_data

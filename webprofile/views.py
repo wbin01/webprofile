@@ -29,10 +29,12 @@ def create(request):
         # email: request.user.email
         # password: request.user.password
 
+        # request.FILES['image'] if 'image' in request.FILES else 'default.png'
+
         post = Post.objects.create(  # type: ignore
             user=get_object_or_404(User, pk=request.user.id),
             title=request.POST['title'],
-            image=request.FILES['image'],
+            image=request.FILES.get('image', 'images/default.png'),
             summary=request.POST['summary'],
             content=request.POST['content'],
             category=request.POST['category'].lower(),
