@@ -1,68 +1,86 @@
-<nav class="navbar navbar-dark navbar-expand-lg bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'index' %}">
-      {% load static %}
-        <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">
-    </a>
-    {% if user.is_authenticated %}
-    <span class="text-success fw-light text-opacity-50">[ {{ user.first_name }} ]</span>
-    {% endif %}
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<!-- https://www.markuptag.com/bootstrap-5-navigation-bar-example/ -->
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        {% if user.is_authenticated %}
-        <li class="nav-item">
-          {% if url == 'create' %}
-          <a class="nav-link border-bottom border-success border-opacity-50" aria-current="page" href="{% url 'create' %}">Postar</a>
-          {% else %}
-          <a class="nav-link" aria-current="page" href="{% url 'create' %}">Postar</a>
-          {% endif %}
-        </li>
+        <!-- Site Logo Here -->
+        <a class="navbar-brand" href="{% url 'index' %}">
+          <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">
+        </a>
 
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="{% url 'logout' %}">Sair</a>
-        </li>
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMobileToggle" aria-controls="navbarMobileToggle" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
 
-        {% else %}
+        <!-- Menu items -->
+        <div class="collapse navbar-collapse" id="navbarMobileToggle">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-        <li class="nav-item">
-          {% if url == 'signup' %}
-          <a class="nav-link border-bottom border-success border-opacity-50" aria-current="page" href="{% url 'signup' %}">Cadastrar</a>
-          {% else %}
-          <a class="nav-link" aria-current="page" href="{% url 'signup' %}">Cadastrar</a>
-          {% endif %}
-        </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    {% if url == 'create' %}
+                    <a class="nav-link active" aria-current="page" href="{% url 'create' %}">Postar</a>
+                    {% else %}
+                    <a class="nav-link " aria-current="page" href="{% url 'create' %}">Postar</a>
+                    {% endif %}
+                </li>
 
-        <li class="nav-item">
-          {% if url == 'login' %}
-          <a class="nav-link border-bottom border-success border-opacity-50" href="{% url 'login' %}">Entrar</a>
-          {% else %}
-          <a class="nav-link" href="{% url 'login' %}">Entrar</a>
-          {% endif %}
-        </li>
-        {% endif %}
-        <li class="nav-item dropdown" hidden>
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item" hidden>
-          <a class="nav-link disabled">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2 bg-dark text-white" type="search" placeholder="Pesquisar" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Pesquisar</button>
-      </form>
+                {% else %}
+                <li class="nav-item">
+                    {% if url == 'signup' %}
+                    <a class="nav-link active" aria-current="page" href="{% url 'signup' %}">Cadastrar</a>
+                    {% else %}
+                    <a class="nav-link " aria-current="page" href="{% url 'signup' %}">Cadastrar</a>
+                    {% endif %}
+                </li>
+
+                <li class="nav-item">
+                    {% if url == 'login' %}
+                    <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Entrar</a>
+                    {% else %}
+                    <a class="nav-link " aria-current="page" href="{% url 'login' %}">Entrar</a>
+                    {% endif %}
+                </li>
+                {% endif %}
+
+<!--                <li class="nav-item dropdown">-->
+<!--                    <a class="nav-link dropdown-toggle" href="#" id="Submenu-Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                    Services-->
+<!--                    </a>-->
+<!--                    <ul class="dropdown-menu rounded-3" aria-labelledby="Submenu-Dropdown">-->
+<!--                        <li><a class="dropdown-item" href="#">Services One</a></li>-->
+<!--                        <li><a class="dropdown-item" href="#">Services Two</a></li>-->
+<!--                        <li><a class="dropdown-item" href="#">Services Three</a></li>-->
+<!--                        <li><a class="dropdown-item" href="#">Services Four</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="#">Portfolio</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="#">Contact</a>-->
+<!--                </li>-->
+            </ul>
+
+            <!-- Right Side -->
+            {% if user.is_authenticated %}
+            <div class="btn-group float-end">
+                <a href="#" class="dropdown-toggle text-decoration-none text-light" data-bs-toggle="dropdown">
+                <i class="bi bi-person-circle"></i>
+                <span>{{ user.first_name }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a href="#" class="dropdown-item"><i class="bi bi-lock-fill"></i> Change Password</a></li>
+                    <li><a href="#" class="dropdown-item"><i class="bi bi-gear-fill"></i> Admin Setion</a></li>
+                    <li><a href="#" class="dropdown-item"><i class="bi bi-gear-wide-connected"></i> IMAP Settings</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a href="{% url 'logout' %}" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
+                </ul>
+            </div>
+            {% endif %}
+        </div>
     </div>
-  </div>
 </nav>
