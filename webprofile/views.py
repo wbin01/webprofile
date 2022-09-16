@@ -6,21 +6,14 @@ from webprofile.models import Post
 
 
 def index(request):
-
     posts = separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
             '-publication_date').filter(post_is_published=True),
         items_quantity=3)
 
-    # posts = (
-    #     Post.objects  # type: ignore
-    #     .order_by('-publication_date').filter(post_is_published=True))
-
     # paginator = Paginator(receitas, 6)
     # page = request.GET.get('page')
     # receitas_por_pagina = paginator.get_page(page)
-
-    print('>>>>>>>>>>>', type(posts), posts)
 
     context = {'url': 'index', 'posts': posts}
     return render(request, 'index.html', context)
@@ -65,11 +58,48 @@ def create(request):
 
 
 def edit(request, post_id):
-    context = {'url': 'edit'}
-    return render(request, 'edit.html')
+    post_to_edit = get_object_or_404(Post, pk=post_id)
+    post_forms = PostForms(
+        initial={
+            'user': get_object_or_404(User, pk=request.user.id),
+            'title': post_to_edit.title,
+            'image': post_to_edit.image.url,
+            'summary': post_to_edit.summary,
+            'content': post_to_edit.content,
+            'category': post_to_edit.category,
+            'publication_date': timezone.now(),
+            'post_is_published': (
+                False if not post_to_edit.post_is_published else True)
+        })
+    context = {
+        'url': 'edit',
+        'post_forms': post_forms,
+        'post_id': post_id,
+        'message_err': None}
+
+    return render(request, 'edit.html', context)
+
+
+def update(request, post_id):
+    if request.method == 'POST':
+        r = Post.objects.get(pk=post_id)  # type: ignore
+        r.title = request.POST['title']
+        r.summary = request.POST['summary']
+        r.content = request.POST['content']
+        r.category = request.POST['category']
+        r.publication_date = timezone.now()
+        r.post_is_published = (
+                False if not request.POST['post_is_published'] else True)
+        if 'image' in request.FILES:
+            r.image = request.FILES['image']
+        r.save()
+        return redirect('index')
 
 
 def delete(request, post_id):
+    print(request)
+    post = get_object_or_404(Post, pk=post_id)
+    post.delete()
     return redirect('index')
 
 

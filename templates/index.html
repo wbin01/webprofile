@@ -64,13 +64,18 @@
                 <p class="card-text">{{ post.summary }}</p>
             </div>
             <div class="card-footer">
-                <small class="text-muted">{{ post.publication_date }}</small>
-                <a href="{% url 'edit' post.id %}" type="button" class="btn btn-info btn-sm">
+                <small class="text-muted">{{ post.user.first_name }} - {{ post.publication_date }}</small>
+
+                {% if user.is_authenticated %}
+                {% if user.id == post.user.id %}
+                <a href="{% url 'edit' post.id %}" type="button" class="btn btn-warning btn-sm">
                     <i class="bi bi-pen-fill"></i>
                 </a>
                 <a href="{% url 'delete' post.id %}" type="button" class="btn btn-danger btn-sm">
                     <i class="bi bi-trash-fill"></i>
                 </a>
+                {% endif %}
+                {% endif %}
             </div>
         </div>
         {% endfor %}
