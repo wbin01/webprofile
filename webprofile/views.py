@@ -6,7 +6,23 @@ from webprofile.models import Post
 
 
 def index(request):
-    context = {'url': 'index'}
+
+    posts = separate_posts_into_quantity_groups(
+        posts_list=Post.objects.order_by(  # type: ignore
+            '-publication_date').filter(post_is_published=True),
+        items_quantity=3)
+
+    # posts = (
+    #     Post.objects  # type: ignore
+    #     .order_by('-publication_date').filter(post_is_published=True))
+
+    # paginator = Paginator(receitas, 6)
+    # page = request.GET.get('page')
+    # receitas_por_pagina = paginator.get_page(page)
+
+    print('>>>>>>>>>>>', type(posts), posts)
+
+    context = {'url': 'index', 'posts': posts}
     return render(request, 'index.html', context)
 
 
@@ -46,3 +62,43 @@ def create(request):
         return redirect('index')
 
     return render(request, 'create.html', context)
+
+
+def edit(request, post_id):
+    context = {'url': 'edit'}
+    return render(request, 'edit.html')
+
+
+def delete(request, post_id):
+    return redirect('index')
+
+
+def separate_posts_into_quantity_groups(
+        posts_list: list, items_quantity: int) -> list:
+    """Separate on groups
+
+    if quantity groups is 3...
+    move this:
+    [obj, obj, obj, obj, obj, obj]
+
+    for this:
+    [[obj, obj, obj], [obj, obj, obj]]
+
+    :param posts_list:
+    :param items_quantity:
+    :return:
+    """
+
+    all_post_groups_list = []
+    one_post_group_list = []
+    for item in enumerate(posts_list):
+        index_post, object_post = (item[0], item[1])
+
+        if index_post != 0 and index_post % items_quantity == 0:
+            all_post_groups_list.append(one_post_group_list)
+            one_post_group_list = []
+
+        one_post_group_list.append(object_post)
+    all_post_groups_list.append(one_post_group_list)
+
+    return all_post_groups_list
