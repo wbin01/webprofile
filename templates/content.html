@@ -7,19 +7,24 @@
 {% include 'partials/_nav.html'%}
 
 <!-- ### CONTAINER ### -->
-<div class="container">
+<div class="container-md">
     <!-- ### TITLE ### -->
-    <h1>Content</h1>
+    <h1 class="text-center">{{ post.title }}</h1>
+    <p class="text-muted">Por {{ post.user.first_name }} - {{ post.publication_date }}</p>
     <!-- / TITLE -->
 
     <!-- ### FIGURE ### -->
-    <figure class="figure">
-        <img src="..." class="figure-img img-fluid rounded" alt="...">
-        <figcaption class="figure-caption">A caption for the above image.</figcaption>
-    </figure>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="{{ post.image.url }}" class="card-img-top" alt="...">
+            <!--<figcaption class="figure-caption">A caption for the above image.</figcaption>-->
+        </figure>
+    </div>
     <!-- / FIGURE -->
+    <section>
+        <p>{{ post.content | safe }}</p>
+    </section>
 
-    <p>Lorem ipsum</p>
 
 <!-- / CONTAINER -->
 </div>

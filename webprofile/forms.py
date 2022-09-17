@@ -33,11 +33,10 @@ class PostForms(forms.ModelForm):
         }
 
     def clean(self):
-        # wayfinder_map_form.cleaned_data['media_file']
-        img = self.cleaned_data.get('image')
         errors = {}
 
-        if not img:
+        # wayfinder_map_form.cleaned_data['media_file']
+        if not self.cleaned_data.get('image'):
             errors['image'] = 'Cadê a imagem pô?!'
 
         if errors:

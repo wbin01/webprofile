@@ -4,9 +4,11 @@ from django.contrib.auth.models import User
 from webprofile.forms import PostForms
 from webprofile.models import Post
 
+import views_validations
+
 
 def index(request):
-    posts = separate_posts_into_quantity_groups(
+    posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
             '-publication_date').filter(post_is_published=True),
         items_quantity=3)
@@ -19,8 +21,9 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-def content(request):
-    context = {'url': 'content'}
+def content(request, post_id):
+    post = Post.objects.get(pk=post_id)  # type: ignore
+    context = {'url': 'content', 'post': post}
     return render(request, 'content.html', context)
 
 
@@ -45,7 +48,7 @@ def create(request):
             title=request.POST['title'],
             image=request.FILES.get('image', 'images/default.png'),
             summary=request.POST['summary'],
-            content=request.POST['content'],
+            content=views_validations.content_as_p(request.POST['content']),
             category=request.POST['category'].lower(),
             publication_date=timezone.now(),
             post_is_published=(
@@ -65,12 +68,14 @@ def edit(request, post_id):
             'title': post_to_edit.title,
             'image': post_to_edit.image.url,
             'summary': post_to_edit.summary,
-            'content': post_to_edit.content,
+            'content': views_validations.content_rm_p(post_to_edit.content),
             'category': post_to_edit.category,
             'publication_date': timezone.now(),
             'post_is_published': (
-                False if not post_to_edit.post_is_published else True)
+                ('no', 'Não') if not post_to_edit.post_is_published
+                else ('yes', 'Sim'))
         })
+
     context = {
         'url': 'edit',
         'post_forms': post_forms,
@@ -82,18 +87,18 @@ def edit(request, post_id):
 
 def update(request, post_id):
     if request.method == 'POST':
-        r = Post.objects.get(pk=post_id)  # type: ignore
-        r.title = request.POST['title']
-        r.summary = request.POST['summary']
-        r.content = request.POST['content']
-        r.category = request.POST['category']
-        r.publication_date = timezone.now()
-        r.post_is_published = (
-                False if not request.POST['post_is_published'] else True)
+        post = Post.objects.get(pk=post_id)  # type: ignore
+        post.title = request.POST['title']
+        post.summary = request.POST['summary']
+        post.content = views_validations.content_as_p(request.POST['content'])
+        post.category = request.POST['category']
+        post.publication_date = timezone.now()
+        post.post_is_published = (
+                False if request.POST['post_is_published'] == 'no' else True)
         if 'image' in request.FILES:
-            r.image = request.FILES['image']
-        r.save()
-        return redirect('index')
+            post.image = request.FILES['image']
+        post.save()
+        return redirect('content', post_id)
 
 
 def delete(request, post_id):
@@ -101,34 +106,3 @@ def delete(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post.delete()
     return redirect('index')
-
-
-def separate_posts_into_quantity_groups(
-        posts_list: list, items_quantity: int) -> list:
-    """Separate on groups
-
-    if quantity groups is 3...
-    move this:
-    [obj, obj, obj, obj, obj, obj]
-
-    for this:
-    [[obj, obj, obj], [obj, obj, obj]]
-
-    :param posts_list:
-    :param items_quantity:
-    :return:
-    """
-
-    all_post_groups_list = []
-    one_post_group_list = []
-    for item in enumerate(posts_list):
-        index_post, object_post = (item[0], item[1])
-
-        if index_post != 0 and index_post % items_quantity == 0:
-            all_post_groups_list.append(one_post_group_list)
-            one_post_group_list = []
-
-        one_post_group_list.append(object_post)
-    all_post_groups_list.append(one_post_group_list)
-
-    return all_post_groups_list

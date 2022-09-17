@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ### NAV ### -->
+{% include 'partials/_nav.html'%}
+
+<!-- ### CONTAINER ### -->
+<div class="container">
+   <h5>Minhas postagens!</h5>
+   <!-- ### CARD ### -->
+    {% if posts %}
+    {% for post_group in posts %}
+    <div class="card-group">
+        {% for post in post_group %}
+        <div class="card">
+            <a class="card-link text-decoration-none link-dark" href="{% url 'content' post.id %}">
+            <img src="{{ post.image.url }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">{{ post.summary }}</p>
+            </div>
+            </a>
+            <div class="card-footer">
+                {% if user.is_authenticated and user.id == post.user.id %}
+                {% if not post.post_is_published %}
+                <i class="bi bi-eye-slash-fill"></i>
+                {% endif %}
+                {% endif %}
+
+                <small class="text-muted">{{ post.user.first_name }} - {{ post.publication_date }}</small>
+
+                {% if user.is_authenticated %}
+                {% if user.id == post.user.id %}
+
+                <a href="{% url 'edit' post.id %}" type="button" class="btn btn-warning btn-sm">
+                    <i class="bi bi-pen-fill"></i>
+                </a>
+                <a href="{% url 'delete' post.id %}" type="button" class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash-fill"></i>
+                </a>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+    {% endif %}
+<!-- / CONTAINER -->
+</div>
+
+<!-- ### FOOTER ### -->
+{% include 'partials/_footer.html'%}
+
+{% endblock %}
+

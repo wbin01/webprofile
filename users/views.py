@@ -1,8 +1,27 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth
 from users.forms import SignUpForms, LoginForms
+from webprofile.models import Post
 import string
+
+import views_validations
+
+
+def dashboard(request, username):
+    # request.user.username
+    user = get_object_or_404(User, username=username)
+    posts = views_validations.separate_posts_into_quantity_groups(
+        posts_list=Post.objects.order_by(  # type: ignore
+            '-publication_date').filter(user=user),
+        items_quantity=3)
+
+    # paginator = Paginator(receitas, 6)
+    # page = request.GET.get('page')
+    # receitas_por_pagina = paginator.get_page(page)
+
+    context = {'url': 'dashboard', 'posts': posts}
+    return render(request, 'dashboard.html', context)
 
 
 def login(request):
