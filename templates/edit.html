@@ -8,13 +8,11 @@
 
 <div class="container mt-5 mb-5">
     <section class="container col-8" >
-        <h1>Editar Postagem</h1>
-        <p class="mb-4">&nbsp;Preencha todos os campos</p>
+        <p class="mb-4 text-center text-muted">Editar postagem</p>
 
         {% if message_err %}
         <p class="bg-danger p-2 bg-opacity-50">{{ message_err }}</p>
         {% endif %}
-
         <form action="{% url 'update' post_id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in post_forms.visible_fields %}
@@ -29,6 +27,9 @@
             {% endfor %}
             {% endfor %}
             <input type="submit" value="Atualizar" class="btn btn-success">
+            <a href="{% url 'delete' post_id %}" type="button" class="btn btn-danger">
+                <i class="bi bi-trash-fill"></i>
+            </a>
         </form>
     </section>
 

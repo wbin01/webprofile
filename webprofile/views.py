@@ -28,6 +28,9 @@ def content(request, post_id):
 
 
 def create(request):
+    if not request.user.is_authenticated:
+        return redirect('index')
+
     post_forms = PostForms
     context = {
         'url': 'create',
@@ -61,6 +64,9 @@ def create(request):
 
 
 def edit(request, post_id):
+    if not request.user.is_authenticated:
+        return redirect('index')
+
     post_to_edit = get_object_or_404(Post, pk=post_id)
     post_forms = PostForms(
         initial={
@@ -86,6 +92,9 @@ def edit(request, post_id):
 
 
 def update(request, post_id):
+    if not request.user.is_authenticated:
+        return redirect('index')
+
     if request.method == 'POST':
         post = Post.objects.get(pk=post_id)  # type: ignore
         post.title = request.POST['title']
@@ -102,7 +111,8 @@ def update(request, post_id):
 
 
 def delete(request, post_id):
-    print(request)
+    if not request.user.is_authenticated:
+        return redirect('index')
     post = get_object_or_404(Post, pk=post_id)
     post.delete()
     return redirect('index')

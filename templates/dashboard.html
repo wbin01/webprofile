@@ -32,15 +32,9 @@
                 <small class="text-muted">{{ post.user.first_name }} - {{ post.publication_date }}</small>
 
                 {% if user.is_authenticated %}
-                {% if user.id == post.user.id %}
-
-                <a href="{% url 'edit' post.id %}" type="button" class="btn btn-warning btn-sm">
+                <a href="{% url 'edit' post.id %}" type="button" class="btn btn-light btn-sm">
                     <i class="bi bi-pen-fill"></i>
                 </a>
-                <a href="{% url 'delete' post.id %}" type="button" class="btn btn-danger btn-sm">
-                    <i class="bi bi-trash-fill"></i>
-                </a>
-                {% endif %}
                 {% endif %}
             </div>
         </div>
