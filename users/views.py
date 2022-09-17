@@ -14,7 +14,7 @@ def dashboard(request, username):
     user = get_object_or_404(User, username=username)
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
-            '-publication_date').filter(user=user),
+            '-publication_date').filter(user=user, post_is_published=True),
         items_quantity=3)
 
     paginator = Paginator(posts, 2)
@@ -22,8 +22,25 @@ def dashboard(request, username):
     posts_per_page = paginator.get_page(page)
 
     context = {
-        'url': 'dashboard', 'posts': posts, 'posts_per_page': posts_per_page}
+        'url': 'dashboard', 'posts_per_page': posts_per_page}
     return render(request, 'dashboard.html', context)
+
+
+def dashboard_draft(request, username):
+    # request.user.username
+    user = get_object_or_404(User, username=username)
+    posts = views_validations.separate_posts_into_quantity_groups(
+        posts_list=Post.objects.order_by(  # type: ignore
+            '-publication_date').filter(user=user, post_is_published=False),
+        items_quantity=3)
+
+    paginator = Paginator(posts, 2)
+    page = request.GET.get('page')
+    posts_per_page = paginator.get_page(page)
+
+    context = {
+        'url': 'dashboard_draft', 'posts_per_page': posts_per_page}
+    return render(request, 'dashboard_draft.html', context)
 
 
 def login(request):
