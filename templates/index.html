@@ -53,8 +53,8 @@
 <!--   </div>-->
 
    <!-- ### CARD ### -->
-    {% if posts %}
-    {% for post_group in posts %}
+    {% if posts_per_page %}
+    {% for post_group in posts_per_page %}
     <div class="card-group">
         {% for post in post_group %}
         <div class="card">
@@ -78,6 +78,94 @@
     </div>
     {% endfor %}
     {% endif %}
+
+    <!-- ##### Pagination ##### -->
+    <section class="top-catagory-area section-padding-20-0">
+        <div class="container">
+            {% if posts_per_page.has_other_pages %}
+
+            <!-- Previous -->
+            <ul class="pagination">
+                {% if posts_per_page.has_previous %}
+                <li class="page-item">
+                    <a href="?page={{ posts_per_page.previous_page_number }}" class="page-link">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">&laquo;</a>
+                </li>
+                {% endif %}
+
+                <!-- Number == 1 -->
+                {% if posts_per_page.number == 1 %}
+
+                {% for pagina in posts_per_page.paginator.page_range %}
+                {% if pagina <= 3 %}
+                {% if pagina == posts_per_page.number %}
+                <li class="page-item active">
+                    <a class="page-link">{{ pagina }}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a href="?page={{ pagina }}" class="page-link">{{ pagina }}</a>
+                </li>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+
+                <!-- Number > 1 and < total -->
+                {% elif posts_per_page.number > 1 and posts_per_page.number < posts_per_page.paginator.num_pages %}
+
+                {% for pagina in posts_per_page.paginator.page_range %}
+                {% if pagina == posts_per_page.number|add:'-1' or pagina == posts_per_page.number or pagina == posts_per_page.number|add:'+1' %}
+                {% if pagina == posts_per_page.number %}
+                <li class="page-item active">
+                    <a class="page-link">{{ pagina }}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a href="?page={{ pagina }}" class="page-link">{{ pagina }}</a>
+                </li>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+
+                <!-- Number == total -->
+                {% elif posts_per_page.number == posts_per_page.paginator.num_pages %}
+
+                {% for pagina in posts_per_page.paginator.page_range %}
+                {% if pagina >= posts_per_page.paginator.num_pages|add:'-2' %}
+                {% if pagina == posts_per_page.number %}
+                <li class="page-item active">
+                    <a class="page-link">{{ pagina }}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a href="?page={{ pagina }}" class="page-link">{{ pagina }}</a>
+                </li>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+
+                <!-- /Number -->
+                {% endif %}
+
+                <!-- Next -->
+                {% if posts_per_page.has_next %}
+                <li class="page-item">
+                    <a href="?page={{ posts_per_page.next_page_number }}" class="page-link">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">&raquo;</a>
+                </li>
+                {% endif %}
+
+            </ul>
+            {% endif %}
+        </div>
+    </section>
+    <!-- ##### Pagination End ##### -->
 <!-- / CONTAINER -->
 </div>
 

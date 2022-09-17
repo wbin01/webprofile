@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from webprofile.forms import PostForms
 from webprofile.models import Post
 
@@ -11,13 +12,15 @@ def index(request):
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
             '-publication_date').filter(post_is_published=True),
-        items_quantity=3)
+        items_quantity=1)
 
-    # paginator = Paginator(receitas, 6)
-    # page = request.GET.get('page')
-    # receitas_por_pagina = paginator.get_page(page)
+    paginator = Paginator(posts, 1)
+    page = request.GET.get('page')
+    posts_per_page = paginator.get_page(page)
 
-    context = {'url': 'index', 'posts': posts}
+    print('>>>>>>>>>>>>>WWW', posts_per_page.paginator.num_pages)
+
+    context = {'url': 'index', 'posts': posts, 'posts_per_page': posts_per_page}
     return render(request, 'index.html', context)
 
 
