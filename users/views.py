@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from users.forms import SignUpForms, LoginForms
 from webprofile.models import Post
 import string
@@ -16,11 +17,12 @@ def dashboard(request, username):
             '-publication_date').filter(user=user),
         items_quantity=3)
 
-    # paginator = Paginator(receitas, 6)
-    # page = request.GET.get('page')
-    # receitas_por_pagina = paginator.get_page(page)
+    paginator = Paginator(posts, 2)
+    page = request.GET.get('page')
+    posts_per_page = paginator.get_page(page)
 
-    context = {'url': 'dashboard', 'posts': posts}
+    context = {
+        'url': 'dashboard', 'posts': posts, 'posts_per_page': posts_per_page}
     return render(request, 'dashboard.html', context)
 
 

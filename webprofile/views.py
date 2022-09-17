@@ -12,15 +12,14 @@ def index(request):
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
             '-publication_date').filter(post_is_published=True),
-        items_quantity=1)
+        items_quantity=3)
 
-    paginator = Paginator(posts, 1)
+    paginator = Paginator(posts, 2)
     page = request.GET.get('page')
     posts_per_page = paginator.get_page(page)
 
-    print('>>>>>>>>>>>>>WWW', posts_per_page.paginator.num_pages)
-
-    context = {'url': 'index', 'posts': posts, 'posts_per_page': posts_per_page}
+    context = {
+        'url': 'index', 'posts': posts, 'posts_per_page': posts_per_page}
     return render(request, 'index.html', context)
 
 
