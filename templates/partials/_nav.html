@@ -9,11 +9,13 @@
 
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
       {% if user.is_authenticated %}
+      <!-- <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo"> -->
       <span class="bi bi-person-circle"></span>
       {% else %}
       <span class="navbar-toggler-icon"></span>
       {% endif %}
     </button>
+
     <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title text-danger text-opacity-50" id="offcanvasDarkNavbarLabel">
@@ -38,6 +40,7 @@
           {% endif %}
 
           {% if user.is_authenticated %}
+
           {% if 'dashboard' in url %}
           <li class="nav-item">
             <a class="nav-link active" href="{% url 'dashboard' user.username %}">Perfil</a>
@@ -47,6 +50,9 @@
             <a class="nav-link" href="{% url 'dashboard' user.username %}">Perfil</a>
           </li>
           {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Sair</a>
+          </li>
 
           {% else %}
           {% if url == 'signup' %}
@@ -70,19 +76,19 @@
           {% endif %}
 
           {% endif %}
-          <li class="nav-item dropdown">
-<!--        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-            <a class="nav-link dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-plus-square-fill"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark">
-              <li><a class="dropdown-item" href="#">Configurações</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="{% url 'logout' %}">Sair</a></li>
-            </ul>
-          </li>
+<!--          <li class="nav-item dropdown">-->
+<!--&lt;!&ndash;        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">&ndash;&gt;-->
+<!--            <a class="nav-link dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--              <i class="bi bi-plus-square-fill"></i>-->
+<!--            </a>-->
+<!--            <ul class="dropdown-menu dropdown-menu-dark">-->
+<!--              <li><a class="dropdown-item" href="#">Configurações</a></li>-->
+<!--              <li>-->
+<!--                <hr class="dropdown-divider">-->
+<!--              </li>-->
+<!--              <li><a class="dropdown-item" href="{% url 'logout' %}">Sair</a></li>-->
+<!--            </ul>-->
+<!--          </li>-->
         </ul>
         <form class="d-flex mt-2" role="search">
           <input class="form-control me-2" type="search" placeholder="Pesquisar" aria-label="Search">
