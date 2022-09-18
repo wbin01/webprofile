@@ -1,6 +1,24 @@
 from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
+from django_resized import ResizedImageField
+# pip install django-resized
+# https://github.com/un1t/django-resized
+# Options
+#
+# size - max width and height, for example [640, 480]
+#
+# crop - resize and crop.
+#   ['top', 'left'] - top left corner,
+#   ['middle', 'center'] - is center cropping,
+#   ['bottom', 'right'] - crop right bottom corner.
+#
+# quality - quality of resized image 1..100
+#
+# keep_meta - keep EXIF and other metadata, default True
+#
+# force_format - force the format of the resized image,
+#   available formats are the one supported by pillow, default to None
 
 
 class Post(models.Model):
@@ -15,7 +33,10 @@ class Post(models.Model):
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, default='Lorem ipsum')
-    image = models.ImageField(
+    # image = models.ImageField(
+    #     upload_to='images/%d/%m/%Y/', blank=True, null=True)
+    image = ResizedImageField(
+        size=[500, 300], crop=['middle', 'center'],
         upload_to='images/%d/%m/%Y/', blank=True, null=True)
     summary = models.TextField(default=lorem_ipsum[:122] + '...')
     content = models.TextField(default=lorem_ipsum)

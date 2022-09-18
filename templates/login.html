@@ -8,9 +8,9 @@
 
 <!-- ### CONTAINER ### -->
 <div class="container mt-5 mb-5">
-    <section class="container col-8" >
+    <section class="container col-8 pt-3" >
         <h1>Acessar sua conta</h1>
-        <p class="mb-4">&nbsp;Preencha os campos</p>
+        <p class="mb-4 text-muted">Preencha os campos</p>
 
         <form action="{% url 'login' %}" method="post">
             {% csrf_token %}

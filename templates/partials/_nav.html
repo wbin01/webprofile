@@ -4,18 +4,20 @@
     <div class="container">
 
         <!-- Site Logo Here -->
-        {% if url == 'index' %}
+        {% if user.is_authenticated %}
+        <small class="navbar-brand text-danger text-opacity-50 w-75">
+          <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">
+            {% if url == 'index' %}
+            &nbsp;
+            {% else %}
+            &nbsp;&nbsp;{{ user.first_name }}
+            {% endif %}
+        </small>
+        {% else %}
         <small class="navbar-brand text-danger text-opacity-50 w-75">
           <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">
             &nbsp;
         </small>
-
-        {% elif user.is_authenticated %}
-        <small class="navbar-brand text-danger text-opacity-50 w-75">
-          <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">
-            &nbsp;&nbsp;{{ user.first_name }}
-        </small>
-
         {% endif %}
 
         <!-- Mobile Toggle Button -->
@@ -27,7 +29,6 @@
         <div class="collapse navbar-collapse" id="navbarMobileToggle">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                {% if user.is_authenticated %}
                 <li class="nav-item">
                     {% if url == 'index' %}
                     <a class="nav-link active" aria-current="page" href="{% url 'index' %}"><u>Início</u></a>
@@ -35,6 +36,8 @@
                     <a class="nav-link" aria-current="page" href="{% url 'index' %}">Início</a>
                     {% endif %}
                 </li>
+
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     {% if 'dashboard' in url %}
                     <a class="nav-link active" aria-current="page" href="{% url 'dashboard' user.username %}"><u>Perfil</u></a>
@@ -42,21 +45,24 @@
                     <a class="nav-link" aria-current="page" href="{% url 'dashboard' user.username %}">Perfil</a>
                     {% endif %}
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'logout' %}">Sair</a>
+                </li>
 
                 {% else %}
                 <li class="nav-item">
                     {% if url == 'signup' %}
-                    <a class="nav-link active" aria-current="page" href="{% url 'signup' %}">Cadastrar</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'signup' %}"><u>Cadastrar</u></a>
                     {% else %}
-                    <a class="nav-link " aria-current="page" href="{% url 'signup' %}">Cadastrar</a>
+                    <a class="nav-link" aria-current="page" href="{% url 'signup' %}">Cadastrar</a>
                     {% endif %}
                 </li>
 
                 <li class="nav-item">
                     {% if url == 'login' %}
-                    <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Entrar</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'login' %}"><u>Entrar</u></a>
                     {% else %}
-                    <a class="nav-link " aria-current="page" href="{% url 'login' %}">Entrar</a>
+                    <a class="nav-link" aria-current="page" href="{% url 'login' %}">Entrar</a>
                     {% endif %}
                 </li>
                 {% endif %}

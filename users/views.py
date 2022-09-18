@@ -15,7 +15,7 @@ def dashboard(request, username):
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
             '-publication_date').filter(user=user, post_is_published=True),
-        items_quantity=3)
+        items_quantity=2)
 
     paginator = Paginator(posts, 2)
     page = request.GET.get('page')
