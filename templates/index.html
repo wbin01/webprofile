@@ -9,8 +9,9 @@
 <!-- ### CONTAINER ### -->
 <div class="container">
     {% if user.is_authenticated %}
-    <div class="h4 p-2 mb-4 bg-secondary text-secondary border-bottom border-secondary border-opacity-25" style="--bs-bg-opacity: .05;">
-        <a type="button" class="btn btn-light text-secondary btn-lg" href="{% url 'create' %}">
+    <div class="h4 p-2 mb-4 mt-5 bg-secondary text-secondary border-bottom border-secondary border-opacity-25 d-flex justify-content-between" style="--bs-bg-opacity: .05;">
+        <p>&nbsp;</p>
+        <a type="button" class="btn btn-light text-secondary btn-lg mt-2" href="{% url 'create' %}">
             <i class="bi bi-plus-circle-fill"></i>&nbsp;&nbsp;Criar post
         </a>
     </div>

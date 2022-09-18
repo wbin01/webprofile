@@ -1,30 +1,29 @@
 {% if user.is_authenticated %}
-<nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        {% if url == 'dashboard' %}
-          <a class="text-dark px-2 mx-2 text-center text-decoration-none" aria-current="page" href="{% url 'dashboard' user.username %}">
-              <h3 class="p-0 m-0"><i class="bi bi-archive-fill"></i></h3><small>Painel inicial</small>
-          </a>
-          {% else %}
-          <a class="link-secondary px-2 mx-2 text-center text-decoration-none" aria-current="page" href="{% url 'dashboard' user.username %}">
-              <h3 class="p-0 m-0"><i class="bi bi-archive-fill"></i></h3><small>Painel inicial</small>
-          </a>
-        {% endif %}
+<div class="h4 pt-3 pb-2 px-2 mb-4 mt-5 bg-secondary text-secondary border-bottom border-secondary border-opacity-25 d-flex justify-content-between" style="--bs-bg-opacity: .05;">
+  <div>
+  {% if url == 'dashboard' %}
+    <a type="button" class="btn btn-light text-dark btn-lg active" href="{% url 'dashboard' user.username %}">
+        <i class="bi bi-archive-fill"></i>
+    </a>
+    {% else %}
+    <a type="button" class="btn btn-light text-secondary btn-lg" href="{% url 'dashboard' user.username %}">
+        <i class="bi bi-archive-fill"></i>
+    </a>
+  {% endif %}
 
-        {% if url == 'dashboard_draft' %}
-          <a class="text-dark px-2 mx-2 text-center text-decoration-none" aria-current="page" href="{% url 'dashboard_draft' user.username %}">
-              <h3 class="p-0 m-0"><i class="bi bi-eye-slash-fill"></i></h3><small>Não publicados</small>
-          </a>
-        {% else %}
-          <a class="link-secondary px-2 mx-2 text-center text-decoration-none" aria-current="page" href="{% url 'dashboard_draft' user.username %}">
-              <h3 class="p-0 m-0"><i class="bi bi-eye-slash-fill"></i></h3><small>Não publicados</small>
-          </a>
-        {% endif %}
-
-      </div>
-    </div>
+  {% if url == 'dashboard_draft' %}
+    <a type="button" class="btn btn-light text-dark btn-lg active" href="{% url 'dashboard_draft' user.username %}">
+        <i class="bi bi-eye-slash-fill"></i>
+    </a>
+  {% else %}
+    <a type="button" class="btn btn-light text-secondary btn-lg" href="{% url 'dashboard_draft' user.username %}">
+        <i class="bi bi-eye-slash-fill"></i>
+    </a>
+  {% endif %}
   </div>
-</nav>
+
+  <a type="button" class="btn btn-light text-secondary btn-lg" href="{% url 'create' %}">
+        <i class="bi bi-plus-circle-fill"></i>&nbsp;&nbsp;Criar post
+    </a>
+</div>
 {% endif %}

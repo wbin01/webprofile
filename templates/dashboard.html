@@ -11,7 +11,7 @@
     {% include 'partials/_nav_dashboard.html'%}
 
    <!-- ### CARD ### -->
-    {% if posts_per_page %}
+    {% if posts_per_page.0 %}
     {% for post_group in posts_per_page %}
     <div class="card-group">
         {% for post in post_group %}
@@ -42,6 +42,10 @@
         {% endfor %}
     </div>
     {% endfor %}
+
+    {% else %}
+    <div class="text-center"><p>Você não tem postagens ainda</p></div>
+
     {% endif %}
 
     <!-- PAGINATION -->
