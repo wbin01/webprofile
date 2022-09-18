@@ -3,7 +3,7 @@ from webprofile.models import Post
 
 
 class PostForms(forms.ModelForm):
-    post_is_published = forms.ChoiceField(
+    is_published = forms.ChoiceField(
         label='Marcar como publicado',
         choices=(('yes', 'Sim'), ('no', 'Não'),))
 

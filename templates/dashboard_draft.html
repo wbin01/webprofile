@@ -25,9 +25,7 @@
             </a>
             <div class="card-footer">
                 {% if user.is_authenticated and user.id == post.user.id %}
-                {% if not post.post_is_published %}
                 <i class="bi bi-eye-slash-fill"></i>
-                {% endif %}
                 {% endif %}
 
                 <small class="text-muted">{{ post.user.first_name }} - {{ post.publication_date }}</small>

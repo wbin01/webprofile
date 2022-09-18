@@ -42,7 +42,7 @@ class Post(models.Model):
     content = models.TextField(default=lorem_ipsum)
     category = models.CharField(max_length=100, default='test')
     publication_date = models.DateTimeField(default=datetime.now, blank=True)
-    post_is_published = models.BooleanField()
+    is_published = models.BooleanField()
 
     def __str__(self):
         return self.title

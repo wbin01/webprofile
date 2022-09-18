@@ -1,7 +1,7 @@
 from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator
 from webprofile.forms import PostForms
 from webprofile.models import Post
 
@@ -11,15 +11,14 @@ import views_validations
 def index(request):
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
-            '-publication_date').filter(post_is_published=True),
+            '-publication_date').filter(is_published=True),
         items_quantity=2)
 
     paginator = Paginator(posts, 2)
     page = request.GET.get('page')
     posts_per_page = paginator.get_page(page)
 
-    context = {
-        'url': 'index', 'posts': posts, 'posts_per_page': posts_per_page}
+    context = {'url': 'index', 'posts_per_page': posts_per_page}
     return render(request, 'index.html', context)
 
 
@@ -56,8 +55,8 @@ def create(request):
             content=views_validations.content_as_p(request.POST['content']),
             category=request.POST['category'].lower(),
             publication_date=timezone.now(),
-            post_is_published=(
-                False if request.POST['post_is_published'] == 'no' else True)
+            is_published=(
+                False if request.POST['is_published'] == 'no' else True)
         )
         post.save()
         return redirect('index')
@@ -79,8 +78,8 @@ def edit(request, post_id):
             'content': views_validations.content_rm_p(post_to_edit.content),
             'category': post_to_edit.category,
             'publication_date': timezone.now(),
-            'post_is_published': (
-                ('no', 'Não') if not post_to_edit.post_is_published
+            'is_published': (
+                ('no', 'Não') if not post_to_edit.is_published
                 else ('yes', 'Sim'))
         })
 
@@ -104,8 +103,8 @@ def update(request, post_id):
         post.content = views_validations.content_as_p(request.POST['content'])
         post.category = request.POST['category']
         post.publication_date = timezone.now()
-        post.post_is_published = (
-                False if request.POST['post_is_published'] == 'no' else True)
+        post.is_published = (
+                False if request.POST['is_published'] == 'no' else True)
         if 'image' in request.FILES:
             post.image = request.FILES['image']
         post.save()

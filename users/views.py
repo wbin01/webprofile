@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator
 from users.forms import SignUpForms, LoginForms
 from webprofile.models import Post
 import string
@@ -14,7 +14,7 @@ def dashboard(request, username):
     user = get_object_or_404(User, username=username)
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
-            '-publication_date').filter(user=user, post_is_published=True),
+            '-publication_date').filter(user=user, is_published=True),
         items_quantity=2)
 
     paginator = Paginator(posts, 2)
@@ -31,7 +31,7 @@ def dashboard_draft(request, username):
     user = get_object_or_404(User, username=username)
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
-            '-publication_date').filter(user=user, post_is_published=False),
+            '-publication_date').filter(user=user, is_published=False),
         items_quantity=3)
 
     paginator = Paginator(posts, 2)
