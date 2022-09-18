@@ -4,21 +4,16 @@
     <div class="container">
 
         <!-- Site Logo Here -->
-        {% if user.is_authenticated %}
-        <small class="navbar-brand text-danger text-opacity-50 w-75">
-          <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">
+        <small class="navbar-brand w-75 text-danger text-opacity-50">
+            <a href="{% url 'index' %}" class="text-decoration-none text-light">
+                <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">
+            </a>
             {% if url == 'index' %}
             &nbsp;
-            {% else %}
-            &nbsp;&nbsp;{{ user.first_name }}
+            {% elif user.is_authenticated and 'dashboard' in url %}
+            &nbsp; - &nbsp;{{ user.first_name }}
             {% endif %}
         </small>
-        {% else %}
-        <small class="navbar-brand text-danger text-opacity-50 w-75">
-          <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">
-            &nbsp;
-        </small>
-        {% endif %}
 
         <!-- Mobile Toggle Button -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMobileToggle" aria-controls="navbarMobileToggle" aria-expanded="false" aria-label="Toggle navigation">

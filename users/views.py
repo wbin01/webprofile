@@ -28,6 +28,9 @@ def dashboard(request, username):
 
 def dashboard_draft(request, username):
     # request.user.username
+    if not request.user.is_authenticated:
+        return redirect('dashboard', username)
+
     user = get_object_or_404(User, username=username)
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
@@ -79,6 +82,9 @@ def login(request):
 
 
 def logout(request):
+    if not request.user.is_authenticated:
+        return redirect('index')
+
     auth.logout(request)
     return redirect('index')
 
