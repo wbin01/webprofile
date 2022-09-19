@@ -11,10 +11,10 @@ import views_validations
 
 def dashboard(request, username):
     # request.user.username
-    user = get_object_or_404(User, username=username)
+    logged_in_user = get_object_or_404(User, username=username)
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
-            '-publication_date').filter(user=user, is_published=True),
+            '-publication_date').filter(user=logged_in_user, is_published=True),
         items_quantity=2)
 
     paginator = Paginator(posts, 2)
@@ -22,19 +22,22 @@ def dashboard(request, username):
     posts_per_page = paginator.get_page(page)
 
     context = {
-        'url': 'dashboard', 'posts_per_page': posts_per_page}
+        'url': 'dashboard',
+        'posts_per_page': posts_per_page,
+        'logged_in_user': logged_in_user}
     return render(request, 'dashboard.html', context)
 
 
 def dashboard_draft(request, username):
-    # request.user.username
-    if not request.user.is_authenticated:
+    logged_in_user = get_object_or_404(User, username=username)
+
+    if (not request.user.is_authenticated
+            or logged_in_user.id != request.user.id):
         return redirect('dashboard', username)
 
-    user = get_object_or_404(User, username=username)
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
-            '-publication_date').filter(user=user, is_published=False),
+            '-publication_date').filter(user=logged_in_user, is_published=False),
         items_quantity=3)
 
     paginator = Paginator(posts, 2)
@@ -42,11 +45,28 @@ def dashboard_draft(request, username):
     posts_per_page = paginator.get_page(page)
 
     context = {
-        'url': 'dashboard_draft', 'posts_per_page': posts_per_page}
+        'url': 'dashboard_draft',
+        'posts_per_page': posts_per_page,
+        'logged_in_user': logged_in_user}
     return render(request, 'dashboard_draft.html', context)
 
 
+def settings(request, username):
+    logged_in_user = get_object_or_404(User, username=username)
+
+    if (not request.user.is_authenticated
+            or logged_in_user.id != request.user.id):
+        return redirect('dashboard', username)
+
+    context = {
+        'url': 'settings', 'logged_in_user': logged_in_user}
+    return render(request, 'settings.html', context)
+
+
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+
     user_forms = LoginForms
     context = {
         'url': 'login',
@@ -90,6 +110,9 @@ def logout(request):
 
 
 def signup(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+
     user_forms = SignUpForms
     context = {
         'url': 'signup',

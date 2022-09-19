@@ -2,18 +2,32 @@
 <nav class="navbar navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
 
+    {% if url == 'index' %}
+    <a class="navbar-brand text-danger text-opacity-50 border-bottom" href="{% url 'index' %}">
+      <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">
+      Fire
+    </a>
+    {% else %}
     <a class="navbar-brand text-danger text-opacity-50" href="{% url 'index' %}">
       <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">
       Fire
     </a>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    {% if 'dashboard' in url and logged_in_user.id == user.id %}
+    <a class="navbar-brand text-danger text-opacity-50 border-bottom" href="{% url 'dashboard' user.username %}">
+      <span class="bi bi-person-circle"></span><!-- <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo"> -->
+    </a>
+    {% else %}
+    <a class="navbar-brand text-danger text-opacity-50" href="{% url 'dashboard' user.username %}">
+      <span class="bi bi-person-circle"></span><!-- <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo"> -->
+    </a>
+    {% endif %}
+    {% endif %}
 
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
-      {% if user.is_authenticated %}
-      <!-- <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo"> -->
-      <span class="bi bi-person-circle"></span>
-      {% else %}
       <span class="navbar-toggler-icon"></span>
-      {% endif %}
     </button>
 
     <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
@@ -29,51 +43,42 @@
       </div>
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          {% if url == 'index' %}
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Início</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% url 'index' %}">Início</a>
-          </li>
-          {% endif %}
-
           {% if user.is_authenticated %}
 
-          {% if 'dashboard' in url %}
-          <li class="nav-item">
-            <a class="nav-link active" href="{% url 'dashboard' user.username %}">Perfil</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'dashboard' user.username %}">Perfil</a>
-          </li>
-          {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">Sair</a>
-          </li>
+            {% if url == 'settings' %}
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'settings' user.username %}">Configurações</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'settings' user.username %}">Configurações</a>
+            </li>
+            {% endif %}
 
-          {% else %}
-          {% if url == 'signup' %}
-          <li class="nav-item">
-            <a class="nav-link active" href="{% url 'signup' %}">Cadastrar</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'signup' %}">Cadastrar</a>
-          </li>
-          {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Sair</a>
+            </li>
 
-          {% if url == 'login' %}
-          <li class="nav-item">
-            <a class="nav-link active" href="{% url 'login' %}">Entrar</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">Entrar</a>
-          </li>
-          {% endif %}
+            {% else %}
+            {% if url == 'signup' %}
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'signup' %}">Cadastrar</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'signup' %}">Cadastrar</a>
+            </li>
+            {% endif %}
+
+            {% if url == 'login' %}
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'login' %}">Entrar</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Entrar</a>
+            </li>
+            {% endif %}
 
           {% endif %}
 <!--          <li class="nav-item dropdown">-->
