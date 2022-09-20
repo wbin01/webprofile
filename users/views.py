@@ -10,70 +10,90 @@ import views_validations
 
 
 def dashboard(request, username):
-    # request.user.username
-    logged_in_user = get_object_or_404(User, username=username)
+    # URL user
+    url_user = get_object_or_404(User, username=username)
+
+    # Posts
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
-            '-publication_date').filter(user=logged_in_user, is_published=True),
-        items_quantity=2)
+            '-publication_date').filter(
+            user=url_user, is_published=True), items_quantity=2)
 
+    # Posts per page
     paginator = Paginator(posts, 2)
     page = request.GET.get('page')
     posts_per_page = paginator.get_page(page)
 
+    # Context
     context = {
         'url': 'dashboard',
-        'posts_per_page': posts_per_page,
-        'logged_in_user': logged_in_user}
+        'url_user': url_user,
+        'posts_per_page': posts_per_page}
+
     return render(request, 'dashboard.html', context)
 
 
 def dashboard_draft(request, username):
-    logged_in_user = get_object_or_404(User, username=username)
+    # URL user
+    url_user = get_object_or_404(User, username=username)
 
-    if (not request.user.is_authenticated
-            or logged_in_user.id != request.user.id):
+    # Draft access
+    if not request.user.is_authenticated or request.user.id != url_user.id:
         return redirect('dashboard', username)
 
+    # Posts
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
-            '-publication_date').filter(user=logged_in_user, is_published=False),
+            '-publication_date').filter(user=url_user, is_published=False),
         items_quantity=3)
 
+    # Posts per page
     paginator = Paginator(posts, 2)
     page = request.GET.get('page')
     posts_per_page = paginator.get_page(page)
 
+    # Context
     context = {
         'url': 'dashboard_draft',
-        'posts_per_page': posts_per_page,
-        'logged_in_user': logged_in_user}
+        'url_user': url_user,
+        'posts_per_page': posts_per_page}
+
     return render(request, 'dashboard_draft.html', context)
 
 
 def settings(request, username):
-    logged_in_user = get_object_or_404(User, username=username)
+    # URL user
+    url_user = get_object_or_404(User, username=username)
 
-    if (not request.user.is_authenticated
-            or logged_in_user.id != request.user.id):
+    # Settings access
+    if not request.user.is_authenticated or request.user.id != url_user.id:
         return redirect('dashboard', username)
 
+    # Context
     context = {
-        'url': 'settings', 'logged_in_user': logged_in_user}
+        'url': 'settings',
+        'url_user': url_user}
+
     return render(request, 'settings.html', context)
 
 
 def login(request):
+    # Login access
     if request.user.is_authenticated:
         return redirect('index')
 
+    # User forms
     user_forms = LoginForms
+
+    # Context
     context = {
         'url': 'login',
         'user_forms': user_forms,
         'message_err': None}
 
+    # Work on sent request
     if request.method == 'POST':
+
         # Username
         username = request.POST['username']
         if not username.strip():
@@ -84,17 +104,19 @@ def login(request):
         if not password.strip():
             context['message_err'] = 'Preencha a senha'
 
-        # User
+        # User exists
         if User.objects.filter(username=username).exists():
+
+            # Get the user
             user = auth.authenticate(
                 request, username=username, password=password)
 
-            # Auth
+            # Authenticate the user
             if user is not None:
                 auth.login(request, user)
                 return redirect('index')
 
-            # Errors
+            # Errors: insert on context
             if context['message_err']:
                 return render(request, 'login.html', context)
 
@@ -102,23 +124,31 @@ def login(request):
 
 
 def logout(request):
+    # Logout access
     if not request.user.is_authenticated:
         return redirect('index')
 
+    # Logout the user
     auth.logout(request)
+
     return redirect('index')
 
 
 def signup(request):
+    # Signup access
     if request.user.is_authenticated:
         return redirect('index')
 
+    # User forms
     user_forms = SignUpForms
+
+    # Context
     context = {
         'url': 'signup',
         'user_forms': user_forms,
         'message_err': None}
 
+    # Work on sent request
     if request.method == 'POST':
         name = request.POST['name']
         username = request.POST['username']
@@ -156,21 +186,24 @@ def signup(request):
               any(char not in valid_chars for char in password)):
             context['message_err'] = 'Senha inválida'
 
-        # Exists
+        # User exists
         if User.objects.filter(username=username).exists():
             context['message_err'] = 'Usuário já cadastrado'
         if User.objects.filter(email=email).exists():
             context['message_err'] = 'Email já cadastrado'
 
-        # Errors
+        # Errors -> exit
         if context['message_err']:
             return render(request, 'signup.html', context)
 
-        # User
+        # Create the user
         user = User.objects.create_user(
             username=username, first_name=name, email=email, password=password)
+
+        # Save created user
         user.save()
 
+        # Go to 'Login'
         return redirect('login')
 
     return render(request, 'signup.html', context)

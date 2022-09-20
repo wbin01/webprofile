@@ -4,7 +4,7 @@
     <img class="rounded-circle float-end mx-4" src="{% static 'webprofile/media/profile-default.svg' %}" alt="">
 </div>
 
-{% if user.is_authenticated and user.id == logged_in_user.id %}
+{% if user.is_authenticated and user.id == url_user.id %}
 <div class="h4 pb-2 pt-2 px-2 mb-4 bg-secondary text-secondary border-bottom border-secondary border-opacity-25 d-flex justify-content-between" style="--bs-bg-opacity: .05;">
   <div>
   {% if url == 'dashboard' %}

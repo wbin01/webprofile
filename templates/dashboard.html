@@ -9,7 +9,7 @@
 <!-- ### CONTAINER ### -->
 <div class="container">
     {% include 'partials/_nav_dashboard.html'%}
-    {% if not user.is_authenticated or logged_in_user.id != user.id %}<div class="mb-1">&nbsp;</div>{% endif %}
+    {% if not user.is_authenticated or user.id != url_user.id %}<div class="mb-1">&nbsp;</div>{% endif %}
 
    <!-- ### CARD ### -->
     {% if posts_per_page.0 %}
