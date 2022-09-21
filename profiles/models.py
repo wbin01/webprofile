@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 from django_resized import ResizedImageField
 
 
-class UserProfile(models.Model):
+class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = ResizedImageField(
+    profile_image = ResizedImageField(
         size=[100, 100], crop=['middle', 'center'],
         upload_to='profile_image/%d/%m/%Y/', blank=True, null=True)
     cover_image = ResizedImageField(

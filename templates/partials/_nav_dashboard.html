@@ -4,24 +4,16 @@
 
     <div class="d-flex justify-content-between">
 
-        <div class="float-end mx-3">
+        <div class="float-end mx-3 text-center">
             <div style="height: 100px;"></div>
             {% if user.is_authenticated and user.id == url_user.id %}
-<!--            <div class="p-1">-->
-<!--                <input type="file" id="files" hidden/>-->
-<!--                <label for="files">-->
-<!--                    <a type="button" class="btn btn-outline-secondary btn-sm">-->
-<!--                        <i class="bi bi-pen-fill"></i>-->
-<!--                    </a>-->
-<!--                </label>-->
-<!--            </div>-->
-            <!-- Button trigger modal -->
+                <!-- EDIT COVER -->
                 <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                   <i class="bi bi-pen-fill"></i>
                 </button>
 
-                <!-- Modal -->
-                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <!-- MODAL -->
+                <div class="modal fade text-start" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -29,8 +21,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                        <!-- Content -->
-                            <form action="{% url 'update_cover_image' %}" method="get" enctype="multipart/form-data">
+                        <!-- MODAL Content -->
+                            <form action="{% url 'update_cover_image' %}" method="post" enctype="multipart/form-data">
                               {% csrf_token %}
                               <div class="mb-5">
                                 <label for="cover_image" class="form-label mb-3">Selecione a nova imagem de capa</label>
@@ -39,7 +31,7 @@
                               <button type="submit" class="btn btn-dark">Atualizar</button>
                             </form>
 
-                        <!-- /Content -->
+                        <!-- /MODAL Content -->
                       </div>
                     </div>
                   </div>
@@ -52,9 +44,37 @@
             <img class="rounded-circle" src="{% static 'webprofile/media/profile-default.svg' %}" alt="">
             {% if user.is_authenticated and user.id == url_user.id %}
             <div class="p-1">
-                <a href="#" type="button" class="btn btn-outline-secondary btn-sm">
-                    <i class="bi bi-pen-fill"></i>
-                </a>
+
+                <!-- EDIT COVER -->
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdropProfileImage">
+                  <i class="bi bi-pen-fill"></i>
+                </button>
+
+                <!-- MODAL -->
+                <div class="modal fade text-start" id="staticBackdropProfileImage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropProfileImageLabel">&nbsp;</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <!-- MODAL Content -->
+                            <form action="{% url 'update_profile_image' %}" method="post" enctype="multipart/form-data">
+                              {% csrf_token %}
+                              <div class="mb-5">
+                                <label for="cover_image" class="form-label mb-3">Selecione a nova imagem de perfil</label>
+                                <input type="file" class="form-control" id="profile_image">
+                              </div>
+                              <button type="submit" class="btn btn-dark">Atualizar</button>
+                            </form>
+
+                        <!-- /MODAL Content -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
             </div>
             {% endif %}
         </div>
