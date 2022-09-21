@@ -86,7 +86,7 @@
 {% if user.is_authenticated and user.id == url_user.id %}
 <div class="h4 pb-2 pt-2 px-2 mb-4 bg-secondary text-secondary border-bottom border-secondary border-opacity-25 d-flex justify-content-between" style="--bs-bg-opacity: .05;">
   <div>
-  {% if url == 'dashboard' %}
+  {% if url_context == 'dashboard' %}
     <a type="button" class="btn btn-light text-dark btn-lg active" href="{% url 'dashboard' user.username %}">
         <i class="bi bi-archive-fill"></i>
     </a>
@@ -96,7 +96,7 @@
     </a>
   {% endif %}
 
-  {% if url == 'dashboard_draft' %}
+  {% if url_context == 'dashboard_draft' %}
     <a type="button" class="btn btn-light text-dark btn-lg active" href="{% url 'dashboard_draft' user.username %}">
         <i class="bi bi-eye-slash-fill"></i>
     </a>
