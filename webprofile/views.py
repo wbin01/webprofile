@@ -22,7 +22,7 @@ def index(request):
 
     # Context
     context = {
-        'url': 'index',
+        'url_context': 'index',
         'posts_per_page': posts_per_page}
 
     return render(request, 'index.html', context)
@@ -30,7 +30,7 @@ def index(request):
 
 def content(request, post_id):
     post = Post.objects.get(pk=post_id)  # type: ignore
-    context = {'url': 'content', 'post': post}
+    context = {'url_context': 'content', 'post': post}
     return render(request, 'content.html', context)
 
 
@@ -44,7 +44,7 @@ def create(request):
 
     # Context
     context = {
-        'url': 'create',
+        'url_context': 'create',
         'post_forms': post_forms,
         'message_err': None}
 
@@ -103,7 +103,7 @@ def edit(request, post_id):
 
     # Context
     context = {
-        'url': 'edit',
+        'url_context': 'edit',
         'post_forms': post_forms,
         'post_id': post_id,
         'message_err': None}

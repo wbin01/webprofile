@@ -30,4 +30,5 @@ urlpatterns = [
     path(ADMIN_ROUTE, admin.site.urls),
     path('', include('webprofile.urls')),
     path('', include('users.urls')),
+    path('profiles/', include('profiles.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

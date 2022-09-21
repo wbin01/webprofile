@@ -26,7 +26,7 @@ def dashboard(request, username):
 
     # Context
     context = {
-        'url': 'dashboard',
+        'url_context': 'dashboard',
         'url_user': url_user,
         'posts_per_page': posts_per_page}
 
@@ -54,7 +54,7 @@ def dashboard_draft(request, username):
 
     # Context
     context = {
-        'url': 'dashboard_draft',
+        'url_context': 'dashboard_draft',
         'url_user': url_user,
         'posts_per_page': posts_per_page}
 
@@ -71,7 +71,7 @@ def settings(request, username):
 
     # Context
     context = {
-        'url': 'settings',
+        'url_context': 'settings',
         'url_user': url_user}
 
     return render(request, 'settings.html', context)
@@ -87,7 +87,7 @@ def login(request):
 
     # Context
     context = {
-        'url': 'login',
+        'url_context': 'login',
         'user_forms': user_forms,
         'message_err': None}
 
@@ -144,7 +144,7 @@ def signup(request):
 
     # Context
     context = {
-        'url': 'signup',
+        'url_context': 'signup',
         'user_forms': user_forms,
         'message_err': None}
 
