@@ -4,6 +4,7 @@ from django.contrib import auth
 from django.core.paginator import Paginator
 from users.forms import SignUpForms, LoginForms
 from webprofile.models import Post
+from profiles.models import Profile
 import string
 
 import views_validations
@@ -24,11 +25,19 @@ def dashboard(request, username):
     page = request.GET.get('page')
     posts_per_page = paginator.get_page(page)
 
+    # Profile
+    try:
+        user_profile = get_object_or_404(Profile, pk=url_user.id)
+    except Exception as err:
+        print(err)
+        user_profile = None
+
     # Context
     context = {
         'url_context': 'dashboard',
         'url_user': url_user,
-        'posts_per_page': posts_per_page}
+        'posts_per_page': posts_per_page,
+        'user_profile': user_profile}
 
     return render(request, 'dashboard.html', context)
 
@@ -52,11 +61,19 @@ def dashboard_draft(request, username):
     page = request.GET.get('page')
     posts_per_page = paginator.get_page(page)
 
+    # Profile
+    try:
+        user_profile = get_object_or_404(Profile, pk=request.user.id)
+    except Exception as err:
+        print(err)
+        user_profile = None
+
     # Context
     context = {
         'url_context': 'dashboard_draft',
         'url_user': url_user,
-        'posts_per_page': posts_per_page}
+        'posts_per_page': posts_per_page,
+        'user_profile': user_profile}
 
     return render(request, 'dashboard_draft.html', context)
 
