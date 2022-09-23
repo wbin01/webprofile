@@ -18,6 +18,16 @@ def update_cover_image(request):
 
 
 def update_profile_image(request):
+    if request.method == 'POST':
+        # Get profile
+        if create_profile_if_not_exist(request):
+            profile = get_object_or_404(Profile, user=request.user.id)
+
+            # Update image
+            if 'profile_image' in request.FILES:
+                profile.profile_image = request.FILES['profile_image']
+                profile.save()
+
     return redirect('dashboard', request.user.username)
 
 
@@ -32,12 +42,16 @@ def create_profile_if_not_exist(request) -> bool:
 
     print('>>> Creating profile...')
     try:
+        # request.FILES.get('image', 'images/default.png'),
+        # 'webprofile/media/cover-default.svg'
+        # 'webprofile/media/profile-default.svg'
+
         profile = Profile.objects.create(  # type: ignore
             user=get_object_or_404(User, pk=request.user.id),
             profile_image=request.FILES.get(
-                'profile_image', 'images/cover-default.png'),
+                'profile_image', 'profile-default.svg'),
             cover_image=request.FILES.get(
-                'cover_image', 'images/profile-default.png'),
+                'cover_image', 'cover-default.svg'),
         )
         profile.save()
     except Exception as err:

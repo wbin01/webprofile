@@ -27,7 +27,7 @@ def dashboard(request, username):
 
     # Profile
     try:
-        user_profile = get_object_or_404(Profile, pk=url_user.id)
+        user_profile = get_object_or_404(Profile, user=url_user.id)
     except Exception as err:
         print(err)
         user_profile = None
@@ -63,7 +63,7 @@ def dashboard_draft(request, username):
 
     # Profile
     try:
-        user_profile = get_object_or_404(Profile, pk=request.user.id)
+        user_profile = get_object_or_404(Profile, user=url_user.id)
     except Exception as err:
         print(err)
         user_profile = None

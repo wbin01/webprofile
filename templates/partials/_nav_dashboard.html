@@ -1,5 +1,5 @@
 {% load static %}
-{% if user_profile %}
+{% if user_profile and 'profile_cover_image/' in user_profile.cover_image.url %}
 <div class="img-fluid"  style="height: 300px; background-image: url('{{ user_profile.cover_image.url }}'); background-attachment: fixed; background-color: rgba(0,0,0,.1);">
 {% else %}
 <div class="img-fluid"  style="height: 300px; background-image: url('{% static 'webprofile/media/cover-default.svg' %}'); background-repeat: no-repeat; background-attachment: fixed; background-color: rgba(0,0,0,.1);">
@@ -45,21 +45,26 @@
         </div>
 
         <div class="float-end mx-3 text-center">
+            {% if user_profile and 'profile_image/' in user_profile.profile_image.url %}
+            <img class="rounded-circle" src="{{ user_profile.profile_image.url }}" alt="">
+            {% else %}
             <img class="rounded-circle" src="{% static 'webprofile/media/profile-default.svg' %}" alt="">
+            {% endif %}
+
             {% if user.is_authenticated and user.id == url_user.id %}
             <div class="p-1">
 
-                <!-- EDIT COVER -->
-                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdropProfileImage">
+                <!-- EDIT PROFILE IMAGE -->
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
                   <i class="bi bi-pen-fill"></i>
                 </button>
 
                 <!-- MODAL -->
-                <div class="modal fade text-start" id="staticBackdropProfileImage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal fade text-start" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropProfileImageLabel">&nbsp;</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel2">&nbsp;</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
@@ -67,8 +72,8 @@
                             <form action="{% url 'update_profile_image' %}" method="post" enctype="multipart/form-data">
                               {% csrf_token %}
                               <div class="mb-5">
-                                <label for="cover_image" class="form-label mb-3">Selecione a nova imagem de perfil</label>
-                                <input type="file" class="form-control" id="profile_image">
+                                <label for="profile_image" class="form-label mb-3">Selecione a nova imagem de perfil</label>
+                                <input type="file" class="form-control" id="profile_image" name="profile_image" required>
                               </div>
                               <button type="submit" class="btn btn-dark">Atualizar</button>
                             </form>
