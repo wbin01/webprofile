@@ -45,6 +45,7 @@
         </div>
 
         <div class="float-end mx-3 text-center">
+            <span class="text-light">{{ user.first_name }}</span>
             {% if user_profile and 'profile_image/' in user_profile.profile_image.url %}
             <img class="rounded-circle" src="{{ user_profile.profile_image.url }}" alt="">
             {% else %}
