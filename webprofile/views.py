@@ -60,7 +60,7 @@ def create(request):
         post = Post.objects.create(  # type: ignore
             user=get_object_or_404(User, pk=request.user.id),
             title=request.POST['title'],
-            image=request.FILES.get('image', 'images/default.png'),
+            image=request.FILES.get('image', 'post-default.svg'),
             summary=request.POST['summary'],
             content=views_validations.content_as_p(request.POST['content']),
             category=request.POST['category'].lower(),
