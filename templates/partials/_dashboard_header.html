@@ -12,8 +12,8 @@
             <div style="height: 100px;"></div>
             {% if user.is_authenticated and user.id == url_user.id %}
                 <!-- EDIT COVER -->
-                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                  <i class="bi bi-pen-fill"></i>
+                <button type="button" class="btn btn-light text-dark btn-sm active rounded-circle border-0 opacity-50" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                  <i class="bi bi-camera-fill"></i>
                 </button>
 
                 <!-- MODAL -->
@@ -21,7 +21,7 @@
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">&nbsp;</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">Selecione a nova imagem de capa</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
@@ -29,7 +29,7 @@
                             <form action="{% url 'update_cover_image' %}" method="post" enctype="multipart/form-data">
                               {% csrf_token %}
                               <div class="mb-5">
-                                <label for="cover_image" class="form-label mb-3">Selecione a nova imagem de capa</label>
+                                <label for="cover_image" class="form-label mb-3">(1500x300)</label>
                                 <input type="file" class="form-control" id="cover_image" name="cover_image" required>
                               </div>
                               <button type="submit" class="btn btn-dark">Atualizar</button>
@@ -43,83 +43,101 @@
 
             {% endif %}
         </div>
-
-        <div class="float-end mx-3 text-center">
-            <span class="text-light">{{ url_user.first_name }}</span>
-            {% if user_profile and 'profile_image/' in user_profile.profile_image.url %}
-            <img class="rounded-circle" src="{{ user_profile.profile_image.url }}" alt="">
-            {% else %}
-            <img class="rounded-circle" src="{% static 'webprofile/media/profile-default.svg' %}" alt="">
-            {% endif %}
-
-            {% if user.is_authenticated and user.id == url_user.id %}
-            <div class="p-1">
-
-                <!-- EDIT PROFILE IMAGE -->
-                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
-                  <i class="bi bi-pen-fill"></i>
-                </button>
-
-                <!-- MODAL -->
-                <div class="modal fade text-start" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel2">&nbsp;</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <!-- MODAL Content -->
-                            <form action="{% url 'update_profile_image' %}" method="post" enctype="multipart/form-data">
-                              {% csrf_token %}
-                              <div class="mb-5">
-                                <label for="profile_image" class="form-label mb-3">Selecione a nova imagem de perfil</label>
-                                <input type="file" class="form-control" id="profile_image" name="profile_image" required>
-                              </div>
-                              <button type="submit" class="btn btn-dark">Atualizar</button>
-                            </form>
-
-                        <!-- /MODAL Content -->
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- /MODAL -->
-
-            </div>
-            {% endif %}
-        </div>
-
     </div>
 
 </div>
 
+<!-- Midle -->
+<div class="d-flex justify-content-between">
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div style="position: relative;">
+        <!-- Name -->
+        <h3 class="text-truncate" style="position: absolute; max-width: 200px; right: 170px;">{{ url_user.first_name }}</h3>
+        <!-- /Name -->
+
+        <!-- Profile image -->
+        {% if user_profile and 'profile_image/' in user_profile.profile_image.url %}
+        <img class="rounded-circle" src="{{ user_profile.profile_image.url }}" alt="" style="position: absolute; top: -75px; left: -160px; border: 5px solid #FFFFFF;">
+        {% else %}
+        <img class="rounded-circle" src="{% static 'webprofile/media/profile-default.svg' %}" alt="">
+        {% endif %}
+        <!-- /Profile image -->
+    </div>
+</div>
+
+
+<div class="d-flex justify-content-between">
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>
+        {% if user.is_authenticated and user.id == url_user.id %}
+        <div class="p-1">
+
+            <!-- EDIT PROFILE IMAGE -->
+            <button type="button" class="btn btn-light text-dark btn-sm active rounded-circle border-0 opacity-50" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" style="margin-top: 10px; margin-right: 145px;">
+              <i class="bi bi-camera-fill"></i>
+            </button>
+
+            <!-- MODAL -->
+            <div class="modal fade text-start" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel2">Selecione a nova imagem de perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <!-- MODAL Content -->
+                        <form action="{% url 'update_profile_image' %}" method="post" enctype="multipart/form-data">
+                          {% csrf_token %}
+                          <div class="mb-5">
+                            <label for="profile_image" class="form-label mb-3">(150x150)</label>
+                            <input type="file" class="form-control" id="profile_image" name="profile_image" required>
+                          </div>
+                          <button type="submit" class="btn btn-dark">Atualizar</button>
+                        </form>
+
+                    <!-- /MODAL Content -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /MODAL -->
+
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+<!-- /Midle -->
+
 {% if user.is_authenticated and user.id == url_user.id %}
-<div class="h4 pb-2 pt-2 px-2 mb-4 bg-secondary text-secondary border-bottom border-secondary border-opacity-25 d-flex justify-content-between" style="--bs-bg-opacity: .05;">
+<div class="px-2 mb-4 mt-3 bg-secondary text-secondary border-bottom border-secondary border-opacity-25 d-flex justify-content-between" style="--bs-bg-opacity: .05;">
   <div>
   {% if url_context == 'dashboard' %}
-    <a type="button" class="btn btn-light text-dark btn-lg active" href="{% url 'dashboard' user.username %}">
+    <a type="button" class="btn btn-light text-dark btn-lg active mt-4 border-0 border-bottom border-secondary rounded-0" href="{% url 'dashboard' user.username %}">
         <i class="bi bi-archive-fill"></i>
     </a>
     {% else %}
-    <a type="button" class="btn btn-light text-secondary btn-lg" href="{% url 'dashboard' user.username %}">
+    <a type="button" class="btn btn-light text-secondary btn-lg mt-4 border-0 rounded-0" href="{% url 'dashboard' user.username %}">
         <i class="bi bi-archive-fill"></i>
     </a>
   {% endif %}
 
   {% if url_context == 'dashboard_draft' %}
-    <a type="button" class="btn btn-light text-dark btn-lg active" href="{% url 'dashboard_draft' user.username %}">
+    <a type="button" class="btn btn-light text-dark btn-lg active mt-4 border-0 border-bottom border-secondary rounded-0" href="{% url 'dashboard_draft' user.username %}">
         <i class="bi bi-eye-slash-fill"></i>
     </a>
   {% else %}
-    <a type="button" class="btn btn-light text-secondary btn-lg" href="{% url 'dashboard_draft' user.username %}">
+    <a type="button" class="btn btn-light text-secondary btn-lg mt-4 border-0 rounded-0" href="{% url 'dashboard_draft' user.username %}">
         <i class="bi bi-eye-slash-fill"></i>
     </a>
   {% endif %}
   </div>
 
-  <a type="button" class="btn btn-light text-secondary btn-lg" href="{% url 'create' %}">
-        <i class="bi bi-plus-circle-fill"></i>&nbsp;&nbsp;Criar post
-    </a>
+  <a type="button" class="btn btn-light text-secondary btn-lg my-2" href="{% url 'create' %}">
+    <i class="bi bi-plus-circle-fill"></i>&nbsp;&nbsp;Postar
+  </a>
 </div>
 {% endif %}
