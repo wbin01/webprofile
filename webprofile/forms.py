@@ -1,5 +1,10 @@
 from django import forms
 from webprofile.models import Post
+from django_quill.forms import QuillFormField
+
+
+class QuillFieldForm(forms.Form):
+    content = QuillFormField()
 
 
 class PostForms(forms.ModelForm):

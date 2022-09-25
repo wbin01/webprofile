@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'webprofile',
     'users',
     'profiles',
+    'django_quill',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

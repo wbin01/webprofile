@@ -21,6 +21,10 @@ from django_resized import ResizedImageField
 #   available formats are the one supported by pillow, default to None
 
 
+class Posts(models.Model):
+    content = models.TextField()
+
+
 class Post(models.Model):
     lorem_ipsum = (
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do "

@@ -1,11 +1,17 @@
+import json
 from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from webprofile.forms import PostForms
-from webprofile.models import Post
+from webprofile.forms import PostForms, QuillFieldForm
+from webprofile.models import Post, Posts
 
 import views_validations
+
+
+def testview(request):
+    post = [json.loads(x.content) for x in Posts.objects.all()]  # type: ignore
+    return render(request, 'testview.html', {'posts': post})
 
 
 def index(request):
@@ -41,39 +47,45 @@ def create(request):
 
     # Post forms
     post_forms = PostForms
+    posts_forms = QuillFieldForm()
 
     # Context
     context = {
         'url_context': 'create',
         'post_forms': post_forms,
+        'posts_forms': posts_forms,
         'message_err': None}
 
     # Work on sent request
     if request.method == 'POST':
-        # name: request.user.first_name
-        # username: request.user.username
         # username: auth.get_user(request)
-        # email: request.user.email
-        # password: request.user.password
+
+        # # Create post with sent request
+        # post = Post.objects.create(  # type: ignore
+        #     user=get_object_or_404(User, pk=request.user.id),
+        #     title=request.POST['title'],
+        #     image=request.FILES.get('image', 'post-default.svg'),
+        #     summary=request.POST['summary'],
+        #     content=views_validations.content_as_p(request.POST['content']),
+        #     category=request.POST['category'].lower(),
+        #     publication_date=timezone.now(),
+        #     is_published=(
+        #         False if request.POST['is_published'] == 'no' else True)
+        # )
+        #
+        # # Save post
+        # post.save()
+        #
+        # # Go to url
+        # return redirect('index')
 
         # Create post with sent request
-        post = Post.objects.create(  # type: ignore
-            user=get_object_or_404(User, pk=request.user.id),
-            title=request.POST['title'],
-            image=request.FILES.get('image', 'post-default.svg'),
-            summary=request.POST['summary'],
-            content=views_validations.content_as_p(request.POST['content']),
-            category=request.POST['category'].lower(),
-            publication_date=timezone.now(),
-            is_published=(
-                False if request.POST['is_published'] == 'no' else True)
-        )
-
-        # Save post
+        post = Posts.objects.create(  # type: ignore
+            content=request.POST['content'])
         post.save()
 
         # Go to url
-        return redirect('index')
+        return redirect('testview')
 
     return render(request, 'create.html', context)
 
