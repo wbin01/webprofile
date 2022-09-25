@@ -3,11 +3,8 @@ from webprofile.models import Post
 from django_quill.forms import QuillFormField
 
 
-class QuillFieldForm(forms.Form):
-    content = QuillFormField()
-
-
 class PostForms(forms.ModelForm):
+    content = QuillFormField(label='Contúdo da matéria')
     is_published = forms.ChoiceField(
         label='Marcar como publicado',
         choices=(('yes', 'Sim'), ('no', 'Não'),))
@@ -25,16 +22,15 @@ class PostForms(forms.ModelForm):
         model = Post
         exclude = ['user', 'publication_date']  # '__all__'
         labels = {
-            'title': 'Título',
-            'image': 'Imagem',
-            'summary': 'Resumo',
-            'content': 'Conteúdo',
+            'title': 'Título da postagem',
+            'image': 'Imagem (Capa do card de apresentação)',
+            'summary': 'Resumo (Frase do card de apresentação)',
             'category': 'Categoria',
         }
 
         widgets = {
             'summary': forms.Textarea(attrs={'rows': 2}),  # 'cols': 15
-            'content': forms.Textarea(attrs={'rows': 10}),
+            # 'content': forms.Textarea(attrs={'rows': 10}),
         }
 
     def clean(self):

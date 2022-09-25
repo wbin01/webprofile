@@ -1,6 +1,8 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
-media/
+media/images/
+media/profile_cover_image/
+media/profile_image/
 *.py[cod]
 *$py.class
 

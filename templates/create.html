@@ -9,30 +9,30 @@
 <div class="container mt-5 mb-5">
     <section class="container col-8" >
         <p class="mb-4 text-center text-muted mt-5 pt-4">Criar postagem</p>
-        <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
-            {{ posts_forms.content }}
-            <input type="submit" value="Criar" class="btn btn-dark">
-        </form>
-
-<!--        {% if message_err %}-->
-<!--        <p class="bg-danger p-2 bg-opacity-50">{{ message_err }}</p>-->
-<!--        {% endif %}-->
-
-<!--        <form action="{% url 'create' %}" method="post" enctype="multipart/form-data">-->
-<!--            {% csrf_token %}-->
-<!--            {% for field in posts_forms.visible_fields %}-->
-<!--            <div class="form-group mb-2">-->
-<!--                <label for="{{ field.id_for_label }}">{{ field.label }}</label>-->
-<!--                {{ field }}-->
-<!--            </div>-->
-<!--            {% for error in field.errors %}-->
-<!--            <section class="alert alert-danger" role="alert">-->
-<!--                {{ field.errors }}-->
-<!--            </section>-->
-<!--            {% endfor %}-->
-<!--            {% endfor %}-->
+<!--        <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}-->
+<!--            {{ post_forms.content }}-->
 <!--            <input type="submit" value="Criar" class="btn btn-dark">-->
 <!--        </form>-->
+
+        {% if message_err %}
+        <p class="bg-danger p-2 bg-opacity-50">{{ message_err }}</p>
+        {% endif %}
+
+        <form action="{% url 'create' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in post_forms.visible_fields %}
+            <div class="form-group mb-2">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+            </div>
+            {% for error in field.errors %}
+            <section class="alert alert-danger" role="alert">
+                {{ field.errors }}
+            </section>
+            {% endfor %}
+            {% endfor %}
+            <input type="submit" value="Criar" class="btn btn-dark">
+        </form>
     </section>
 
 <!-- / CONTAINER -->
