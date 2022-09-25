@@ -39,7 +39,7 @@ class Post(models.Model):
         size=[500, 300], crop=['middle', 'center'],
         upload_to='images/%d/%m/%Y/', blank=True, null=True)
     summary = models.TextField(default=lorem_ipsum[:122] + '...')
-    content = models.TextField(default=lorem_ipsum)
+    content = models.TextField()
     category = models.CharField(max_length=100, default='test')
     publication_date = models.DateTimeField(default=datetime.now, blank=True)
     is_published = models.BooleanField()
