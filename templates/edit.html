@@ -16,9 +16,14 @@
         <form action="{% url 'update' post_id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in post_forms.visible_fields %}
-            <div class="form-group mb-2">
-                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <div class="form-group mb-4">
+                {% if field.name == 'is_published' %}
                 {{ field }}
+                <label for="{{ field.id_for_label }}">{{ field.label | safe }}</label>
+                {% else %}
+                <label for="{{ field.id_for_label }}">{{ field.label | safe }}</label>
+                {{ field }}
+                {% endif %}
             </div>
             {% for error in field.errors %}
             <section class="alert alert-danger" role="alert">

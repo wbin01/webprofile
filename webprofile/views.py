@@ -97,9 +97,7 @@ def edit(request, post_id):
             'content': post_to_edit.content,
             'category': post_to_edit.category,
             'publication_date': timezone.now(),
-            'is_published': (
-                ('no', 'Não') if not post_to_edit.is_published
-                else ('yes', 'Sim'))
+            'is_published': post_to_edit.is_published,
         })
 
     # Context

@@ -4,28 +4,39 @@ from django_quill.forms import QuillFormField
 
 
 class PostForms(forms.ModelForm):
-    content = QuillFormField(label='Contúdo da matéria')
-    is_published = forms.ChoiceField(
-        label='Marcar como publicado',
-        choices=(('yes', 'Sim'), ('no', 'Não'),))
+
+    content = QuillFormField(
+        label=('<h5>Conteúdo</h5><small class="text-muted">'
+               'Matéria da postagem</small>'))
+
+    # is_published = forms.ChoiceField(
+    #     label='Marcar como publicado',
+    #     choices=(('yes', 'Sim'), ('no', 'Não'),))
+    is_published = forms.BooleanField(label='Marcar como publicado')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            if visible.name != 'is_published':
+                visible.field.widget.attrs['class'] = 'form-control'
 
-            if 'name="publication_date"' in str(visible):
+            if visible.name == 'publication_date':
                 # visible.field.widget = forms.HiddenInput()
                 visible.field.widget.attrs['readonly'] = 'readonly'
 
     class Meta:
         model = Post
         exclude = ['user', 'publication_date']  # '__all__'
+
         labels = {
-            'title': 'Título da postagem',
-            'image': 'Imagem (Capa do card de apresentação)',
-            'summary': 'Resumo (Frase do card de apresentação)',
-            'category': 'Categoria',
+            'title': '<h5>Título</h5>',
+            'image': (
+                '<h5>Imagem</h5><small class="text-muted">'
+                'Capa do card de apresentação</small>'),
+            'summary': (
+                '<h5>Resumo</h5><small class="text-muted">'
+                'Frase breve no card de apresentação</small>'),
+            'category': '<h5>Categoria</h5>',
         }
 
         widgets = {
