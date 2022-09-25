@@ -60,7 +60,7 @@
         {% if user_profile and 'profile_image/' in user_profile.profile_image.url %}
         <img class="rounded-circle" src="{{ user_profile.profile_image.url }}" alt="" style="position: absolute; top: -75px; left: -160px; border: 5px solid #FFFFFF;">
         {% else %}
-        <img class="rounded-circle" src="{% static 'webprofile/media/profile-default.svg' %}" alt="">
+        <img class="rounded-circle" src="{% static 'webprofile/media/profile-default.svg' %}" alt="" style="position: absolute; top: -75px; left: -160px; border: 5px solid #FFFFFF;">
         {% endif %}
         <!-- /Profile image -->
     </div>
