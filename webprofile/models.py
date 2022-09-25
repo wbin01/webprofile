@@ -33,6 +33,7 @@ class Post(models.Model):
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, default='Lorem ipsum')
+    url_title = models.CharField(max_length=200, default='post')
     # image = models.ImageField(
     #     upload_to='images/%d/%m/%Y/', blank=True, null=True)
     image = ResizedImageField(

@@ -61,13 +61,13 @@ def create(request):
         post = Post.objects.create(  # type: ignore
             user=get_object_or_404(User, pk=request.user.id),
             title=request.POST['title'],
+            url_title=views_validations.normalize_title(request.POST['title']),
             image=request.FILES.get('image', 'post-default.svg'),
             summary=request.POST['summary'],
             content=content_text,
             category=request.POST['category'].lower(),
             publication_date=timezone.now(),
-            is_published=(
-                False if request.POST['is_published'] == 'no' else True)
+            is_published=True if 'is_published' in request.POST else False
         )
 
         # Save post
@@ -79,7 +79,7 @@ def create(request):
     return render(request, 'create.html', context)
 
 
-def edit(request, post_id):
+def edit(request, post_title, post_id):
     # Access
     if not request.user.is_authenticated:
         return redirect('index')
@@ -92,6 +92,7 @@ def edit(request, post_id):
         initial={
             'user': get_object_or_404(User, pk=request.user.id),
             'title': post_to_edit.title,
+            'url_title': post_title,
             'image': post_to_edit.image.url,
             'summary': post_to_edit.summary,
             'content': post_to_edit.content,
@@ -125,12 +126,13 @@ def update(request, post_id):
 
         # Update post
         post.title = request.POST['title']
+        post.url_title = views_validations.normalize_title(
+            request.POST['title'])
         post.summary = request.POST['summary']
         post.content = content_text
         post.category = request.POST['category']
         post.publication_date = timezone.now()
-        post.is_published = (
-                False if request.POST['is_published'] == 'no' else True)
+        post.is_published = True if 'is_published' in request.POST else False
         if 'image' in request.FILES:
             post.image = request.FILES['image']
 

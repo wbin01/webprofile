@@ -31,7 +31,7 @@
             {% endif %}
             <small class="text-muted">{{ post.user.first_name }} - {{ post.publication_date }}</small>
             {% if user.is_authenticated and user.id == post.user.id %}
-            <a href="{% url 'edit' post.id %}" type="button" class="btn btn-light btn-sm">
+            <a href="{% url 'edit' post.url_title post.id %}" type="button" class="btn btn-light btn-sm">
                 <i class="bi bi-pen-fill"></i>
             </a>
             {% endif %}

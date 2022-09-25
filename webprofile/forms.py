@@ -9,10 +9,8 @@ class PostForms(forms.ModelForm):
         label=('<h5>Conteúdo</h5><small class="text-muted">'
                'Matéria da postagem</small>'))
 
-    # is_published = forms.ChoiceField(
-    #     label='Marcar como publicado',
-    #     choices=(('yes', 'Sim'), ('no', 'Não'),))
-    is_published = forms.BooleanField(label='Marcar como publicado')
+    is_published = forms.BooleanField(
+        label='Marcar como publicado', initial=True, required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -26,16 +24,16 @@ class PostForms(forms.ModelForm):
 
     class Meta:
         model = Post
-        exclude = ['user', 'publication_date']  # '__all__'
+        exclude = ['user', 'publication_date', 'url_title']  # '__all__'
 
         labels = {
             'title': '<h5>Título</h5>',
             'image': (
-                '<h5>Imagem</h5><small class="text-muted">'
-                'Capa do card de apresentação</small>'),
+                '<h5>Imagem</h5>'
+                '<small class="text-muted">Capa do link inicial</small>'),
             'summary': (
                 '<h5>Resumo</h5><small class="text-muted">'
-                'Frase breve no card de apresentação</small>'),
+                'Pequena frase sobre a matéria</small>'),
             'category': '<h5>Categoria</h5>',
         }
 

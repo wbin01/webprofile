@@ -1,3 +1,6 @@
+import unicodedata
+
+
 def separate_posts_into_quantity_groups(
         posts_list: list, items_quantity: int) -> list:
     """Separate on groups
@@ -29,9 +32,8 @@ def separate_posts_into_quantity_groups(
     return all_post_groups_list
 
 
-def content_as_p(text: str):
-    return '<p>' + text.replace('\n', '</p><p>') + '</p>'
+def normalize_title(title: str):
+    return ''.join(
+        c for c in unicodedata.normalize('NFD', title)
+        if unicodedata.category(c) != 'Mn').replace(' ', '_').lower()
 
-
-def content_rm_p(text: str):
-    return text.replace('<p>', '').replace('</p>', '')
