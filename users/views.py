@@ -28,20 +28,23 @@ def dashboard(request, username):
 
     # Profile
     try:
-        user_profile = get_object_or_404(Profile, user=url_user.id)
+        url_user_profile = get_object_or_404(Profile, user=url_user.id)
+        user_profile = get_object_or_404(Profile, user=request.user.id)
     except Exception as err:
         print(err)
+        url_user_profile = None
         user_profile = None
 
-    if not user_profile:
-        if create_profile_if_not_exist(request):
-            user_profile = get_object_or_404(Profile, user=request.user.id)
+    # if not user_profile:
+    #     if create_profile_if_not_exist(request):
+    #       url_user_profile = get_object_or_404(Profile, user=request.user.id)
 
     # Context
     context = {
         'url_context': 'dashboard',
         'url_user': url_user,
         'posts_per_page': posts_per_page,
+        'url_user_profile': url_user_profile,
         'user_profile': user_profile}
 
     return render(request, 'dashboard.html', context)
@@ -68,9 +71,11 @@ def dashboard_draft(request, username):
 
     # Profile
     try:
-        user_profile = get_object_or_404(Profile, user=url_user.id)
+        url_user_profile = get_object_or_404(Profile, user=url_user.id)
+        user_profile = get_object_or_404(Profile, user=request.user.id)
     except Exception as err:
         print(err)
+        url_user_profile = None
         user_profile = None
 
     # Context
@@ -78,7 +83,8 @@ def dashboard_draft(request, username):
         'url_context': 'dashboard_draft',
         'url_user': url_user,
         'posts_per_page': posts_per_page,
-        'user_profile': user_profile}
+        'user_profile': user_profile,
+        'url_user_profile': url_user_profile}
 
     return render(request, 'dashboard_draft.html', context)
 
@@ -89,12 +95,23 @@ def settings(request, username):
 
     # Settings access
     if not request.user.is_authenticated or request.user.id != url_user.id:
-        return redirect('dashboard', username)
+        return redirect('index')
+
+    # Profile
+    try:
+        url_user_profile = get_object_or_404(Profile, user=url_user.id)
+        user_profile = get_object_or_404(Profile, user=request.user.id)
+    except Exception as err:
+        print(err)
+        url_user_profile = None
+        user_profile = None
 
     # Context
     context = {
         'url_context': 'settings',
-        'url_user': url_user}
+        'url_user': url_user,
+        'url_user_profile': url_user_profile,
+        'user_profile': user_profile}
 
     return render(request, 'settings.html', context)
 
@@ -126,7 +143,7 @@ def login(request):
         if not password.strip():
             context['message_err'] = 'Preencha a senha'
 
-        # User exists
+        # Authenticate if user exists
         if User.objects.filter(username=username).exists():
 
             # Get the user
@@ -134,8 +151,20 @@ def login(request):
                 request, username=username, password=password)
 
             # Authenticate the user
-            if user is not None:
+            if user:
                 auth.login(request, user)
+
+                # Create profile-defaults for new user
+                try:
+                    user_profile = get_object_or_404(Profile, user=user.id)
+                except Exception as err:
+                    print(err)
+                    user_profile = None
+
+                if not user_profile:
+                    create_profile_if_not_exist(request)
+
+                # Show de init page for this new user
                 return redirect('index')
 
             # Errors: insert on context

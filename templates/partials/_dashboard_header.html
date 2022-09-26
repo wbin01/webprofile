@@ -1,6 +1,6 @@
 {% load static %}
 <!-- COVER IMAGE -->
-<div class="img-fluid"  style="height: 300px; background-image: url('{{ user_profile.cover_image.url }}'); background-attachment: fixed; background-color: rgba(0,0,0,.1);">
+<div class="img-fluid"  style="height: 300px; background-image: url('{{ url_user_profile.cover_image.url }}'); background-attachment: fixed; background-color: rgba(0,0,0,.1);">
 <!-- /COVER IMAGE -->
     <div style="height: 150px;"></div>
 
@@ -56,7 +56,7 @@
         <!-- /NAME -->
 
         <!-- PROFILE IMAGE -->
-        <img class="rounded-circle" src="{{ user_profile.profile_image.url }}" alt="" style="position: absolute; top: -75px; left: -160px; border: 5px solid #FFFFFF;">
+        <img class="rounded-circle" src="{{ url_user_profile.profile_image.url }}" alt="" style="position: absolute; top: -75px; left: -160px; border: 5px solid #FFFFFF;">
         <!-- /PROFILE IMAGE -->
     </div>
 </div>

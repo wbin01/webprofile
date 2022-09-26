@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from webprofile.forms import PostForms
 from webprofile.models import Post
+from profiles.models import Profile
 
 import views_validations
 
@@ -27,13 +28,39 @@ def index(request):
         'url_context': 'index',
         'posts_per_page': posts_per_page}
 
+    # Add Profile to context
+    if request.user.is_authenticated:
+        try:
+            user_profile = get_object_or_404(Profile, user=request.user.id)
+        except Exception as err:
+            print(err)
+            user_profile = None
+
+        context['user_profile'] = user_profile
+
     return render(request, 'index.html', context)
 
 
-def content(request, post_title, post_id):
+def content(request, url_title, post_id):
+    print(url_title)
     post = Post.objects.get(pk=post_id)  # type: ignore
 
-    context = {'url_context': 'content', 'post': post}
+    # Access (hidden content only for post.user.id)
+    if request.user.id != post.user.id and not post.is_published:
+        return redirect('index')
+
+    # Profile
+    try:
+        user_profile = get_object_or_404(Profile, user=request.user.id)
+    except Exception as err:
+        print(err)
+        user_profile = None
+
+    context = {
+        'url_context': 'content',
+        'post': post,
+        'user_profile': user_profile}
+
     return render(request, 'content.html', context)
 
 
@@ -42,6 +69,13 @@ def create(request):
     if not request.user.is_authenticated:
         return redirect('index')
 
+    # Profile
+    try:
+        user_profile = get_object_or_404(Profile, user=request.user.id)
+    except Exception as err:
+        print(err)
+        user_profile = None
+
     # Post forms
     post_forms = PostForms
 
@@ -49,7 +83,8 @@ def create(request):
     context = {
         'url_context': 'create',
         'post_forms': post_forms,
-        'message_err': None}
+        'message_err': None,
+        'user_profile': user_profile}
 
     # Work on sent request
     if request.method == 'POST':
@@ -79,7 +114,7 @@ def create(request):
     return render(request, 'create.html', context)
 
 
-def edit(request, post_title, post_id):
+def edit(request, url_title, post_id):
     # Post
     post_to_edit = get_object_or_404(Post, pk=post_id)
 
@@ -93,7 +128,7 @@ def edit(request, post_title, post_id):
         initial={
             'user': get_object_or_404(User, pk=request.user.id),
             'title': post_to_edit.title,
-            'url_title': post_title,
+            'url_title': post_to_edit.url_title,
             'image': post_to_edit.image.url,
             'summary': post_to_edit.summary,
             'content': post_to_edit.content,
@@ -102,12 +137,21 @@ def edit(request, post_title, post_id):
             'is_published': post_to_edit.is_published,
         })
 
+    # Profile
+    try:
+        user_profile = get_object_or_404(Profile, user=request.user.id)
+    except Exception as err:
+        print(err)
+        user_profile = None
+
     # Context
     context = {
         'url_context': 'edit',
         'post_forms': post_forms,
         'post_id': post_id,
-        'message_err': None}
+        'url_title': url_title,
+        'message_err': None,
+        'user_profile': user_profile}
 
     return render(request, 'edit.html', context)
 
@@ -131,9 +175,10 @@ def update(request, post_id):
         content_text = json.loads(post_content)['html'] if post_content else ''
 
         # Update post
+        url_title = views_validations.normalize_title(request.POST['title'])
+
         post.title = request.POST['title']
-        post.url_title = views_validations.normalize_title(
-            request.POST['title'])
+        post.url_title = url_title
         post.summary = request.POST['summary']
         post.content = content_text
         post.category = request.POST['category']
@@ -146,7 +191,7 @@ def update(request, post_id):
         post.save()
 
         # Go to url
-        return redirect('content', post_id)
+        return redirect('content', url_title, post_id)
 
 
 def delete(request, post_id):

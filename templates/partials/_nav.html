@@ -15,17 +15,9 @@
     {% endif %}
 
     {% if user.is_authenticated %}
-
-      {% if user.id == url_user.id %}
       <a class="navbar-brand text-danger text-opacity-50" href="{% url 'dashboard' user.username %}">
-        <small><u>{{ user.first_name }}</u></small>
+        <img src="{{ user_profile.profile_image.url }}" class="rounded-circle" style="height: 40px; border: 1px solid #FFF;" alt="">
       </a>
-      {% else %}
-      <a class="navbar-brand text-danger text-opacity-50" href="{% url 'dashboard' user.username %}">
-        <small>{{ user.first_name }}</small>
-      </a>
-
-      {% endif %}
     </div><!-- /div start (authenticated)-->
 
     {% else %}
