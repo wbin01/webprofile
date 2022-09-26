@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="20"
-   height="29"
-   viewBox="0 0 5.2916682 7.6729162"
+   width="40"
+   height="40"
+   viewBox="0 0 10.583335 10.583332"
    version="1.1"
    id="svg5"
    xml:space="preserve"
@@ -22,12 +22,12 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
+     inkscape:document-units="px"
      showgrid="false"
      showguides="true"
-     inkscape:zoom="11.313709"
-     inkscape:cx="11.092738"
-     inkscape:cy="13.390835"
+     inkscape:zoom="5.6568543"
+     inkscape:cx="-21.38998"
+     inkscape:cy="21.124815"
      inkscape:window-width="1366"
      inkscape:window-height="744"
      inkscape:window-x="0"
@@ -38,19 +38,19 @@
        id="grid182"
        originx="0"
        originy="0" /><sodipodi:guide
-       position="7.1342189,1.7270053"
+       position="7.1342183,4.6374217"
        orientation="1,0"
        id="guide454"
        inkscape:locked="false" /><sodipodi:guide
-       position="7.3271542,1.8176264"
+       position="7.3271535,4.7280428"
        orientation="0,-1"
        id="guide456"
        inkscape:locked="false" /><sodipodi:guide
-       position="7.3453149,1.7923682"
+       position="7.3453142,4.7027846"
        orientation="0,-1"
        id="guide458"
        inkscape:locked="false" /><sodipodi:guide
-       position="7.1605813,1.8254799"
+       position="7.1605807,4.7358963"
        orientation="1,0"
        id="guide460"
        inkscape:locked="false" /></sodipodi:namedview><defs
@@ -97,7 +97,7 @@
                                    id="g336-7"
                                    transform="matrix(0.53191489,0,0,0.53191489,1.2384755,-3.8392732)"><g
                                    id="g475-0"
-                                   transform="matrix(0.99264009,0,0,0.99264009,0.01947311,-2.9493631)"><g
+                                   transform="matrix(1.3908405,0,0,1.3908405,-143.1793,35.687828)"><g
                                    id="g1818"
                                    transform="matrix(0.17656224,0,0,0.17656224,378.99599,-96.0952)"><path
                                    style="fill:#83263b;fill-opacity:1;stroke:none;stroke-width:1.06645px;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"

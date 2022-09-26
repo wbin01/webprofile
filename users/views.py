@@ -29,10 +29,14 @@ def dashboard(request, username):
     # Profile
     try:
         url_user_profile = get_object_or_404(Profile, user=url_user.id)
-        user_profile = get_object_or_404(Profile, user=request.user.id)
     except Exception as err:
         print(err)
         url_user_profile = None
+
+    try:
+        user_profile = get_object_or_404(Profile, user=request.user.id)
+    except Exception as err:
+        print(err)
         user_profile = None
 
     # if not user_profile:
@@ -72,10 +76,14 @@ def dashboard_draft(request, username):
     # Profile
     try:
         url_user_profile = get_object_or_404(Profile, user=url_user.id)
-        user_profile = get_object_or_404(Profile, user=request.user.id)
     except Exception as err:
         print(err)
         url_user_profile = None
+
+    try:
+        user_profile = get_object_or_404(Profile, user=request.user.id)
+    except Exception as err:
+        print(err)
         user_profile = None
 
     # Context
@@ -100,10 +108,14 @@ def settings(request, username):
     # Profile
     try:
         url_user_profile = get_object_or_404(Profile, user=url_user.id)
-        user_profile = get_object_or_404(Profile, user=request.user.id)
     except Exception as err:
         print(err)
         url_user_profile = None
+
+    try:
+        user_profile = get_object_or_404(Profile, user=request.user.id)
+    except Exception as err:
+        print(err)
         user_profile = None
 
     # Context

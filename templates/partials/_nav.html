@@ -2,21 +2,21 @@
 <nav class="navbar navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
     <div><!-- div start -->
-    {% if url_context == 'index' %}
     <a class="navbar-brand text-danger text-opacity-50" href="{% url 'index' %}">
-      <u><img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">
-      Fire</u>
+      {% if url_context == 'index' or url_context == 'content' %}
+      <img src="{% static 'webprofile/media/webprofile.svg' %}" class="rounded-circle border border-light border-opacity-75" style="width: 40px; height: 40px;" alt="Logo">
+      {% else %}
+      <img src="{% static 'webprofile/media/webprofile.svg' %}" class="rounded-circle border border-light border-opacity-25" style="width: 40px; height: 40px;" alt="Logo">
+      {% endif %}
     </a>
-    {% else %}
-    <a class="navbar-brand text-danger text-opacity-50" href="{% url 'index' %}">
-      <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">
-      Fire
-    </a>
-    {% endif %}
 
     {% if user.is_authenticated %}
       <a class="navbar-brand text-danger text-opacity-50" href="{% url 'dashboard' user.username %}">
-        <img src="{{ user_profile.profile_image.url }}" class="rounded-circle" style="height: 40px; border: 1px solid #FFF;" alt="">
+        {% if 'dashboard' in url_context or url_context == 'settings' or url_context == 'create' or url_context == 'edit' %}
+        <img src="{{ user_profile.profile_image.url }}" class="rounded-circle border border-light border-opacity-75" style="height: 40px; height: 40px;" alt="">
+        {% else %}
+        <img src="{{ user_profile.profile_image.url }}" class="rounded-circle border border-light border-opacity-25" style="height: 40px; height: 40px;" alt="">
+        {% endif %}
       </a>
     </div><!-- /div start (authenticated)-->
 
