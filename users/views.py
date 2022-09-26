@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from users.forms import SignUpForms, LoginForms
 from webprofile.models import Post
 from profiles.models import Profile
+from profiles.views import create_profile_if_not_exist
 import string
 
 import views_validations
@@ -31,6 +32,10 @@ def dashboard(request, username):
     except Exception as err:
         print(err)
         user_profile = None
+
+    if not user_profile:
+        if create_profile_if_not_exist(request):
+            user_profile = get_object_or_404(Profile, user=request.user.id)
 
     # Context
     context = {

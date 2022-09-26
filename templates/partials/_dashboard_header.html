@@ -1,9 +1,7 @@
 {% load static %}
-{% if user_profile and 'profile_cover_image/' in user_profile.cover_image.url %}
+<!-- COVER IMAGE -->
 <div class="img-fluid"  style="height: 300px; background-image: url('{{ user_profile.cover_image.url }}'); background-attachment: fixed; background-color: rgba(0,0,0,.1);">
-{% else %}
-<div class="img-fluid"  style="height: 300px; background-image: url('{% static 'webprofile/media/cover-default.svg' %}'); background-repeat: no-repeat; background-attachment: fixed; background-color: rgba(0,0,0,.1);">
-{% endif %}
+<!-- /COVER IMAGE -->
     <div style="height: 150px;"></div>
 
     <div class="d-flex justify-content-between">
@@ -32,6 +30,7 @@
                                 <label for="cover_image" class="form-label mb-3">(1500x300)</label>
                                 <input type="file" class="form-control" id="cover_image" name="cover_image" required>
                               </div>
+                              <a type="button" href="{% url 'clear_cover_image' %}" class="btn btn-danger">Limpar</a>
                               <button type="submit" class="btn btn-dark">Atualizar</button>
                             </form>
 
@@ -52,17 +51,13 @@
     <div>&nbsp;</div>
     <div>&nbsp;</div>
     <div style="position: relative;">
-        <!-- Name -->
+        <!-- NAME -->
         <h3 class="text-truncate" style="position: absolute; max-width: 200px; right: 170px;">{{ url_user.first_name }}</h3>
-        <!-- /Name -->
+        <!-- /NAME -->
 
-        <!-- Profile image -->
-        {% if user_profile and 'profile_image/' in user_profile.profile_image.url %}
+        <!-- PROFILE IMAGE -->
         <img class="rounded-circle" src="{{ user_profile.profile_image.url }}" alt="" style="position: absolute; top: -75px; left: -160px; border: 5px solid #FFFFFF;">
-        {% else %}
-        <img class="rounded-circle" src="{% static 'webprofile/media/profile-default.svg' %}" alt="" style="position: absolute; top: -75px; left: -160px; border: 5px solid #FFFFFF;">
-        {% endif %}
-        <!-- /Profile image -->
+        <!-- /PROFILE IMAGE -->
     </div>
 </div>
 
@@ -95,6 +90,7 @@
                             <label for="profile_image" class="form-label mb-3">(150x150)</label>
                             <input type="file" class="form-control" id="profile_image" name="profile_image" required>
                           </div>
+                          <a type="button" href="{% url 'clear_profile_image' %}" class="btn btn-danger">Limpar</a>
                           <button type="submit" class="btn btn-dark">Atualizar</button>
                         </form>
 

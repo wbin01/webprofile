@@ -17,6 +17,16 @@ def update_cover_image(request):
     return redirect('dashboard', request.user.username)
 
 
+def clear_cover_image(request):
+    if create_profile_if_not_exist(request):
+        profile = get_object_or_404(Profile, user=request.user.id)
+
+        profile.cover_image = 'cover-default.svg'
+        profile.save()
+
+    return redirect('dashboard', request.user.username)
+
+
 def update_profile_image(request):
     if request.method == 'POST':
         # Get profile
@@ -27,6 +37,16 @@ def update_profile_image(request):
             if 'profile_image' in request.FILES:
                 profile.profile_image = request.FILES['profile_image']
                 profile.save()
+
+    return redirect('dashboard', request.user.username)
+
+
+def clear_profile_image(request):
+    if create_profile_if_not_exist(request):
+        profile = get_object_or_404(Profile, user=request.user.id)
+
+        profile.profile_image = 'profile-default.svg'
+        profile.save()
 
     return redirect('dashboard', request.user.username)
 
