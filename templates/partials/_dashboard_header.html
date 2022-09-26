@@ -30,8 +30,8 @@
                                 <label for="cover_image" class="form-label mb-3">(1500x300)</label>
                                 <input type="file" class="form-control" id="cover_image" name="cover_image" required>
                               </div>
-                              <a type="button" href="{% url 'clear_cover_image' %}" class="btn btn-danger">Limpar</a>
-                              <button type="submit" class="btn btn-dark">Atualizar</button>
+                              <a type="button" href="{% url 'clear_cover_image' %}" class="btn btn-light active text-danger border border-0"><i class="bi bi-trash-fill"></i></a>
+                              <button type="submit" class="btn btn-light active text-dark border border-0"><i class="bi bi-arrow-repeat"></i></button>
                             </form>
 
                         <!-- /MODAL Content -->
@@ -90,8 +90,8 @@
                             <label for="profile_image" class="form-label mb-3">(150x150)</label>
                             <input type="file" class="form-control" id="profile_image" name="profile_image" required>
                           </div>
-                          <a type="button" href="{% url 'clear_profile_image' %}" class="btn btn-danger">Limpar</a>
-                          <button type="submit" class="btn btn-dark">Atualizar</button>
+                          <a type="button" href="{% url 'clear_profile_image' %}" class="btn btn-light active text-danger border border-0"><i class="bi bi-trash-fill"></i></a>
+                          <button type="submit" class="btn btn-light active text-dark border border-0"><i class="bi bi-arrow-repeat"></i></button>
                         </form>
 
                     <!-- /MODAL Content -->
@@ -110,30 +110,30 @@
 
 {% if user.is_authenticated and user.id == url_user.id %}
 <div class="px-2 mb-4 mt-3 bg-secondary text-secondary border-bottom border-secondary border-opacity-25 d-flex justify-content-between" style="--bs-bg-opacity: .05;">
-  <div>
+  <div class="my-2">
   {% if url_context == 'dashboard' %}
-    <a type="button" class="btn btn-light text-dark btn-lg active mt-4 border-0 border-bottom border-secondary rounded-0" href="{% url 'dashboard' user.username %}">
+    <a type="button" class="btn btn-light text-dark btn-lg active border-0 rounded-0" href="{% url 'dashboard' user.username %}">
         <i class="bi bi-archive-fill"></i>
     </a>
     {% else %}
-    <a type="button" class="btn btn-light text-secondary btn-lg mt-4 border-0 rounded-0" href="{% url 'dashboard' user.username %}">
+    <a type="button" class="btn btn-light text-secondary btn-lg border-0 rounded-0" href="{% url 'dashboard' user.username %}">
         <i class="bi bi-archive-fill"></i>
     </a>
   {% endif %}
 
   {% if url_context == 'dashboard_draft' %}
-    <a type="button" class="btn btn-light text-dark btn-lg active mt-4 border-0 border-bottom border-secondary rounded-0" href="{% url 'dashboard_draft' user.username %}">
+    <a type="button" class="btn btn-light text-dark btn-lg active border-0 rounded-0" href="{% url 'dashboard_draft' user.username %}">
         <i class="bi bi-eye-slash-fill"></i>
     </a>
   {% else %}
-    <a type="button" class="btn btn-light text-secondary btn-lg mt-4 border-0 rounded-0" href="{% url 'dashboard_draft' user.username %}">
+    <a type="button" class="btn btn-light text-secondary btn-lg border-0 rounded-0" href="{% url 'dashboard_draft' user.username %}">
         <i class="bi bi-eye-slash-fill"></i>
     </a>
   {% endif %}
   </div>
 
   <a type="button" class="btn btn-light text-secondary btn-lg my-2" href="{% url 'create' %}">
-    <i class="bi bi-plus-circle-fill"></i>&nbsp;&nbsp;Postar
+    <i class="bi bi-plus-circle-fill"></i>
   </a>
 </div>
 {% endif %}

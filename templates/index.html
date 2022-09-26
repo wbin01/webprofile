@@ -12,7 +12,7 @@
     <div class="h4 p-2 mb-4 mt-5 bg-secondary text-secondary border-bottom border-secondary border-opacity-25 d-flex justify-content-between" style="--bs-bg-opacity: .05;">
         <p>&nbsp;</p>
         <a type="button" class="btn btn-light text-secondary btn-lg mt-2" href="{% url 'create' %}">
-            <i class="bi bi-plus-circle-fill"></i>&nbsp;&nbsp;Postar
+            <i class="bi bi-plus-circle-fill"></i>
         </a>
     </div>
     {% else %}
@@ -35,7 +35,7 @@
             <div class="card-footer">
             <small class="text-muted">{{ post.user.first_name }} - {{ post.publication_date }}</small>
             {% if user.is_authenticated and user.id == post.user.id %}
-            <a href="{% url 'edit' post.url_title post.id %}" type="button" class="btn btn-light btn-sm">
+            <a href="{% url 'edit' post.url_title post.id %}" type="button" class="btn btn-light active text-dark border border-0 btn-sm">
                 <i class="bi bi-pen-fill"></i>
             </a>
             {% endif %}
