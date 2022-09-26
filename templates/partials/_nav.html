@@ -1,7 +1,7 @@
 {% load static %}
 <nav class="navbar navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
-
+    <div><!-- div start -->
     {% if url_context == 'index' %}
     <a class="navbar-brand text-danger text-opacity-50" href="{% url 'index' %}">
       <u><img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">
@@ -24,9 +24,12 @@
       <a class="navbar-brand text-danger text-opacity-50" href="{% url 'dashboard' user.username %}">
         <small>{{ user.first_name }}</small>
       </a>
+
       {% endif %}
+    </div><!-- /div start (authenticated)-->
 
     {% else %}
+    </div><!-- /div start (not authenticated)-->
       <div>
         {% if url_context == 'login' %}
         <a class="navbar-brand text-danger text-opacity-50" href="{% url 'login' %}">

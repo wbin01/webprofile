@@ -30,7 +30,7 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-def content(request, post_id):
+def content(request, post_title, post_id):
     post = Post.objects.get(pk=post_id)  # type: ignore
 
     context = {'url_context': 'content', 'post': post}
@@ -80,12 +80,13 @@ def create(request):
 
 
 def edit(request, post_title, post_id):
-    # Access
-    if not request.user.is_authenticated:
-        return redirect('index')
-
     # Post
     post_to_edit = get_object_or_404(Post, pk=post_id)
+
+    # Access
+    if not request.user.is_authenticated or (
+            request.user.id != post_to_edit.user.id):
+        return redirect('index')
 
     # Form
     post_forms = PostForms(
@@ -121,6 +122,11 @@ def update(request, post_id):
 
         # Get post
         post = Post.objects.get(pk=post_id)  # type: ignore
+
+        # Access
+        if request.user.id != post.user.id:
+            return redirect('index')
+
         post_content = request.POST['content']
         content_text = json.loads(post_content)['html'] if post_content else ''
 

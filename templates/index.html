@@ -25,7 +25,7 @@
       {% for post in post_group %}
       <div class="col">
         <div class="card mt-4">
-          <a class="card-link text-decoration-none link-dark" href="{% url 'content' post.id %}">
+          <a class="card-link text-decoration-none link-dark" href="{% url 'content' post.url_title post.id %}">
             <img src="{{ post.image.url }}" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{ post.title }}</h5>
