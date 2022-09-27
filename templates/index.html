@@ -33,7 +33,7 @@
               </div>
           </a>
             <div class="card-footer">
-            <small class="text-muted">{{ post.user.first_name }} - {{ post.publication_date }}</small>
+                <small class="text-muted"><a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>
             {% if user.is_authenticated and user.id == post.user.id %}
             <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-light active text-dark border border-0 btn-sm">
                 <i class="bi bi-pen-fill"></i>
