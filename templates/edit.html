@@ -31,9 +31,8 @@
             </section>
             {% endfor %}
             {% endfor %}
-            <a href="{% url 'delete' post_id %}" type="button" class="btn btn-light active text-danger border border-0">
-                <i class="bi bi-trash-fill"></i>
-            </a>
+
+            <a href="{% url 'delete' url_to_go_back post_id %}" type="button" class="btn btn-light active text-danger border border-0"><i class="bi bi-trash-fill"></i></a>
             <button type="submit" class="btn btn-light active text-dark border border-0"><i class="bi bi-arrow-repeat"></i></button>
         </form>
     </section>

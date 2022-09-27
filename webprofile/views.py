@@ -121,7 +121,7 @@ def create(request, url_to_go_back):
     return render(request, 'create.html', context)
 
 
-def edit(request, url_title, post_id):
+def edit(request, url_title, post_id, url_to_go_back):
     # Post
     post_to_edit = get_object_or_404(Post, pk=post_id)
 
@@ -154,6 +154,7 @@ def edit(request, url_title, post_id):
     # Context
     context = {
         'url_context': 'edit',
+        'url_to_go_back': url_to_go_back,
         'post_forms': post_forms,
         'post_id': post_id,
         'url_title': url_title,
@@ -201,7 +202,7 @@ def update(request, post_id):
         return redirect('content', url_title, post_id)
 
 
-def delete(request, post_id):
+def delete(request, url_to_go_back, post_id):
     # Access
     if not request.user.is_authenticated:
         return redirect('index')
@@ -212,4 +213,7 @@ def delete(request, post_id):
     # Delete
     post.delete()
 
+    # Go to url
+    if 'dashboard' in url_to_go_back:
+        return redirect(url_to_go_back, request.user.username)
     return redirect('index')
