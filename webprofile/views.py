@@ -64,7 +64,7 @@ def content(request, url_title, post_id):
     return render(request, 'content.html', context)
 
 
-def create(request):
+def create(request, url_to_go_back):
     # Access
     if not request.user.is_authenticated:
         return redirect('index')
@@ -82,6 +82,7 @@ def create(request):
     # Context
     context = {
         'url_context': 'create',
+        'url_to_go_back': url_to_go_back,
         'post_forms': post_forms,
         'message_err': None,
         'user_profile': user_profile}
@@ -109,7 +110,13 @@ def create(request):
         post.save()
 
         # Go to url
-        return redirect('index')
+        if 'is_published' not in request.POST:
+            return redirect('dashboard_draft', request.user.username)
+
+        if url_to_go_back == 'index':
+            return redirect('index')
+
+        return redirect('dashboard', request.user.username)
 
     return render(request, 'create.html', context)
 

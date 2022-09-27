@@ -116,7 +116,7 @@
         <i class="bi bi-archive-fill"></i>
     </a>
     {% else %}
-    <a type="button" class="btn btn-light text-secondary btn-lg border-0 rounded-0" href="{% url 'dashboard' user.username %}">
+    <a type="button" class="btn btn-light text-dark active btn-lg rounded-0 border border-0 opacity-50" href="{% url 'dashboard' user.username %}">
         <i class="bi bi-archive-fill"></i>
     </a>
   {% endif %}
@@ -126,13 +126,13 @@
         <i class="bi bi-eye-slash-fill"></i>
     </a>
   {% else %}
-    <a type="button" class="btn btn-light text-secondary btn-lg border-0 rounded-0" href="{% url 'dashboard_draft' user.username %}">
+    <a type="button" class="btn btn-light text-dark active btn-lg rounded-0 border border-0 opacity-50" href="{% url 'dashboard_draft' user.username %}">
         <i class="bi bi-eye-slash-fill"></i>
     </a>
   {% endif %}
   </div>
 
-  <a type="button" class="btn btn-light text-secondary btn-lg my-2" href="{% url 'create' %}">
+  <a type="button" class="btn btn-light text-dark border border-0 btn-lg my-2" href="{% url 'create' url_context %}">
     <i class="bi bi-plus-circle-fill"></i>
   </a>
 </div>

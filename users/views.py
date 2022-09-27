@@ -45,7 +45,7 @@ def dashboard(request, username):
 
     # Context
     context = {
-        'url_context': 'dashboard',
+        'url_context': 'dashboard',  # request.get_full_path
         'url_user': url_user,
         'posts_per_page': posts_per_page,
         'url_user_profile': url_user_profile,
