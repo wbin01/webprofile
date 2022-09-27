@@ -31,10 +31,31 @@
             </section>
             {% endfor %}
             {% endfor %}
-
-            <a href="{% url 'delete' url_to_go_back post_id %}" type="button" class="btn btn-light active text-danger border border-0"><i class="bi bi-trash-fill"></i></a>
+            <a type="button" class="btn btn-light active text-danger border border-0" data-bs-toggle="modal" data-bs-target="#staticBackdropDelete"><i class="bi bi-trash-fill"></i></a>
             <button type="submit" class="btn btn-light active text-dark border border-0"><i class="bi bi-arrow-repeat"></i></button>
         </form>
+
+        <!-- MODAL -->
+            <div class="modal fade text-start" id="staticBackdropDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="staticBackdropLabel">Essa ação não pode ser desfeita</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <!-- MODAL Content -->
+                      <p>
+                          Você apagará a postagem de forma irreversível!
+                      </p>
+                      <a href="{% url 'delete' url_to_go_back post_id %}" type="button" class="btn btn-light active text-danger border border-0"><i class="bi bi-trash-fill"></i></a>
+                    <!-- /MODAL Content -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /MODAL -->
+
     </section>
 
 <!-- / CONTAINER -->
