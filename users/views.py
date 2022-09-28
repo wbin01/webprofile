@@ -94,7 +94,7 @@ def dashboard_draft(request, username):
         'user_profile': user_profile,
         'url_user_profile': url_user_profile}
 
-    return render(request, 'dashboard_draft.html', context)
+    return render(request, 'dashboard.html', context)
 
 
 def settings(request, username):
