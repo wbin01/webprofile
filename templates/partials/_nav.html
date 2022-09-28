@@ -52,9 +52,9 @@
 
     <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title text-danger text-opacity-50" id="offcanvasDarkNavbarLabel">
+        <h5 class="offcanvas-title text-danger text-opacity-50 text-truncate" id="offcanvasDarkNavbarLabel">
           {% if user.is_authenticated %}
-          <i class="bi bi-person-circle"></i>{{ user.first_name }}
+          <i class="bi bi-person-circle"></i>&nbsp;{{ user.first_name }}
           {% else %}
           <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">Fire
           {% endif %}
@@ -93,9 +93,16 @@
 <!--            </ul>-->
 <!--          </li>-->
         </ul>
-        <form class="d-flex mt-2" role="search">
-          <input class="form-control me-2" type="search" placeholder="Pesquisar" aria-label="Search">
-          <button class="btn btn-outline-light" type="submit">Pesquisar</button>
+        <hr>
+        <form class="d-flex mt-2 mb-5" role="search" action="{% url 'search_post' %}">
+          <input class="form-control me-2 bg-secondary bg-opacity-10 border-secondary border-opacity-10 text-light" type="search" name="q" placeholder="Postagens" aria-label="Search" autocomplete="off">
+          <button class="btn btn-dark active  border border-0" type="submit"><i class="bi bi-card-text"></i></button>
+        </form>
+
+        <hr>
+        <form class="d-flex mt-2" role="search" action="{% url 'search_user' %}">
+          <input class="form-control me-2 bg-secondary bg-opacity-10 border-secondary border-opacity-10 text-light" type="search" name="q" placeholder="Usuários" aria-label="Search" autocomplete="off">
+          <button class="btn btn-dark active  border border-0" type="submit"><i class="bi bi-people-fill"></i></button>
         </form>
       </div>
     </div>

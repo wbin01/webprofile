@@ -41,6 +41,72 @@ def index(request):
     return render(request, 'index.html', context)
 
 
+def search_post(request):
+    posts = []
+    if 'q' in request.GET:
+        posts = Post.objects.order_by(  # type: ignore
+            '-publication_date').filter(is_published=True).filter(
+            title__icontains=request.GET['q'])
+
+    # Card groups
+    posts = views_validations.separate_posts_into_quantity_groups(
+        posts_list=posts, items_quantity=2)
+
+    # Posts per page
+    paginator = Paginator(posts, 2)
+    page = request.GET.get('page')
+    posts_per_page = paginator.get_page(page)
+
+    # Context
+    context = {
+        'url_context': 'index',
+        'posts_per_page': posts_per_page}
+
+    # Add Profile to context
+    if request.user.is_authenticated:
+        try:
+            user_profile = get_object_or_404(Profile, user=request.user.id)
+        except Exception as err:
+            print(err)
+            user_profile = None
+
+        context['user_profile'] = user_profile
+
+    return render(request, 'index.html', context)
+
+
+def search_user(request):
+    posts = []
+    if 'q' in request.GET:
+        posts = User.objects.filter(username__icontains=request.GET['q'])
+
+    # Card groups
+    posts = views_validations.separate_posts_into_quantity_groups(
+        posts_list=posts, items_quantity=2)
+
+    # Posts per page
+    paginator = Paginator(posts, 2)
+    page = request.GET.get('page')
+    posts_per_page = paginator.get_page(page)
+
+    # Context
+    context = {
+        'url_context': 'index',
+        'posts_per_page': posts_per_page}
+
+    # Add Profile to context
+    if request.user.is_authenticated:
+        try:
+            user_profile = get_object_or_404(Profile, user=request.user.id)
+        except Exception as err:
+            print(err)
+            user_profile = None
+
+        context['user_profile'] = user_profile
+
+    return render(request, 'search_user.html', context)
+
+
 def content(request, url_title, post_id):
     print(url_title)
     post = Post.objects.get(pk=post_id)  # type: ignore

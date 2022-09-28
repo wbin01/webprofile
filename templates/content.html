@@ -7,10 +7,22 @@
 {% include 'partials/_nav.html'%}
 
 <!-- ### CONTAINER ### -->
-<div class="container-md">
+<div class="container-md mt-5">
 
-    <!-- ### TITLE ### -->
-    <h1 class="text-center">{{ post.title }}</h1>
+    <!-- TITLE -->
+    <h1 class="text-center pt-2">{{ post.title }}</h1>
+    <!-- /TITLE -->
+
+    <!-- FIGURE -->
+    <div class="text-center my-4">
+        <figure class="figure">
+            <img src="{{ post.image.url }}" class="card-img-top" alt="...">
+            <!--<figcaption class="figure-caption">A caption for the above image.</figcaption>-->
+        </figure>
+    </div>
+    <!-- /FIGURE -->
+
+    <!-- USER -->
     <div>
         {% if user.is_authenticated and user.id == post.user.id %}
         {% if not post.is_published %}
@@ -26,16 +38,8 @@
         </a>
         {% endif %}
     </div>
-    <!-- / TITLE -->
+    <!-- /USER -->
 
-    <!-- ### FIGURE ### -->
-    <div class="text-center">
-        <figure class="figure">
-            <img src="{{ post.image.url }}" class="card-img-top" alt="...">
-            <!--<figcaption class="figure-caption">A caption for the above image.</figcaption>-->
-        </figure>
-    </div>
-    <!-- / FIGURE -->
     <section>
         <p>{{ post.content | safe }}</p>
     </section>
