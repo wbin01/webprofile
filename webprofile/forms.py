@@ -30,10 +30,10 @@ class PostForms(forms.ModelForm):
             'title': '<h5>Título</h5>',
             'image': (
                 '<h5>Imagem</h5>'
-                '<small class="text-muted">Capa do link inicial</small>'),
+                '<small class="text-muted">Capa do card</small>'),
             'summary': (
                 '<h5>Resumo</h5><small class="text-muted">'
-                'Pequena frase sobre a matéria</small>'),
+                'Apresentação resumida do card</small>'),
             'category': '<h5>Categoria</h5>',
         }
 

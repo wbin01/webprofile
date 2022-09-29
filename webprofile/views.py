@@ -210,6 +210,14 @@ def edit(request, url_title, post_id, url_to_go_back):
             'is_published': post_to_edit.is_published,
         })
 
+    # Image Label with old image name
+    post_forms['image'].label = (
+                '<h5>Imagem</h5>'
+                '<small class="text-muted">Capa do card</small></br>'
+                '<small class="text-primary text-opacity-50"> ' +
+                str(post_to_edit.image.url.split("/")[-1]) +
+                '</small>')
+
     # Profile
     try:
         user_profile = get_object_or_404(Profile, user=request.user.id)

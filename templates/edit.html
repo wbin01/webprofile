@@ -23,6 +23,7 @@
                 {% else %}
                 <label for="{{ field.id_for_label }}">{{ field.label | safe }}</label>
                 {{ field }}
+
                 {% endif %}
             </div>
             {% for error in field.errors %}
