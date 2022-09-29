@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from profiles.models import Profile
 
 
-def update_cover_image(request):
+def update_cover_image(request, url_to_go_back):
     if request.method == 'POST':
         # Get profile
         if create_profile_if_not_exist(request):
@@ -14,20 +14,24 @@ def update_cover_image(request):
                 profile.cover_image = request.FILES['cover_image']
                 profile.save()
 
+    if url_to_go_back == 'dashboard_draft':
+        return redirect('dashboard_draft', request.user.username)
     return redirect('dashboard', request.user.username)
 
 
-def clear_cover_image(request):
+def clear_cover_image(request, url_to_go_back):
     if create_profile_if_not_exist(request):
         profile = get_object_or_404(Profile, user=request.user.id)
 
         profile.cover_image = 'cover-default.svg'
         profile.save()
 
+    if url_to_go_back == 'dashboard_draft':
+        return redirect('dashboard_draft', request.user.username)
     return redirect('dashboard', request.user.username)
 
 
-def update_profile_image(request):
+def update_profile_image(request, url_to_go_back):
     if request.method == 'POST':
         # Get profile
         if create_profile_if_not_exist(request):
@@ -38,16 +42,20 @@ def update_profile_image(request):
                 profile.profile_image = request.FILES['profile_image']
                 profile.save()
 
+    if url_to_go_back == 'dashboard_draft':
+        return redirect('dashboard_draft', request.user.username)
     return redirect('dashboard', request.user.username)
 
 
-def clear_profile_image(request):
+def clear_profile_image(request, url_to_go_back):
     if create_profile_if_not_exist(request):
         profile = get_object_or_404(Profile, user=request.user.id)
 
         profile.profile_image = 'profile-default.svg'
         profile.save()
 
+    if url_to_go_back == 'dashboard_draft':
+        return redirect('dashboard_draft', request.user.username)
     return redirect('dashboard', request.user.username)
 
 
@@ -62,10 +70,6 @@ def create_profile_if_not_exist(request) -> bool:
 
     print('>>> Creating profile...')
     try:
-        # request.FILES.get('image', 'images/default.png'),
-        # 'webprofile/media/cover-default.svg'
-        # 'webprofile/media/profile-default.svg'
-
         profile = Profile.objects.create(  # type: ignore
             user=get_object_or_404(User, pk=request.user.id),
             profile_image=request.FILES.get(

@@ -24,13 +24,13 @@
                       </div>
                       <div class="modal-body">
                         <!-- MODAL Content -->
-                            <form action="{% url 'update_cover_image' %}" method="post" enctype="multipart/form-data">
+                            <form action="{% url 'update_cover_image' url_context %}" method="post" enctype="multipart/form-data">
                               {% csrf_token %}
                               <div class="mb-5">
                                 <label for="cover_image" class="form-label mb-3">(1500x300)</label>
                                 <input type="file" class="form-control" id="cover_image" name="cover_image" required>
                               </div>
-                              <a type="button" href="{% url 'clear_cover_image' %}" class="btn btn-light active text-danger border border-0"><i class="bi bi-trash-fill"></i></a>
+                              <a type="button" href="{% url 'clear_cover_image' url_context %}" class="btn btn-light active text-danger border border-0"><i class="bi bi-trash-fill"></i></a>
                               <button type="submit" class="btn btn-light active text-dark border border-0"><i class="bi bi-arrow-repeat"></i></button>
                             </form>
 
@@ -84,13 +84,13 @@
                   </div>
                   <div class="modal-body">
                     <!-- MODAL Content -->
-                        <form action="{% url 'update_profile_image' %}" method="post" enctype="multipart/form-data">
+                        <form action="{% url 'update_profile_image' url_context %}" method="post" enctype="multipart/form-data">
                           {% csrf_token %}
                           <div class="mb-5">
                             <label for="profile_image" class="form-label mb-3">(150x150)</label>
                             <input type="file" class="form-control" id="profile_image" name="profile_image" required>
                           </div>
-                          <a type="button" href="{% url 'clear_profile_image' %}" class="btn btn-light active text-danger border border-0"><i class="bi bi-trash-fill"></i></a>
+                          <a type="button" href="{% url 'clear_profile_image' url_context %}" class="btn btn-light active text-danger border border-0"><i class="bi bi-trash-fill"></i></a>
                           <button type="submit" class="btn btn-light active text-dark border border-0"><i class="bi bi-arrow-repeat"></i></button>
                         </form>
 
