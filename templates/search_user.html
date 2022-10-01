@@ -19,23 +19,22 @@
     <div class="mb-5">&nbsp;</div>
     {% endif %}
 
-    {% if posts_per_page %}
-    {% for post_group in posts_per_page %}
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-      {% for post in post_group %}
+    {% if posts %}
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 pb-5">
+      {% for post in posts %}
       <div class="col">
-        <div class="card mt-4">
-          <a class="card-link text-decoration-none link-dark" href="{% url 'dashboard' post.username %}">
-              {{ post.first_name }}
+        <div class="card mt-4" style="background-image: url('{{ post.cover_image.url }}'); background-size: cover;">
+          <a class="card-link text-decoration-none link-dark bg-dark bg-opacity-50 text-truncate" href="{% url 'dashboard' post.user.username %}">
+              <img src="{{ post.profile_image.url }}" class="rounded-circle" style="border: 2px solid #FFFFFF; height: 75px; width: 75px;">
+              <span class="text-light">{{ post.user.first_name }}</span>
           </a>
         </div>
       </div>
       {% endfor %}
     </div>
-    {% endfor %}
+    {% else %}
+    <div class="text-center text-muted mt-5 mb-5 pt-5 pb-5"><h1>A busca não encontrou nenhum usuário</h1></div>
     {% endif %}
-
-    {% include 'partials/_pagination.html'%}
 
 <!-- / CONTAINER -->
 </div>

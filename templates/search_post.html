@@ -20,10 +20,9 @@
     <div class="mb-5">&nbsp;</div>
     {% endif %}
 
-    {% if posts_per_page %}
-    {% for post_group in posts_per_page %}
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-      {% for post in post_group %}
+    {% if posts %}
+    <div class="row row-cols-1 row-cols-md-2 g-4 mb-5 pb-5">
+      {% for post in posts %}
       <div class="col">
         <div class="card mt-4">
           <a class="card-link text-decoration-none link-dark" href="{% url 'content' post.url_title post.id %}">
@@ -45,10 +44,9 @@
       </div>
       {% endfor %}
     </div>
-    {% endfor %}
+    {% else %}
+    <div class="text-center text-muted mt-5 mb-5 pt-5 pb-5"><h1>A busca não encontrou nenhuma postagem</h1></div>
     {% endif %}
-
-    {% include 'partials/_pagination.html'%}
 
 <!-- / CONTAINER -->
 </div>

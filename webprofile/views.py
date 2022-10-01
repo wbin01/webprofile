@@ -45,25 +45,14 @@ def index(request):
 
 
 def search_post(request):
-    posts = []
-    if 'q' in request.GET:
-        posts = Post.objects.order_by(  # type: ignore
-            '-publication_date').filter(is_published=True).filter(
-            title__icontains=request.GET['q'])
-
-    # Card groups
-    posts = views_validations.separate_posts_into_quantity_groups(
-        posts_list=posts, items_quantity=2)
-
-    # Posts per page
-    paginator = Paginator(posts, 2)
-    page = request.GET.get('page')
-    posts_per_page = paginator.get_page(page)
+    posts = Post.objects.order_by(  # type: ignore
+        '-publication_date').filter(is_published=True).filter(
+        title__icontains=request.GET['q'])
 
     # Context
     context = {
         'url_context': 'index',
-        'posts_per_page': posts_per_page}
+        'posts': posts}
 
     # Add Profile to context
     if request.user.is_authenticated:
@@ -79,23 +68,13 @@ def search_post(request):
 
 
 def search_user(request):
-    posts = []
-    if 'q' in request.GET:
-        posts = User.objects.filter(username__icontains=request.GET['q'])
-
-    # Card groups
-    posts = views_validations.separate_posts_into_quantity_groups(
-        posts_list=posts, items_quantity=2)
-
-    # Posts per page
-    paginator = Paginator(posts, 2)
-    page = request.GET.get('page')
-    posts_per_page = paginator.get_page(page)
+    posts = Profile.objects.filter(  # type: ignore
+        user__username__icontains=request.GET['q'])
 
     # Context
     context = {
         'url_context': 'index',
-        'posts_per_page': posts_per_page}
+        'posts': posts}
 
     # Add Profile to context
     if request.user.is_authenticated:
