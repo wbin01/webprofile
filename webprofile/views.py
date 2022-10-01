@@ -18,6 +18,8 @@ def index(request):
                 '-publication_date').filter(is_published=True)),
         items_quantity=2)
 
+    carousel_posts = [posts[0][0], posts[0][1], posts[1][0]]
+
     # Posts per page
     paginator = Paginator(posts, 2)
     page = request.GET.get('page')
@@ -26,7 +28,8 @@ def index(request):
     # Context
     context = {
         'url_context': 'index',
-        'posts_per_page': posts_per_page}
+        'posts_per_page': posts_per_page,
+        'carousel_posts': carousel_posts}
 
     # Add Profile to context
     if request.user.is_authenticated:
@@ -72,7 +75,7 @@ def search_post(request):
 
         context['user_profile'] = user_profile
 
-    return render(request, 'index.html', context)
+    return render(request, 'search_post.html', context)
 
 
 def search_user(request):
