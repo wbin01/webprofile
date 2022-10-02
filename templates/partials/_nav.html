@@ -52,9 +52,11 @@
 
     <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title text-danger text-opacity-50 text-truncate" id="offcanvasDarkNavbarLabel">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">
           {% if user.is_authenticated %}
+          <a class="text-light text-decoration-none text-opacity-50 text-truncate" href="{% url 'dashboard' user.username %}">
           <i class="bi bi-person-circle"></i>&nbsp;{{ user.first_name }}
+          </a>
           {% else %}
           <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">Fire
           {% endif %}
@@ -79,19 +81,6 @@
               <a class="nav-link" href="{% url 'logout' %}">Sair</a>
             </li>
           {% endif %}
-<!--          <li class="nav-item dropdown">-->
-<!--&lt;!&ndash;        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">&ndash;&gt;-->
-<!--            <a class="nav-link dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--              <i class="bi bi-plus-square-fill"></i>-->
-<!--            </a>-->
-<!--            <ul class="dropdown-menu dropdown-menu-dark">-->
-<!--              <li><a class="dropdown-item" href="#">Configurações</a></li>-->
-<!--              <li>-->
-<!--                <hr class="dropdown-divider">-->
-<!--              </li>-->
-<!--              <li><a class="dropdown-item" href="{% url 'logout' %}">Sair</a></li>-->
-<!--            </ul>-->
-<!--          </li>-->
         </ul>
         <div class="text-secondary text-opacity-25"><hr></div>
         <form class="d-flex mt-2 mb-5" role="search" action="{% url 'search_post' %}">
@@ -108,81 +97,3 @@
     </div>
   </div>
 </nav>
-
-<!--{% load static %}-->
-<!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">-->
-<!--    <div class="container">-->
-
-<!--        &lt;!&ndash; Site Logo Here &ndash;&gt;-->
-<!--        <small class="navbar-brand w-75 text-danger text-opacity-50">-->
-<!--            <a href="{% url 'index' %}" class="text-decoration-none text-light">-->
-<!--                <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">-->
-<!--            </a>-->
-<!--            {% if url_context == 'index' %}-->
-<!--            &nbsp;-->
-<!--            {% elif user.is_authenticated and 'dashboard' in url %}-->
-<!--            &nbsp; - &nbsp;{{ user.first_name }}-->
-<!--            {% endif %}-->
-<!--        </small>-->
-
-<!--        &lt;!&ndash; Mobile Toggle Button &ndash;&gt;-->
-<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMobileToggle" aria-controls="navbarMobileToggle" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--        <span><i class="bi bi-person-circle"></i></span>-->
-<!--        </button>-->
-
-<!--        &lt;!&ndash; Menu items &ndash;&gt;-->
-<!--        <div class="collapse navbar-collapse" id="navbarMobileToggle">-->
-<!--            <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
-
-<!--                <li class="nav-item">-->
-<!--                    {% if url_context == 'index' %}-->
-<!--                    <a class="nav-link active" aria-current="page" href="{% url 'index' %}"><u>Início</u></a>-->
-<!--                    {% else %}-->
-<!--                    <a class="nav-link" aria-current="page" href="{% url 'index' %}">Início</a>-->
-<!--                    {% endif %}-->
-<!--                </li>-->
-
-<!--                {% if user.is_authenticated %}-->
-<!--                <li class="nav-item">-->
-<!--                    {% if 'dashboard' in url %}-->
-<!--                    <a class="nav-link active" aria-current="page" href="{% url 'dashboard' user.username %}"><u>Perfil</u></a>-->
-<!--                    {% else %}-->
-<!--                    <a class="nav-link" aria-current="page" href="{% url 'dashboard' user.username %}">Perfil</a>-->
-<!--                    {% endif %}-->
-<!--                </li>-->
-
-<!--                <li class="nav-item dropdown">-->
-<!--                  <a class="nav-link dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="true">-->
-<!--                    <i class="bi bi-person-circle"></i>&nbsp;{{ user.first_name }}-->
-<!--                  </a>-->
-<!--                  <ul class="dropdown-menu">-->
-<!--                    <li><a class="dropdown-item" href="#">Action</a></li>-->
-<!--                    <li><a class="dropdown-item" href="#">Another action</a></li>-->
-<!--                    <li><hr class="dropdown-divider"></li>-->
-<!--                    <li><a class="dropdown-item" href="{% url 'logout' %}">Sair</a></li>-->
-<!--&lt;!&ndash;                    <li><a class="dropdown-item" href="#">Something else here</a></li>&ndash;&gt;-->
-<!--                  </ul>-->
-<!--                </li>-->
-
-<!--                {% else %}-->
-<!--                <li class="nav-item">-->
-<!--                    {% if url_context == 'signup' %}-->
-<!--                    <a class="nav-link active" aria-current="page" href="{% url 'signup' %}"><u>Cadastrar</u></a>-->
-<!--                    {% else %}-->
-<!--                    <a class="nav-link" aria-current="page" href="{% url 'signup' %}">Cadastrar</a>-->
-<!--                    {% endif %}-->
-<!--                </li>-->
-
-<!--                <li class="nav-item">-->
-<!--                    {% if url_context == 'login' %}-->
-<!--                    <a class="nav-link active" aria-current="page" href="{% url 'login' %}"><u>Entrar</u></a>-->
-<!--                    {% else %}-->
-<!--                    <a class="nav-link" aria-current="page" href="{% url 'login' %}">Entrar</a>-->
-<!--                    {% endif %}-->
-<!--                </li>-->
-<!--                {% endif %}-->
-<!--            </ul>-->
-
-<!--        </div>-->
-<!--    </div>-->
-<!--</nav>-->
