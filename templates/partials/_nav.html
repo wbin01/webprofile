@@ -23,21 +23,37 @@
     {% else %}
     </div><!-- /div start (not authenticated)-->
       <div>
+        <!-- Logout Search -->
+        <a class="text-light text-opacity-50 me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><i class="bi bi-search"></i></a>
+
+        <div class="offcanvas offcanvas-top text-bg-dark container-fluid" style="height: 100px;" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+          <div class="offcanvas-header py-2">
+            <span>&nbsp;</span><button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body px-5 py-1">
+            <form class="d-flex" role="search" action="{% url 'search_post' %}">
+              <input class="form-control bg-secondary bg-opacity-10 border-secondary border-opacity-10 text-light me-2" type="search" name="q" placeholder="Postagens" aria-label="Search" autocomplete="off">
+              <button class="btn btn-dark active  border border-0" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+          </div>
+        </div>
+
         {% if url_context == 'login' %}
-        <a class="navbar-brand text-danger text-opacity-50" href="{% url 'login' %}">
+        <a class="navbar-brand text-light text-opacity-50" href="{% url 'login' %}">
           <small><u>ENTRAR</u></small>
         </a>
         {% else %}
-        <a class="navbar-brand text-danger text-opacity-50" href="{% url 'login' %}">
+        <a class="navbar-brand text-light text-opacity-50" href="{% url 'login' %}">
           <small>ENTRAR</small>
         </a>
         {% endif %}
+
         {% if url_context == 'signup' %}
-        <a class="navbar-brand text-danger text-opacity-50" href="{% url 'signup' %}">
+        <a class="navbar-brand text-light text-opacity-50" href="{% url 'signup' %}">
           <small><u>CADASTRAR</u></small>
         </a>
         {% else %}
-        <a class="navbar-brand text-danger text-opacity-50" href="{% url 'signup' %}">
+        <a class="navbar-brand text-light text-opacity-50" href="{% url 'signup' %}">
           <small>CADASTRAR</small>
         </a>
         {% endif %}
