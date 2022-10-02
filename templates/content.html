@@ -11,19 +11,17 @@
     <div class="position-absolute pb-2 w-100 bottom-0 text-light">
         <h1 class="text-center">{{ post.title }}</h1>
         <div class="container-md">
+
         {% if user.is_authenticated and user.id == post.user.id %}
+        <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-dark text-light active border border-0 btn-sm"><i class="bi bi-pen-fill"></i></a>
+
         {% if not post.is_published %}
         <i class="bi bi-eye-slash-fill"></i>
         {% endif %}
+
         {% endif %}
 
         <small class="text-muted">Por <a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>
-
-        {% if user.is_authenticated and user.id == post.user.id %}
-        <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-light active text-dark border border-0 btn-sm">
-            <i class="bi bi-pen-fill"></i>
-        </a>
-        {% endif %}
         </div>
     </div>
     <!-- /USER -->

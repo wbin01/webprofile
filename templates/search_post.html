@@ -7,10 +7,54 @@
 {% include 'partials/_nav.html'%}
 <!-- /NAV -->
 
+<!--&lt;!&ndash; ### CONTAINER ### &ndash;&gt;-->
+<!--<div class="container">-->
+<!--    {% if user.is_authenticated %}-->
+<!--    <div class="h4 p-2 mb-4 mt-5 bg-secondary text-secondary border-bottom border-secondary border-opacity-25 d-flex justify-content-between" style="&#45;&#45;bs-bg-opacity: .05;">-->
+<!--        <p>&nbsp;</p>-->
+<!--        <a type="button" class="btn btn-light text-dark border border-0 btn-lg mt-2" href="{% url 'create' url_context %}">-->
+<!--            <i class="bi bi-plus-circle-fill"></i>-->
+<!--        </a>-->
+<!--    </div>-->
+<!--    {% else %}-->
+<!--    <div class="mb-5">&nbsp;</div>-->
+<!--    {% endif %}-->
+
+<!--    {% if posts %}-->
+<!--    <div class="row row-cols-1 row-cols-md-2 g-4 mb-5 pb-5">-->
+<!--      {% for post in posts %}-->
+<!--      <div class="col">-->
+<!--        <div class="card mt-4">-->
+<!--          <a class="card-link text-decoration-none link-dark" href="{% url 'content' post.url_title post.id %}">-->
+<!--            <img src="{{ post.image.url }}" class="card-img-top" alt="...">-->
+<!--              <div class="card-body">-->
+<!--                <h5 class="card-title">{{ post.title }}</h5>-->
+<!--                <p class="card-text text-truncate">{{ post.summary }}</p>-->
+<!--              </div>-->
+<!--          </a>-->
+<!--            <div class="card-footer">-->
+<!--                <small class="text-muted"><a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>-->
+<!--            {% if user.is_authenticated and user.id == post.user.id %}-->
+<!--            <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-light active text-dark border border-0 btn-sm">-->
+<!--                <i class="bi bi-pen-fill"></i>-->
+<!--            </a>-->
+<!--            {% endif %}-->
+<!--            </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      {% endfor %}-->
+<!--    </div>-->
+<!--    {% else %}-->
+<!--    <div class="text-center text-muted mt-5 mb-5 pt-5 pb-5"><h1 class="mt-5 mb-5 pt-5 pb-5">Nada encontrado!</h1></div>-->
+<!--    {% endif %}-->
+
+<!--&lt;!&ndash; / CONTAINER &ndash;&gt;-->
+<!--</div>-->
+
 <!-- ### CONTAINER ### -->
 <div class="container">
     {% if user.is_authenticated %}
-    <div class="h4 p-2 mb-4 mt-5 bg-secondary text-secondary border-bottom border-secondary border-opacity-25 d-flex justify-content-between" style="--bs-bg-opacity: .05;">
+    <div class="h4 p-2 mb-4 bg-secondary text-secondary border-bottom border-secondary border-opacity-25 d-flex justify-content-between" style="--bs-bg-opacity: .05;">
         <p>&nbsp;</p>
         <a type="button" class="btn btn-light text-dark border border-0 btn-lg mt-2" href="{% url 'create' url_context %}">
             <i class="bi bi-plus-circle-fill"></i>
@@ -21,26 +65,34 @@
     {% endif %}
 
     {% if posts %}
-    <div class="row row-cols-1 row-cols-md-2 g-4 mb-5 pb-5">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
       {% for post in posts %}
       <div class="col">
-        <div class="card mt-4">
-          <a class="card-link text-decoration-none link-dark" href="{% url 'content' post.url_title post.id %}">
-            <img src="{{ post.image.url }}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">{{ post.title }}</h5>
-                <p class="card-text text-truncate">{{ post.summary }}</p>
+
+        <div class="card mb-1">
+          <img src="{{ post.image.url }}" class="card-img" alt="...">
+          <a href="{% url 'content' post.url_title post.id %}" class="card-link text-light text-decoration-none">
+            <div class="card-img-overlay" style="background-image: linear-gradient(rgba(5, 5, 5, 1), rgba(0, 0, 0, 0));">
+              <div class="px-2 py-2 rounded" style="background-color: rgba(25, 25, 25, 0.8);">
+                <h3 class="card-title mb-3">
+                  {{ post.title }}
+                </h3>
+                <p class="card-text text-truncate">
+                  {{ post.summary }}
+                </p>
               </div>
-          </a>
-            <div class="card-footer">
-                <small class="text-muted"><a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>
-            {% if user.is_authenticated and user.id == post.user.id %}
-            <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-light active text-dark border border-0 btn-sm">
-                <i class="bi bi-pen-fill"></i>
-            </a>
-            {% endif %}
             </div>
+          </a>
         </div>
+        <div class="text-muted mb-4 ps-2 border-start border-secondary border-opacity-10 border-5">
+          <small class="text-muted"><a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>
+          {% if user.is_authenticated and user.id == post.user.id %}
+          <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-light active text-dark border border-0 btn-sm">
+            <i class="bi bi-pen-fill"></i>
+          </a>
+          {% endif %}
+        </div>
+
       </div>
       {% endfor %}
     </div>
@@ -55,4 +107,3 @@
 {% include 'partials/_footer.html'%}
 
 {% endblock %}
-
