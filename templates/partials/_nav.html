@@ -54,9 +54,15 @@
       <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">
           {% if user.is_authenticated %}
-          <a class="text-light text-decoration-none text-opacity-50 text-truncate" href="{% url 'dashboard' user.username %}">
-          <i class="bi bi-person-circle"></i>&nbsp;{{ user.first_name }}
-          </a>
+            {% if 'dashboard' in url_context %}
+            <a class="text-light text-decoration-none text-truncate active" href="{% url 'dashboard' user.username %}">
+            <i class="bi bi-person-circle"></i>&nbsp;{{ user.first_name }}
+            </a>
+            {% else %}
+            <a class="text-light text-decoration-none text-opacity-50 text-truncate" href="{% url 'dashboard' user.username %}">
+            <i class="bi bi-person-circle"></i>&nbsp;{{ user.first_name }}
+            </a>
+            {% endif %}
           {% else %}
           <img src="{% static 'webprofile/media/webprofile.svg' %}" alt="Logo">Fire
           {% endif %}
