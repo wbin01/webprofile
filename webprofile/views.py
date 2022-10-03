@@ -119,8 +119,23 @@ def search_user(request):
 
 def content(request, url_title, post_id):
     print(url_title)
+
+    # Post content
     post = Post.objects.get(pk=post_id)  # type: ignore
+
+    # Tags
     post_tags = [x for x in post.category.split(',') if x.strip() != '']
+
+    # Recomends
+    recommended_posts = []
+    for p in Post.objects.order_by(  # type: ignore
+            '-publication_date').filter(is_published=True):
+        for tag in post_tags:
+            if tag in p.category:
+                recommended_posts.append(p)
+                break
+        if len(recommended_posts) >= 5:
+            break
 
     # Access (hidden content only for post.user.id)
     if request.user.id != post.user.id and not post.is_published:
@@ -136,6 +151,7 @@ def content(request, url_title, post_id):
     context = {
         'url_context': 'content',
         'post': post,
+        'recommended_posts': recommended_posts,
         'post_tags': post_tags,
         'user_profile': user_profile}
 

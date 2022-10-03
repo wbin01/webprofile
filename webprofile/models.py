@@ -28,7 +28,7 @@ class Post(models.Model):
     image = ResizedImageField(  # models.ImageField
         size=[500, 300], crop=['middle', 'center'],
         upload_to='images/%d/%m/%Y/', blank=True, null=True)
-    summary = models.TextField()
+    summary = models.TextField(max_length=200)
     content = models.TextField()
     category = models.CharField(max_length=100, blank=True, null=True)
     # new_tag = models.CharField(max_length=100)

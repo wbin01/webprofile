@@ -27,20 +27,48 @@
     <!-- /USER -->
   </div>
 </div>
-<!-- ### CONTAINER ### -->
+<!-- CONTAINER -->
 <div class="container-md mt-5">
     <section>
         <p>{{ post.content | safe }}</p>
     </section>
     {% if post_tags %}
-    <div>
-        <hr>
+    <div class="my-5">
         <h6 class="text-muted">TAGS</h6>
         <form class="d-flex" role="search" action="{% url 'search_tag' %}">
         {% for tag in post_tags %}
             <button class="btn btn-light active btn-sm" type="submit" value="{{ tag }}" name="q">{{ tag }}</button>&nbsp;
         {% endfor %}
         </form>
+    </div>
+    {% endif %}
+    {% if recommended_posts %}
+    <div class="mb-5">
+        <h6><u>TALVEZ GOSTE</u></h6>
+        {% for post in recommended_posts %}
+            <div class="card mb-3" style="max-width: 90%;">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <a href="{% url 'content' post.url_title post.id %}">
+                  <img src="{{ post.image.url }}" class="img-fluid rounded-start" alt="...">
+                  </a>
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'content' post.url_title post.id %}" class="card-link text-dark text-decoration-none">
+                            {{ post.title }}
+                        </a>
+                    </h5>
+                    <p class="card-text">{{ post.summary }}</p>
+                    <p class="card-text position-absolute bottom-0">
+                        <small class="text-muted"><a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
     </div>
     {% endif %}
 <!-- / CONTAINER -->
