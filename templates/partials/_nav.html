@@ -24,8 +24,11 @@
     </div><!-- /div start (not authenticated)-->
       <div>
         <!-- Logout Search -->
+        {% if url_context == 'search_post' %}
+        <a class="text-light me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><i class="bi bi-search"></i></a>
+        {% else %}
         <a class="text-light text-opacity-50 me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><i class="bi bi-search"></i></a>
-
+        {% endif %}
         <div class="offcanvas offcanvas-top text-bg-dark container-fluid" style="height: 100px;" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
           <div class="offcanvas-header py-2">
             <span>&nbsp;</span><button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -39,8 +42,8 @@
         </div>
 
         {% if url_context == 'login' %}
-        <a class="navbar-brand text-light text-opacity-50" href="{% url 'login' %}">
-          <small><u>ENTRAR</u></small>
+        <a class="navbar-brand text-light" href="{% url 'login' %}">
+          <small>ENTRAR</small>
         </a>
         {% else %}
         <a class="navbar-brand text-light text-opacity-50" href="{% url 'login' %}">
@@ -49,8 +52,8 @@
         {% endif %}
 
         {% if url_context == 'signup' %}
-        <a class="navbar-brand text-light text-opacity-50" href="{% url 'signup' %}">
-          <small><u>CADASTRAR</u></small>
+        <a class="navbar-brand text-light" href="{% url 'signup' %}">
+          <small>CADASTRAR</small>
         </a>
         {% else %}
         <a class="navbar-brand text-light text-opacity-50" href="{% url 'signup' %}">

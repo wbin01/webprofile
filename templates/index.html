@@ -62,6 +62,8 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+{% else %}
+<div class="mb-4">&nbsp;</div>
 {% endif %}
 <!-- /CAROUSEL -->
 
@@ -85,8 +87,8 @@
       <div class="col">
 
         <div class="card mb-1">
-          <img src="{{ post.image.url }}" class="card-img" alt="...">
           <a href="{% url 'content' post.url_title post.id %}" class="card-link text-light text-decoration-none">
+            <img src="{{ post.image.url }}" class="card-img" alt="...">
 
             <div class="rounded-0 rounded-top w-100 px-2 py-4" style="position: absolute; top: 0px; background-image: url('{{ post.image.url }}'); background-size: cover; filter: blur(3px);">
               <h3 class="opacity-0">{{ post.title }}</h3>

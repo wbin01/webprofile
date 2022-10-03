@@ -18,7 +18,9 @@ def index(request):
                 '-publication_date').filter(is_published=True)),
         items_quantity=2)
 
-    carousel_posts = [posts[0][0], posts[0][1], posts[1][0]] if posts and len(posts) >= 2 else []
+    carousel_posts = (
+        [posts[0][0], posts[0][1], posts[1][0]]
+        if posts and len(posts) >= 2 else [])
 
     # Posts per page
     paginator = Paginator(posts, 2)
@@ -51,7 +53,7 @@ def search_post(request):
 
     # Context
     context = {
-        'url_context': 'index',
+        'url_context': 'search_post',
         'search_text': request.GET['q'],
         'posts': posts}
 
@@ -75,7 +77,7 @@ def search_tag(request):
 
     # Context
     context = {
-        'url_context': 'index',
+        'url_context': 'search_tag',
         'search_text': request.GET['q'],
         'posts': posts}
 
@@ -98,7 +100,7 @@ def search_user(request):
 
     # Context
     context = {
-        'url_context': 'index',
+        'url_context': 'search_user',
         'search_text': request.GET['q'],
         'posts': posts}
 
@@ -118,7 +120,7 @@ def search_user(request):
 def content(request, url_title, post_id):
     print(url_title)
     post = Post.objects.get(pk=post_id)  # type: ignore
-    post_tags = post.category.split(',')
+    post_tags = [x for x in post.category.split(',') if x.strip() != '']
 
     # Access (hidden content only for post.user.id)
     if request.user.id != post.user.id and not post.is_published:
@@ -177,7 +179,7 @@ def create(request, url_to_go_back):
             image=request.FILES.get('image', 'post-default.svg'),
             summary=request.POST['summary'],
             content=content_text,
-            category=request.POST['category'].lower(),
+            category=request.POST['category'].lower().strip(),
             publication_date=timezone.now(),
             is_published=True if 'is_published' in request.POST else False
         )

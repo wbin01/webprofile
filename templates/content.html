@@ -21,7 +21,7 @@
 
         {% endif %}
 
-        <small class="text-muted">Por <a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>
+        <small class="text-muted"><a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>
         </div>
     </div>
     <!-- /USER -->
@@ -32,16 +32,17 @@
     <section>
         <p>{{ post.content | safe }}</p>
     </section>
-
+    {% if post_tags %}
     <div>
         <hr>
         <h6 class="text-muted">TAGS</h6>
         <form class="d-flex" role="search" action="{% url 'search_tag' %}">
         {% for tag in post_tags %}
-            <button class="btn btn-light active btn-sm" type="submit" value="{{ tag }}" name="q">{{ tag.title }}</button>&nbsp;
+            <button class="btn btn-light active btn-sm" type="submit" value="{{ tag }}" name="q">{{ tag }}</button>&nbsp;
         {% endfor %}
         </form>
     </div>
+    {% endif %}
 <!-- / CONTAINER -->
 </div>
 

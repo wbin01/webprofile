@@ -34,7 +34,9 @@ class PostForms(forms.ModelForm):
             'summary': (
                 '<h5>Resumo</h5><small class="text-muted">'
                 'Apresentação resumida do card</small>'),
-            'category': '<h5>Categoria</h5>',
+            'category': (
+                '<h5>Categoria</h5><small class="text-muted">'
+                'Separe por vírgula</small>'),
         }
 
         widgets = {

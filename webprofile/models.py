@@ -22,26 +22,16 @@ from django_resized import ResizedImageField
 
 
 class Post(models.Model):
-    lorem_ipsum = (
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do "
-        "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim "
-        "ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
-        "aliquip ex ea commodo consequat. Duis aute irure dolor in "
-        "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
-        "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in "
-        "culpa qui officia deserunt mollit anim id est laborum."
-    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200, default='Lorem ipsum')
-    url_title = models.CharField(max_length=200, default='post')
-    # image = models.ImageField(
-    #     upload_to='images/%d/%m/%Y/', blank=True, null=True)
-    image = ResizedImageField(
+    title = models.CharField(max_length=200, default='')
+    url_title = models.CharField(max_length=200, default='')
+    image = ResizedImageField(  # models.ImageField
         size=[500, 300], crop=['middle', 'center'],
         upload_to='images/%d/%m/%Y/', blank=True, null=True)
-    summary = models.TextField(default=lorem_ipsum[:122] + '...')
+    summary = models.TextField()
     content = models.TextField()
-    category = models.CharField(max_length=100, default='test')
+    category = models.CharField(max_length=100, blank=True, null=True)
+    # new_tag = models.CharField(max_length=100)
     publication_date = models.DateTimeField(default=datetime.now, blank=True)
     is_published = models.BooleanField()
 
