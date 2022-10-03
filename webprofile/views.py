@@ -18,7 +18,7 @@ def index(request):
                 '-publication_date').filter(is_published=True)),
         items_quantity=2)
 
-    carousel_posts = [posts[0][0], posts[0][1], posts[1][0]]
+    carousel_posts = [posts[0][0], posts[0][1], posts[1][0]] if posts and len(posts) >= 2 else []
 
     # Posts per page
     paginator = Paginator(posts, 2)
@@ -52,6 +52,7 @@ def search_post(request):
     # Context
     context = {
         'url_context': 'index',
+        'search_text': request.GET['q'],
         'posts': posts}
 
     # Add Profile to context
@@ -67,6 +68,30 @@ def search_post(request):
     return render(request, 'search_post.html', context)
 
 
+def search_tag(request):
+    posts = Post.objects.order_by(  # type: ignore
+        '-publication_date').filter(is_published=True).filter(
+        category__icontains=request.GET['q'])
+
+    # Context
+    context = {
+        'url_context': 'index',
+        'search_text': request.GET['q'],
+        'posts': posts}
+
+    # Add Profile to context
+    if request.user.is_authenticated:
+        try:
+            user_profile = get_object_or_404(Profile, user=request.user.id)
+        except Exception as err:
+            print(err)
+            user_profile = None
+
+        context['user_profile'] = user_profile
+
+    return render(request, 'search_tag.html', context)
+
+
 def search_user(request):
     posts = Profile.objects.filter(  # type: ignore
         user__username__icontains=request.GET['q'])
@@ -74,6 +99,7 @@ def search_user(request):
     # Context
     context = {
         'url_context': 'index',
+        'search_text': request.GET['q'],
         'posts': posts}
 
     # Add Profile to context
@@ -92,6 +118,7 @@ def search_user(request):
 def content(request, url_title, post_id):
     print(url_title)
     post = Post.objects.get(pk=post_id)  # type: ignore
+    post_tags = post.category.split(',')
 
     # Access (hidden content only for post.user.id)
     if request.user.id != post.user.id and not post.is_published:
@@ -107,6 +134,7 @@ def content(request, url_title, post_id):
     context = {
         'url_context': 'content',
         'post': post,
+        'post_tags': post_tags,
         'user_profile': user_profile}
 
     return render(request, 'content.html', context)

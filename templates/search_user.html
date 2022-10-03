@@ -8,16 +8,12 @@
 
 <!-- ### CONTAINER ### -->
 <div class="container">
-    {% if user.is_authenticated %}
-    <div class="h4 p-2 mb-4 mt-5 bg-secondary text-secondary border-bottom border-secondary border-opacity-25 d-flex justify-content-between" style="--bs-bg-opacity: .05;">
-        <p>&nbsp;</p>
-        <a type="button" class="btn btn-light text-dark border border-0 btn-lg mt-2" href="{% url 'create' url_context %}">
-            <i class="bi bi-plus-circle-fill"></i>
-        </a>
-    </div>
-    {% else %}
     <div class="mb-5">&nbsp;</div>
-    {% endif %}
+    <h1 class="text-center">
+        <span class="text-muted">"</span>
+        {{ search_text }}
+        <span class="text-muted">"</span>
+    </h1>
 
     {% if posts %}
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 pb-5">

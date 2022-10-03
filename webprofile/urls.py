@@ -11,5 +11,6 @@ urlpatterns = [
     path('update/<int:post_id>', update, name='update'),
     path('delete/<str:url_to_go_back>:<int:post_id>', delete, name='delete'),
     path('search/post', search_post, name='search_post'),
+    path('search/tag', search_tag, name='search_tag'),
     path('search/user', search_user, name='search_user'),
 ]

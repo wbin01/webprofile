@@ -32,6 +32,16 @@
     <section>
         <p>{{ post.content | safe }}</p>
     </section>
+
+    <div>
+        <hr>
+        <h6 class="text-muted">TAGS</h6>
+        <form class="d-flex" role="search" action="{% url 'search_tag' %}">
+        {% for tag in post_tags %}
+            <button class="btn btn-light active btn-sm" type="submit" value="{{ tag }}" name="q">{{ tag.title }}</button>&nbsp;
+        {% endfor %}
+        </form>
+    </div>
 <!-- / CONTAINER -->
 </div>
 

@@ -8,6 +8,7 @@
 <!-- /NAV -->
 
 <!-- CAROUSEL -->
+{% if carousel_posts %}
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
 
   <div class="carousel-indicators">
@@ -61,6 +62,7 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+{% endif %}
 <!-- /CAROUSEL -->
 
 <!-- ### CONTAINER ### -->
@@ -85,16 +87,17 @@
         <div class="card mb-1">
           <img src="{{ post.image.url }}" class="card-img" alt="...">
           <a href="{% url 'content' post.url_title post.id %}" class="card-link text-light text-decoration-none">
-            <div class="card-img-overlay" style="background-image: linear-gradient(rgba(5, 5, 5, 1), rgba(0, 0, 0, 0));">
-              <div class="px-2 py-2 rounded" style="background-color: rgba(25, 25, 25, 0.8);">
-                <h3 class="card-title mb-3">
-                  {{ post.title }}
-                </h3>
-                <p class="card-text text-truncate">
-                  {{ post.summary }}
-                </p>
-              </div>
+
+            <div class="rounded-0 rounded-top w-100 px-2 py-4" style="position: absolute; top: 0px; background-image: url('{{ post.image.url }}'); background-size: cover; filter: blur(3px);">
+              <h3 class="opacity-0">{{ post.title }}</h3>
+              <p class="card-text text-truncate pt-2 opacity-0">{{ post.summary }}</p>
             </div>
+
+            <div class="rounded-0 rounded-top w-100 px-2 py-4" style="position: absolute; top: 0px; background-color: rgba(0, 0, 0, .5);">
+              <h3>{{ post.title }}</h3>
+              <p class="card-text text-truncate pt-2">{{ post.summary }}</p>
+            </div>
+
           </a>
         </div>
         <div class="text-muted mb-4 ps-2 border-start border-secondary border-opacity-10 border-5">
