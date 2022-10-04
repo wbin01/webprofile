@@ -34,17 +34,17 @@
     </section>
     {% if post_tags %}
     <div class="my-5">
-        <h6 class="text-muted">TAGS</h6>
-        <form class="d-flex" role="search" action="{% url 'search_tag' %}">
+        TAGS
+        <form class="d-flex mt-2" role="search" action="{% url 'search_tag' %}">
         {% for tag in post_tags %}
-            <button class="btn btn-light active btn-sm" type="submit" value="{{ tag }}" name="q">{{ tag }}</button>&nbsp;
+            <button class="btn btn-light border text-secondary" type="submit" value="{{ tag }}" name="q">{{ tag }}</button>&nbsp;
         {% endfor %}
         </form>
     </div>
     {% endif %}
     {% if recommended_posts %}
     <div class="mb-5">
-        <h6><u>TALVEZ GOSTE</u></h6>
+        <h6>TALVEZ GOSTE</h6>
         {% for post in recommended_posts %}
             <div class="card mb-3 w-100 p-2">
               <div class="row g-0">
