@@ -86,22 +86,22 @@
       {% for post in post_group %}
       <div class="col">
 
-        <div class="card mb-1">
-          <a href="{% url 'content' post.url_title post.id %}" class="card-link text-light text-decoration-none">
+        <div class="card mb-1" style="padding: 10px;">
+          <a href="{% url 'content' post.url_title post.id %}" class="card-link text-dark text-decoration-none">
             <img src="{{ post.image.url }}" class="card-img" alt="...">
 
-            <div class="rounded-0 rounded-top w-100 px-2 py-4" style="position: absolute; top: 0px; background-image: url('{{ post.image.url }}'); background-size: cover; filter: blur(3px);">
+            <div class="rounded-0 rounded-top px-2 py-4" style="position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); background-image: url('{{ post.image.url }}'); background-size: cover; filter: blur(5px);">
               <h3 class="opacity-0">{{ post.title }}</h3>
               <p class="card-text text-truncate pt-2 opacity-0">{{ post.summary }}</p>
             </div>
 
-            <div class="rounded-0 rounded-top w-100 px-2 py-4" style="position: absolute; top: 0px; background-color: rgba(0, 0, 0, .5);">
+            <div class="rounded-0 rounded-top w-100 px-2 py-4" style="position: absolute; top: 0px; left: 0px; background-color: rgba(255, 255, 255, .7); border: 10px solid #FFF; border-bottom: 0px; text-shadow: 1px 1px 1px #FFF;">
               <h3>{{ post.title }}</h3>
               <p class="card-text text-truncate pt-2">{{ post.summary }}</p>
             </div>
-
           </a>
         </div>
+
         <div class="text-muted mb-4 ps-2 border-start border-secondary border-opacity-10 border-5">
           <small class="text-muted"><a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>
           {% if user.is_authenticated and user.id == post.user.id %}

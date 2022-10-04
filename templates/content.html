@@ -46,22 +46,22 @@
     <div class="mb-5">
         <h6><u>TALVEZ GOSTE</u></h6>
         {% for post in recommended_posts %}
-            <div class="card mb-3" style="max-width: 90%;">
+            <div class="card mb-3 w-100 p-2">
               <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-4" style="background-image: url('{{ post.image.url }}'); background-size: cover;">
                   <a href="{% url 'content' post.url_title post.id %}">
-                  <img src="{{ post.image.url }}" class="img-fluid rounded-start" alt="...">
+                  <img src="{{ post.image.url }}" class="img-fluid rounded-start" alt="..." style="opacity: 0;">
                   </a>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8 bg-light">
                   <div class="card-body">
-                    <h5 class="card-title">
+                    <h3 class="card-title">
                         <a href="{% url 'content' post.url_title post.id %}" class="card-link text-dark text-decoration-none">
                             {{ post.title }}
                         </a>
-                    </h5>
+                    </h3>
                     <p class="card-text">{{ post.summary }}</p>
-                    <p class="card-text position-absolute bottom-0">
+                    <p class="card-text position-absolute bottom-0 mb-2">
                         <small class="text-muted"><a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>
                     </p>
                   </div>
@@ -78,4 +78,3 @@
 {% include 'partials/_footer.html'%}
 
 {% endblock %}
-
