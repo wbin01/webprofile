@@ -34,6 +34,7 @@ class Post(models.Model):
     # new_tag = models.CharField(max_length=100)
     publication_date = models.DateTimeField(default=datetime.now, blank=True)
     is_published = models.BooleanField()
+    is_for_main_page = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

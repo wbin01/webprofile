@@ -26,6 +26,11 @@
                 {% if field.name == 'is_published' %}
                 {{ field }}
                 <label for="{{ field.id_for_label }}">{{ field.label | safe }}</label>
+                {% elif field.name == 'is_for_main_page' %}
+                    {% if user.is_superuser %}
+                        {{ field }}
+                        <label for="{{ field.id_for_label }}">{{ field.label | safe }}</label>
+                    {% endif %}
                 {% else %}
                 <label for="{{ field.id_for_label }}">{{ field.label | safe }}</label>
                 {{ field }}

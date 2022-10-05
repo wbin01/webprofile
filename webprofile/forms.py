@@ -12,10 +12,14 @@ class PostForms(forms.ModelForm):
     is_published = forms.BooleanField(
         label='Marcar como publicado', initial=True, required=False)
 
+    is_for_main_page = forms.BooleanField(
+        label='Publicar na Home', initial=False, required=False)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            if visible.name != 'is_published':
+            if (visible.name != 'is_published'
+                    and visible.name != 'is_for_main_page'):
                 visible.field.widget.attrs['class'] = 'form-control'
 
             if visible.name == 'publication_date':
@@ -24,7 +28,7 @@ class PostForms(forms.ModelForm):
 
     class Meta:
         model = Post
-        exclude = ['user', 'publication_date', 'url_title']  # '__all__'
+        exclude = ['user', 'publication_date', 'url_title', 'is_for_main_page']
 
         labels = {
             'title': '<h5>Título</h5>',

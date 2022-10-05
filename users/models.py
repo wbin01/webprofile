@@ -7,6 +7,7 @@ class FormUser(models.Model):
     email = models.EmailField()  # username and password
     password = models.CharField(max_length=50)
     password_confirm = models.CharField(max_length=50)
+    is_posts_admin = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

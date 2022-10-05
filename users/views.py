@@ -15,6 +15,10 @@ def dashboard(request, username):
     # URL user
     url_user = get_object_or_404(User, username=username)
 
+    # Only superuser access
+    if url_user.is_superuser and request.user.id != url_user.id:
+        return redirect('index')
+
     # Posts
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
@@ -59,7 +63,8 @@ def dashboard_draft(request, username):
     url_user = get_object_or_404(User, username=username)
 
     # Draft access
-    if not request.user.is_authenticated or request.user.id != url_user.id:
+    if (not request.user.is_authenticated or request.user.id != url_user.id
+            and not request.user.is_superuser):
         return redirect('dashboard', username)
 
     # Posts
@@ -174,7 +179,8 @@ def login(request):
                     user_profile = None
 
                 if not user_profile:
-                    create_profile_if_not_exist(request)
+                    create_profile_if_not_exist(request, user)
+                    # request, url_user
 
                 # Show de init page for this new user
                 return redirect('index')

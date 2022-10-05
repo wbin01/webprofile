@@ -12,7 +12,7 @@
         <h1 class="text-center">{{ post.title }}</h1>
         <div class="container-md">
 
-        {% if user.is_authenticated and user.id == post.user.id %}
+        {% if user.is_authenticated and user.id == post.user.id or user.is_superuser %}
         <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-dark text-light active border border-0 btn-sm"><i class="bi bi-pen-fill"></i></a>
 
         {% if not post.is_published %}

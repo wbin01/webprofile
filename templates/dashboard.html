@@ -9,8 +9,11 @@
 <!-- ### CONTAINER ### -->
 <div class="container">
     {% include 'partials/_dashboard_header.html'%}
-    {% if not user.is_authenticated or user.id != url_user.id %}<div class="mb-4">&nbsp;</div>{% endif %}
-
+    {% if not user.is_authenticated %}
+        <div class="mb-4">&nbsp;</div>
+    {% elif user.id != url_user.id and not user.is_superuser %}
+        <div class="mb-4">&nbsp;</div>
+    {% endif %}
    <!-- ### CARD ### -->
     {% if posts_per_page.0 %}
     {% for post_group in posts_per_page %}
@@ -35,8 +38,14 @@
         </div>
 
         <div class="text-muted mb-4 ps-2 border-start border-secondary border-opacity-10 border-5">
-          <small class="text-muted"><a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>
-          {% if user.is_authenticated and user.id == post.user.id %}
+          <small class="text-muted">
+            {% if not post.user.is_superuser %}
+            <a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> -
+            {% endif %}
+            {{ post.publication_date }}
+          </small>
+
+          {% if user.is_authenticated and user.id == post.user.id or user.is_superuser %}
           <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-light active text-dark border border-0 btn-sm">
             <i class="bi bi-pen-fill"></i>
           </a>

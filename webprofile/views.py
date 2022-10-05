@@ -189,7 +189,8 @@ def create(request, url_to_go_back):
 
         # Create post with sent request
         post = Post.objects.create(  # type: ignore
-            user=get_object_or_404(User, pk=request.user.id),
+            # user=get_object_or_404(User, pk=request.user.id),
+            user=request.user,
             title=request.POST['title'],
             url_title=views_validations.normalize_title(request.POST['title']),
             image=request.FILES.get('image', 'post-default.svg'),
@@ -197,7 +198,9 @@ def create(request, url_to_go_back):
             content=content_text,
             category=request.POST['category'].lower().strip(),
             publication_date=timezone.now(),
-            is_published=True if 'is_published' in request.POST else False
+            is_published=True if 'is_published' in request.POST else False,
+            is_for_main_page=(
+                True if 'is_for_main_page' in request.POST else False)
         )
 
         # Save post
@@ -220,102 +223,102 @@ def edit(request, url_title, post_id, url_to_go_back):
     post_to_edit = get_object_or_404(Post, pk=post_id)
 
     # Access
-    if not request.user.is_authenticated or (
-            request.user.id != post_to_edit.user.id):
-        return redirect('index')
+    if (request.user.id == post_to_edit.user.id or
+            request.user.is_superuser):
+        # Form
+        post_forms = PostForms(
+            initial={
+                'user': get_object_or_404(User, pk=request.user.id),
+                'title': post_to_edit.title,
+                'url_title': post_to_edit.url_title,
+                'image': post_to_edit.image.url,
+                'summary': post_to_edit.summary,
+                'content': post_to_edit.content,
+                'category': post_to_edit.category,
+                'publication_date': timezone.now(),
+                'is_published': post_to_edit.is_published,
+                'is_for_main_page': post_to_edit.is_for_main_page,
+            })
 
-    # Form
-    post_forms = PostForms(
-        initial={
-            'user': get_object_or_404(User, pk=request.user.id),
-            'title': post_to_edit.title,
-            'url_title': post_to_edit.url_title,
-            'image': post_to_edit.image.url,
-            'summary': post_to_edit.summary,
-            'content': post_to_edit.content,
-            'category': post_to_edit.category,
-            'publication_date': timezone.now(),
-            'is_published': post_to_edit.is_published,
-        })
+        # Image Label with old image name
+        post_forms['image'].label = (
+                    '<h5>Imagem</h5>'
+                    '<small class="text-muted">Capa do card</small></br>'
+                    '<small class="text-primary text-opacity-50"> ' +
+                    str(post_to_edit.image.url.split("/")[-1]) +
+                    '</small>')
 
-    # Image Label with old image name
-    post_forms['image'].label = (
-                '<h5>Imagem</h5>'
-                '<small class="text-muted">Capa do card</small></br>'
-                '<small class="text-primary text-opacity-50"> ' +
-                str(post_to_edit.image.url.split("/")[-1]) +
-                '</small>')
+        # Profile
+        try:
+            user_profile = get_object_or_404(Profile, user=request.user.id)
+        except Exception as err:
+            print(err)
+            user_profile = None
 
-    # Profile
-    try:
-        user_profile = get_object_or_404(Profile, user=request.user.id)
-    except Exception as err:
-        print(err)
-        user_profile = None
+        # Context
+        context = {
+            'url_context': 'edit',
+            'url_to_go_back': url_to_go_back,
+            'post_forms': post_forms,
+            'post_id': post_id,
+            'url_title': url_title,
+            'message_err': None,
+            'user_profile': user_profile}
 
-    # Context
-    context = {
-        'url_context': 'edit',
-        'url_to_go_back': url_to_go_back,
-        'post_forms': post_forms,
-        'post_id': post_id,
-        'url_title': url_title,
-        'message_err': None,
-        'user_profile': user_profile}
+        return render(request, 'edit.html', context)
 
-    return render(request, 'edit.html', context)
+    return redirect('index')
 
 
 def update(request, post_id):
-    # Access
-    if not request.user.is_authenticated:
-        return redirect('index')
-
-    # Work on sent request
     if request.method == 'POST':
 
-        # Get post
+        # Post
         post = Post.objects.get(pk=post_id)  # type: ignore
 
         # Access
-        if request.user.id != post.user.id:
-            return redirect('index')
+        if (request.user.id == post.user.id or
+                request.user.is_superuser):
 
-        post_content = request.POST['content']
-        content_text = json.loads(post_content)['html'] if post_content else ''
+            post_content = request.POST['content']
+            content_text = json.loads(post_content)['html'] if post_content else ''
 
-        # Update post
-        url_title = views_validations.normalize_title(request.POST['title'])
+            # Update post
+            url_title = views_validations.normalize_title(request.POST['title'])
 
-        post.title = request.POST['title']
-        post.url_title = url_title
-        post.summary = request.POST['summary']
-        post.content = content_text
-        post.category = request.POST['category']
-        post.publication_date = timezone.now()
-        post.is_published = True if 'is_published' in request.POST else False
-        if 'image' in request.FILES:
-            post.image = request.FILES['image']
+            post.title = request.POST['title']
+            post.url_title = url_title
+            post.summary = request.POST['summary']
+            post.content = content_text
+            post.category = request.POST['category']
+            post.publication_date = timezone.now()
+            post.is_published = True if 'is_published' in request.POST else False
+            post.is_for_main_page = (
+                True if 'is_for_main_page' in request.POST else False)
+            if 'image' in request.FILES:
+                post.image = request.FILES['image']
 
-        # Save updated post
-        post.save()
+            # Save updated post
+            post.save()
 
-        # Go to url
-        return redirect('content', url_title, post_id)
+            # Go to url
+            return redirect('content', url_title, post_id)
+
+    return redirect('index')
 
 
 def delete(request, url_to_go_back, post_id):
-    # Access
-    if not request.user.is_authenticated:
-        return redirect('index')
-
     # Post
     post = get_object_or_404(Post, pk=post_id)
 
-    # Delete
-    post.delete()
+    # Access
+    if (request.user.id == post.user.id or
+            request.user.is_superuser):
+        # Delete
+        post.delete()
 
-    # Go to url
-    if 'dashboard' in url_to_go_back:
-        return redirect(url_to_go_back, request.user.username)
+        # Go to url
+        if 'dashboard' in url_to_go_back:
+            return redirect(url_to_go_back, request.user.username)
+
     return redirect('index')
