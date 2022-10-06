@@ -228,7 +228,7 @@ def edit(request, url_title, post_id, url_to_go_back):
         # Form
         post_forms = PostForms(
             initial={
-                'user': get_object_or_404(User, pk=request.user.id),
+                'user': post_to_edit.user.id,
                 'title': post_to_edit.title,
                 'url_title': post_to_edit.url_title,
                 'image': post_to_edit.image.url,
@@ -261,7 +261,11 @@ def edit(request, url_title, post_id, url_to_go_back):
             'url_to_go_back': url_to_go_back,
             'post_forms': post_forms,
             'post_id': post_id,
+            'post_user_id': post_to_edit.user.id,
+            'post_user_first_name': post_to_edit.user.first_name,
+            'post_title': post_to_edit.title,
             'url_title': url_title,
+
             'message_err': None,
             'user_profile': user_profile}
 

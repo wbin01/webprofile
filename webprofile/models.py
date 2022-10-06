@@ -35,6 +35,9 @@ class Post(models.Model):
     publication_date = models.DateTimeField(default=datetime.now, blank=True)
     is_published = models.BooleanField()
     is_for_main_page = models.BooleanField(default=False)
+    is_locked_for_review = models.BooleanField(default=False)
+    review_reason = models.TextField(
+        default='Sinalizado como conteúdo potencialmente sensível')
 
     def __str__(self):
         return self.title
