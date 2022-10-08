@@ -369,6 +369,6 @@ def delete(request, url_to_go_back, post_id):
 
         # Go to url
         if 'dashboard' in url_to_go_back:
-            return redirect(url_to_go_back, request.user.username)
+            return redirect(url_to_go_back, post.user.username)
 
     return redirect('index')
