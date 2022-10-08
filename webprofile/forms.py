@@ -35,7 +35,7 @@ class PostForms(forms.ModelForm):
 
     class Meta:
         model = Post
-        exclude = ['user', 'publication_date', 'url_title', 'is_for_main_page']
+        exclude = ['user', 'publication_date', 'url_title']
 
         labels = {
             'title': '<h5>Título</h5>',

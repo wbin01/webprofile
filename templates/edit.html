@@ -27,7 +27,7 @@
                 {{ field }}
                 <label for="{{ field.id_for_label }}">{{ field.label | safe }}</label>
               {% elif field.name == 'is_locked_for_review' or field.name == 'review_reason' %}
-
+                <label for="{{ field.id_for_label }}" hidden>{{ field }}</label>
               {% else %}
                 <label for="{{ field.id_for_label }}">{{ field.label | safe }}</label>
                 {{ field }}
@@ -41,6 +41,8 @@
               {% elif field.name == 'review_reason' %}
                 <label for="{{ field.id_for_label }}">{{ field.label | safe }}</label>
                 {{ field }}
+              {% else %}
+                <label for="{{ field.id_for_label }}" hidden>{{ field }}</label>
               {% endif %}
 
         <!-- User editing User post -->
@@ -49,7 +51,7 @@
                 {{ field }}
                 <label for="{{ field.id_for_label }}">{{ field.label | safe }}</label>
               {% elif field.name == 'is_locked_for_review' or field.name == 'review_reason' or field.name == 'is_for_main_page' %}
-
+                <label for="{{ field.id_for_label }}" hidden>{{ field }}</label>
               {% else %}
                 <label for="{{ field.id_for_label }}">{{ field.label | safe }}</label>
                 {{ field }}

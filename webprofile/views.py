@@ -1,7 +1,7 @@
 import json
 from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from webprofile.forms import PostForms
 from webprofile.models import Post
@@ -14,8 +14,10 @@ def index(request):
     # All posts of all users
     posts = views_validations.separate_posts_into_quantity_groups(
         posts_list=(
-            Post.objects.order_by(  # type: ignore
-                '-publication_date').filter(is_published=True)),
+            Post.objects.order_by('-publication_date')  # type: ignore
+            .filter(is_published=True)
+            .filter(is_for_main_page=True)
+            .filter(is_locked_for_review=False)),
         items_quantity=2)
 
     carousel_posts = (
@@ -200,7 +202,12 @@ def create(request, url_to_go_back):
             publication_date=timezone.now(),
             is_published=True if 'is_published' in request.POST else False,
             is_for_main_page=(
-                True if 'is_for_main_page' in request.POST else False)
+                True if 'is_for_main_page' in request.POST else False),
+            is_locked_for_review=(
+                True if 'is_locked_for_review' in request.POST else False),
+            review_reason=(
+                request.POST['review_reason']
+                if 'review_reason' in request.POST else ''),
         )
 
         # Save post
@@ -238,6 +245,8 @@ def edit(request, url_title, post_id, url_to_go_back):
                 'publication_date': timezone.now(),
                 'is_published': post_to_edit.is_published,
                 'is_for_main_page': post_to_edit.is_for_main_page,
+                'is_locked_for_review': post_to_edit.is_locked_for_review,
+                'review_reason': post_to_edit.review_reason,
             })
 
         # Image Label with old image name
@@ -247,6 +256,11 @@ def edit(request, url_title, post_id, url_to_go_back):
                     '<small class="text-primary text-opacity-50"> ' +
                     str(post_to_edit.image.url.split("/")[-1]) +
                     '</small>')
+
+        print('INITIALS')
+        print('is_published', post_to_edit.is_published)
+        print('is_for_main_page', post_to_edit.is_for_main_page)
+        print('is_locked_for_review', post_to_edit.is_locked_for_review)
 
         # Profile
         try:
@@ -265,7 +279,6 @@ def edit(request, url_title, post_id, url_to_go_back):
             'post_user_first_name': post_to_edit.user.first_name,
             'post_title': post_to_edit.title,
             'url_title': url_title,
-
             'message_err': None,
             'user_profile': user_profile}
 
@@ -284,23 +297,53 @@ def update(request, post_id):
         if (request.user.id == post.user.id or
                 request.user.is_superuser):
 
-            post_content = request.POST['content']
-            content_text = json.loads(post_content)['html'] if post_content else ''
-
             # Update post
-            url_title = views_validations.normalize_title(request.POST['title'])
+            url_title = views_validations.normalize_title(post.title)
 
-            post.title = request.POST['title']
-            post.url_title = url_title
-            post.summary = request.POST['summary']
-            post.content = content_text
-            post.category = request.POST['category']
-            post.publication_date = timezone.now()
-            post.is_published = True if 'is_published' in request.POST else False
-            post.is_for_main_page = (
-                True if 'is_for_main_page' in request.POST else False)
+            if 'title' in request.POST:
+                url_title = views_validations.normalize_title(
+                    request.POST['title'])
+                post.title = request.POST['title']
+                post.url_title = url_title
+
             if 'image' in request.FILES:
                 post.image = request.FILES['image']
+
+            if 'summary' in request.POST:
+                post.summary = request.POST['summary']
+
+            if 'content' in request.POST:
+                _content = request.POST['content']
+                content_text = json.loads(_content)['html'] if _content else ''
+                post.content = content_text
+
+            if 'category' in request.POST:
+                post.category = request.POST['category']
+
+            if 'publication_date' in request.POST:
+                post.publication_date = timezone.now()
+
+            # Seperuser edit Superuser post
+            if request.user.is_superuser and post.user.is_superuser:
+                post.is_published = (
+                    True if 'is_published' in request.POST else False)
+                post.is_for_main_page = (
+                    True if 'is_for_main_page' in request.POST else False)
+
+            # Seperuser edit User post
+            elif request.user.is_superuser and not post.user.is_superuser:
+                post.is_for_main_page = (
+                    True if 'is_for_main_page' in request.POST else False)
+                post.is_locked_for_review = (
+                    True if 'is_locked_for_review' in request.POST else False)
+
+            # User edit post
+            elif not request.user.is_superuser:
+                post.is_published = (
+                    True if 'is_published' in request.POST else False)
+
+            if 'review_reason' in request.POST:
+                post.review_reason = request.POST['review_reason']
 
             # Save updated post
             post.save()
