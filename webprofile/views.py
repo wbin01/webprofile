@@ -49,9 +49,10 @@ def index(request):
 
 
 def search_post(request):
-    posts = Post.objects.order_by(  # type: ignore
+    search_text = request.GET['q']
+    posts = (Post.objects.order_by(  # type: ignore
         '-publication_date').filter(is_published=True).filter(
-        title__icontains=request.GET['q'])
+        title__icontains=search_text) if search_text else [])
 
     # Context
     context = {
@@ -73,9 +74,10 @@ def search_post(request):
 
 
 def search_tag(request):
-    posts = Post.objects.order_by(  # type: ignore
+    search_text = request.GET['q']
+    posts = (Post.objects.order_by(  # type: ignore
         '-publication_date').filter(is_published=True).filter(
-        category__icontains=request.GET['q'])
+        category__icontains=search_text) if search_text else [])
 
     # Context
     context = {
@@ -97,8 +99,9 @@ def search_tag(request):
 
 
 def search_user(request):
-    posts = Profile.objects.filter(  # type: ignore
-        user__username__icontains=request.GET['q'])
+    search_text = request.GET['q']
+    posts = (Profile.objects.filter(  # type: ignore
+        user__username__icontains=search_text) if search_text else [])
 
     # Context
     context = {
