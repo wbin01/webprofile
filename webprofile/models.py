@@ -37,6 +37,7 @@ class Post(models.Model):
     is_for_main_page = models.BooleanField(default=False)
     is_locked_for_review = models.BooleanField(default=False)
     review_reason = models.TextField(
+        max_length=105,
         default='Sinalizado como sensível', blank=True, null=True)
 
     def __str__(self):

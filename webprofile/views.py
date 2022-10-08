@@ -142,9 +142,10 @@ def content(request, url_title, post_id):
         if len(recommended_posts) >= 5:
             break
 
-    # Access (hidden content only for post.user.id)
-    if request.user.id != post.user.id and not post.is_published:
-        return redirect('index')
+    # Access (hidden content only for post.user.id and superuser)
+    if not request.user.is_superuser and request.user.id != post.user.id:
+        if not post.is_published or post.is_locked_for_review:
+            return redirect('index')
 
     # Profile
     try:
@@ -278,9 +279,10 @@ def edit(request, url_title, post_id, url_to_go_back):
             'url_to_go_back': url_to_go_back,
             'post_forms': post_forms,
             'post_id': post_id,
-            'post_user_id': post_to_edit.user.id,
-            'post_user_first_name': post_to_edit.user.first_name,
-            'post_title': post_to_edit.title,
+            'post_user_id': post_to_edit.user.id,  # post
+            'post_user_first_name': post_to_edit.user.first_name,  # post
+            'post_title': post_to_edit.title,  # post
+            'post': post_to_edit,
             'url_title': url_title,
             'message_err': None,
             'user_profile': user_profile}

@@ -69,9 +69,9 @@
         {% endfor %}
 
             {% if url_to_go_back == 'dashboard' %}
-            <a type="button" href="{% url 'dashboard' user.username %}" class="btn btn-light active text-danger border border-0"><i class="bi bi-x-lg"></i></a>
+            <a type="button" href="{% url 'dashboard' post.user.username %}" class="btn btn-light active text-danger border border-0"><i class="bi bi-x-lg"></i></a>
             {% elif url_to_go_back == 'dashboard_draft' %}
-            <a type="button" href="{% url 'dashboard_draft' user.username %}" class="btn btn-light active text-danger border border-0"><i class="bi bi-x-lg"></i></a>
+            <a type="button" href="{% url 'dashboard_draft' post.user.username %}" class="btn btn-light active text-danger border border-0"><i class="bi bi-x-lg"></i></a>
             {% elif url_to_go_back == 'index' %}
             <a type="button" href="{% url 'index' %}" class="btn btn-light active text-danger border border-0"><i class="bi bi-x-lg"></i></a>
             {% elif url_to_go_back == 'content' %}

@@ -50,8 +50,8 @@ class PostForms(forms.ModelForm):
                 'Separe por vírgula</small>'),
             'review_reason': (
                 '<h5>Mensagem da revisão</h5><small class="text-muted">'
-                'Motivo do bloqueio. '
-                'Se for excluir, avise quando e porque</small>'),
+                'Breve motivo do bloqueio (105 Caracteres). '
+                'Coloque os detalhes na notificação.</small>'),
         }
 
         widgets = {

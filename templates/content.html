@@ -9,6 +9,16 @@
   <div style="height: 350px; background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));">
     <!-- USER -->
     <div class="position-absolute pb-2 w-100 bottom-0 text-light">
+
+        {% if post.is_locked_for_review %}
+        <h2 class="text-muted text-center"><i class="bi bi-eye-slash-fill"></i> Bloqueado para análise</h2>
+          {% if user.is_superuser %}
+          <h4 class="text-muted text-center">Visível somente para: '{{ user.username }}' e '{{ post.user.first_name }}'</h4>
+          {% else %}
+          <h4 class="text-muted text-center">Visível somente por você {{ post.user.first_name }}</h4>
+          {% endif %}
+        {% endif %}
+
         <h1 class="text-center">{{ post.title }}</h1>
         <div class="container-md">
 
