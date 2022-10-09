@@ -7,12 +7,12 @@ from webprofile.forms import PostForms
 from webprofile.models import Post
 from profiles.models import Profile
 
-import views_validations
+import views_tools
 
 
 def index(request):
     # All posts of all users
-    posts = views_validations.separate_posts_into_quantity_groups(
+    posts = views_tools.separate_posts_into_quantity_groups(
         posts_list=(
             Post.objects.order_by('-publication_date')  # type: ignore
             .filter(is_published=True)
@@ -33,7 +33,9 @@ def index(request):
     context = {
         'url_context': 'index',
         'posts_per_page': posts_per_page,
-        'carousel_posts': carousel_posts}
+        'carousel_posts': carousel_posts,
+        'color': views_tools.color,
+        'font': views_tools.font}
 
     # Add Profile to context
     if request.user.is_authenticated:
@@ -198,7 +200,7 @@ def create(request, url_to_go_back):
             # user=get_object_or_404(User, pk=request.user.id),
             user=request.user,
             title=request.POST['title'],
-            url_title=views_validations.normalize_title(request.POST['title']),
+            url_title=views_tools.normalize_title(request.POST['title']),
             image=request.FILES.get('image', 'post-default.svg'),
             summary=request.POST['summary'],
             content=content_text,
@@ -303,10 +305,10 @@ def update(request, post_id):
                 request.user.is_superuser):
 
             # Update post
-            url_title = views_validations.normalize_title(post.title)
+            url_title = views_tools.normalize_title(post.title)
 
             if 'title' in request.POST:
-                url_title = views_validations.normalize_title(
+                url_title = views_tools.normalize_title(
                     request.POST['title'])
                 post.title = request.POST['title']
                 post.url_title = url_title

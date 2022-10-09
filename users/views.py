@@ -8,7 +8,7 @@ from profiles.models import Profile
 from profiles.views import create_profile_if_not_exist
 import string
 
-import views_validations
+import views_tools
 
 
 def dashboard(request, username):
@@ -20,7 +20,7 @@ def dashboard(request, username):
         return redirect('index')
 
     # Posts
-    posts = views_validations.separate_posts_into_quantity_groups(
+    posts = views_tools.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
             '-publication_date').filter(
             user=url_user, is_published=True), items_quantity=2)
@@ -53,7 +53,8 @@ def dashboard(request, username):
         'url_user': url_user,
         'posts_per_page': posts_per_page,
         'url_user_profile': url_user_profile,
-        'user_profile': user_profile}
+        'user_profile': user_profile,
+        'color': views_tools.color}
 
     return render(request, 'dashboard.html', context)
 
@@ -68,7 +69,7 @@ def dashboard_draft(request, username):
         return redirect('dashboard', username)
 
     # Posts
-    posts = views_validations.separate_posts_into_quantity_groups(
+    posts = views_tools.separate_posts_into_quantity_groups(
         posts_list=Post.objects.order_by(  # type: ignore
             '-publication_date').filter(user=url_user, is_published=False),
         items_quantity=2)

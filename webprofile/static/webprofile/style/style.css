@@ -1,0 +1,62 @@
+ @font-face {
+    font-family: "Sen Regular";
+    src: url("Sen-Regular.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Sen Bold";
+    src: url("Sen-Bold.ttf") format("truetype");
+}
+@font-face {
+    font-family: "SecularOne Regular";
+    src: url("SecularOne-Regular.ttf") format("truetype");
+}
+@font-face {
+    font-family: "ArchivoBlack Regular";
+    src: url("ArchivoBlack-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "CormorantGaramond Regular";
+    src: url("CormorantGaramond-Regular.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Poppins Regular";
+    src: url("Poppins-Regular.ttf") format("truetype");
+}
+
+.pagination > li > a {
+  background-color: white;
+  color: #444;
+}
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+  color: #fff;
+  background-color: #888;
+  border-color: #888;
+}
+.pagination > .active > a {
+  color: white;
+  background-color: #444 !Important;
+  border: solid 1px #444 !Important;
+}
+.pagination > .active > a:hover {
+  background-color: #444 !Important;
+  border: solid 1px #444;
+}
+.card .content {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #000;
+    border-bottom: 3px solid #FFF;
+}
+.card .content h3 {
+    color: #FFF;
+    font-family: "Sen Bold", sans-serif;
+}
+.card .content p {
+    color: #AAA;
+    font-family: "Poppins Regular", sans-serif;
+}

@@ -22,25 +22,20 @@
       {% if post.is_locked_for_review and not user.is_superuser and user.id != post.user.id %}
       {% else %}
       <div class="col">
-        <div class="card mb-1" style="padding: 10px;">
+        <div class="card mb-1 border-0">
           <a href="{% url 'content' post.url_title post.id %}" class="card-link text-dark text-decoration-none">
 
             <img src="{{ post.image.url }}" class="card-img" alt="...">
-
-            <div class="rounded-0 rounded-top px-2 py-4" style="position: absolute; top: 7px; left: 7px; width: calc(100% - 20px); background-image: url('{{ post.image.url }}'); background-size: cover; filter: blur(3px);">
-              <h3 class="opacity-0">{{ post.title }}</h3>
-              <p class="card-text text-truncate pt-2 opacity-0">{{ post.summary }}</p>
-            </div>
-
-            <div class="rounded-0 rounded-top w-100 px-2 py-4" style="position: absolute; top: 0px; left: 0px; background-color: rgba(255, 255, 255, .7); border: 10px solid #FFF; border-bottom: 0px; text-shadow: 1px 1px 1px #FFF;">
+            <!--width: calc(100% - 20px);-->
+            <div class="rounded-0 rounded-top w-100 px-2 py-4 content">
               <h3>{{ post.title }}</h3>
               <p class="card-text text-truncate pt-2">{{ post.summary }}</p>
             </div>
 
             {% if post.is_locked_for_review %}
-            <div class="rounded w-100 h-100 px-2 py-0 my-0" style="position: absolute; top: 0px; left: 0px; background-color: #FFF; border: 10px solid #FFF; border-bottom: 0px;">
+            <div class="rounded px-2 py-2 my-0" style="position: absolute; top: 8px; left: 8px; width: calc(100% - 16px); height: calc(100% - 16px); background-color: #F5F5F5;">
               <h6 class="opacity-25 text-truncate pb-1">{{ post.title }}</h6>
-              <div class="text-secondary text-opacity-50 p-0 m-0"><hr></div>
+              <div class="p-0 m-0 w-100" style="height: 1px; background-color: #FFF"></div>
 
               <h3 class="py-0 my-0">Bloqueado para análise</h3>
               {% if user.is_superuser %}
@@ -48,7 +43,7 @@
               {% else %}
               <p class="text-truncate py-0 my-0"> Visível somente por você</p>
               {% endif %}
-              <p class="pt-2 font-monospace"><small>{{ post.review_reason }}</small></p>
+              <p class="pt-2"><small>{{ post.review_reason }}</small></p>
             </div>
             {% endif %}
 

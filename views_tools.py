@@ -1,6 +1,29 @@
 import unicodedata
 
 
+def color() -> dict:
+    h = '#FFF'
+    return {
+        'card': {
+            'h1': h, 'h2': h, 'h3': h,
+            'h4': h, 'h5': h, 'h6': h,
+            'p': '#AAA'},
+        'content': {
+            'h1': h, 'h2': h, 'h3': h,
+            'h4': h, 'h5': h, 'h6': h,
+            'p': '#55555'},
+    }
+
+
+def font() -> dict:
+    h = 'Alkalami'
+    return {
+        'card': {
+            'h1': h, 'h2': h, 'h3': h,
+            'h4': h, 'h5': h, 'h6': h}
+    }
+
+
 def separate_posts_into_quantity_groups(
         posts_list: list, items_quantity: int) -> list:
     """Separate on groups
@@ -36,4 +59,3 @@ def normalize_title(title: str):
     return ''.join(
         c for c in unicodedata.normalize('NFD', title)
         if unicodedata.category(c) != 'Mn').replace(' ', '_').lower()
-
