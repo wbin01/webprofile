@@ -86,19 +86,19 @@
       {% for post in post_group %}
       <div class="col">
 
-        <div class="card mb-1 border-0">
+        <div class="card mb-1 border-0 rounded-0">
           <a href="{% url 'content' post.url_title post.id %}" class="card-link text-dark text-decoration-none">
-            <img src="{{ post.image.url }}" class="card-img" alt="...">
+            <img src="{{ post.image.url }}" class="card-img rounded-0" alt="...">
 
-            <div class="rounded-0 rounded-top w-100 px-2 py-4 content">
+            <div class="content rounded-0 w-100 p-2">
               <h3>{{ post.title }}</h3>
               <p class="card-text text-truncate pt-2">{{ post.summary }}</p>
             </div>
           </a>
         </div>
 
-        <div class="text-muted mb-4 ps-2 border-start border-secondary border-opacity-10 border-5">
-          <small class="text-muted">
+        <div class="pb-4">
+          <small class="content-card-footer">
             {% if not post.user.is_superuser %}
             <a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> -
             {% endif %}

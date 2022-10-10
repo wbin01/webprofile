@@ -20,14 +20,16 @@
     <div class="row row-cols-1 row-cols-md-2 g-4">
       {% for post in post_group %}
       {% if post.is_locked_for_review and not user.is_superuser and user.id != post.user.id %}
+        <div class="card mb-1">
+        </div>
       {% else %}
       <div class="col">
-        <div class="card mb-1 border-0">
+        <div class="card mb-1 border-0 rounded-0">
           <a href="{% url 'content' post.url_title post.id %}" class="card-link text-dark text-decoration-none">
 
-            <img src="{{ post.image.url }}" class="card-img" alt="...">
+            <img src="{{ post.image.url }}" class="card-img rounded-0" alt="...">
             <!--width: calc(100% - 20px);-->
-            <div class="rounded-0 rounded-top w-100 px-2 py-4 content">
+            <div class="content rounded-0 w-100 p-2">
               <h3>{{ post.title }}</h3>
               <p class="card-text text-truncate pt-2">{{ post.summary }}</p>
             </div>
@@ -35,13 +37,13 @@
             {% if post.is_locked_for_review %}
             <div class="rounded px-2 py-2 my-0" style="position: absolute; top: 8px; left: 8px; width: calc(100% - 16px); height: calc(100% - 16px); background-color: #F5F5F5;">
               <h6 class="opacity-25 text-truncate pb-1">{{ post.title }}</h6>
-              <div class="p-0 m-0 w-100" style="height: 1px; background-color: #FFF"></div>
+              <div class="p-0 m-0 w-100" style="height: 2px; background-color: #FFF"></div>
 
               <h3 class="py-0 my-0">Bloqueado para análise</h3>
               {% if user.is_superuser %}
-              <p class="text-truncate py-0 my-0"> Visível por você e o usuário '{{ post.user.first_name }}'</p>
+              <p class="text-truncate text-muted py-0 my-0"> Visível por você e o usuário '{{ post.user.first_name }}'</p>
               {% else %}
-              <p class="text-truncate py-0 my-0"> Visível somente por você</p>
+              <p class="text-truncate text-muted py-0 my-0"> Visível somente por você</p>
               {% endif %}
               <p class="pt-2"><small>{{ post.review_reason }}</small></p>
             </div>
@@ -50,10 +52,10 @@
           </a>
         </div>
 
-        <div class="text-muted mb-4 ps-2 border-start border-secondary border-opacity-10 border-5">
-          <small class="text-muted">
+        <div class="pb-4">
+          <small class="content-card-footer">
             {% if not post.user.is_superuser %}
-            <a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> -
+            <a href="{% url 'dashboard' post.user.username %}">{{ post.user.first_name }}</a> -
             {% endif %}
             {{ post.publication_date }}
           </small>
@@ -85,6 +87,3 @@
 {% include 'partials/_footer.html'%}
 
 {% endblock %}
-<!--                {% if user.is_authenticated and user.id == post.user.id %}-->
-<!--                <i class="bi bi-eye-slash-fill"></i>-->
-<!--                {% endif %}-->
