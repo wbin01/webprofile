@@ -19,31 +19,34 @@
     {% if posts %}
     <div class="row row-cols-1 row-cols-md-2 g-4">
       {% for post in posts %}
-      <div class="col">
+      <div class="col card-box mb-4">
 
-        <div class="card mb-1" style="padding: 10px;">
+        <div class="position-relative card mb-1 border-0" style="padding: 10px;">
           <a href="{% url 'content' post.url_title post.id %}" class="card-link text-dark text-decoration-none">
             <img src="{{ post.image.url }}" class="card-img" alt="...">
-
-            <div class="rounded-0 rounded-top px-2 py-4" style="position: absolute; top: 7px; left: 7px; width: calc(100% - 20px); background-image: url('{{ post.image.url }}'); background-size: cover; filter: blur(3px);">
-              <h3 class="opacity-0">{{ post.title }}</h3>
-              <p class="card-text text-truncate pt-2 opacity-0">{{ post.summary }}</p>
+            <!-- Image blur -->
+            <div class="customcard rounded-0 rounded-top px-2 py-4" style="position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); background-image: url('{{ post.image.url }}'); background-size: cover; filter: blur(3px);">
+              <h2 class="opacity-0">{{ post.title }}</h2>
+              <p class="card-text text-truncate opacity-0">{{ post.summary }}</p>
             </div>
-
-            <div class="rounded-0 rounded-top w-100 px-2 py-4" style="position: absolute; top: 0px; left: 0px; background-color: rgba(255, 255, 255, .7); border: 10px solid #FFF; border-bottom: 0px; text-shadow: 1px 1px 1px #FFF;">
-              <h3>{{ post.title }}</h3>
-              <p class="card-text text-truncate pt-2">{{ post.summary }}</p>
+            <!-- BG and Text -->
+            <div class="customcard rounded-0 rounded-top px-2 py-4" style="position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); background-color: rgba(0, 0, 0, 0.8);">
+              <h2>{{ post.title }}</h2>
+              <p class="card-text text-truncate">{{ post.summary }}</p>
+            </div>
+            <!-- Border -->
+            <div class="customcard rounded-0 rounded-top w-100 px-2 py-4" style="position: absolute; top: 0px; left: 0px; border: 10px solid #FFF; border-bottom: 0px;">
+              <h2 class="opacity-0">{{ post.title }}</h2>
+              <p class="card-text text-truncate opacity-0">{{ post.summary }}</p>
             </div>
           </a>
-        </div>
-
-        <div class="text-muted mb-4 ps-2 border-start border-secondary border-opacity-10 border-5">
-          <small class="text-muted"><a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>
-          {% if user.is_authenticated and user.id == post.user.id %}
-          <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-light active text-dark border border-0 btn-sm">
-            <i class="bi bi-pen-fill"></i>
-          </a>
-          {% endif %}
+          <div class="position-absolute bottom-0 end-0 translate-middle">
+            {% if user.is_authenticated and user.id == post.user.id %}
+            <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-light active text-dark border border-0 btn-sm">
+              <i class="bi bi-pen-fill"></i>
+            </a>
+            {% endif %}
+          </div>
         </div>
 
       </div>

@@ -20,10 +20,20 @@ def dashboard(request, username):
         return redirect('index')
 
     # Posts
-    posts = views_tools.separate_posts_into_quantity_groups(
-        posts_list=Post.objects.order_by(  # type: ignore
-            '-publication_date').filter(
-            user=url_user, is_published=True), items_quantity=2)
+    if not request.user.is_authenticated:
+        posts = views_tools.separate_posts_into_quantity_groups(
+            posts_list=Post.objects.order_by(  # type: ignore
+                '-publication_date').filter(
+                user=url_user,
+                is_published=True,
+                is_locked_for_review=False),
+            items_quantity=2)
+    else:
+        posts = views_tools.separate_posts_into_quantity_groups(
+            posts_list=Post.objects.order_by(  # type: ignore
+                '-publication_date').filter(
+                user=url_user, is_published=True),
+            items_quantity=2)
 
     # Posts per page
     paginator = Paginator(posts, 2)
