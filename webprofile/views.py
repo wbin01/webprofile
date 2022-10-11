@@ -136,7 +136,10 @@ def content(request, url_title, post_id):
     # Recomends
     recommended_posts = []
     for p in Post.objects.order_by(  # type: ignore
-            '-publication_date').filter(is_published=True):
+        '-publication_date').filter(
+            is_published=True).filter(
+            is_locked_for_review=False):
+
         for tag in post_tags:
             if tag in p.category:
                 recommended_posts.append(p)

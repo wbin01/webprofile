@@ -23,6 +23,29 @@
     font-family: "Poppins Regular";
     src: url("Poppins-Regular.ttf") format("truetype");
 }
+.style-link a, .style-link a:link, .style-link a:active, .style-link a:visited {
+    text-decoration: none;
+    padding: 1px 2px 1px 2px;
+    color: black;
+    box-shadow: inset 0 -3px 0 -1px black;
+    transition: box-shadow .15s ease-in-out;
+}
+.style-link a:hover {
+    color: white;
+    box-shadow: inset 0 -40px 0 -1px black;
+}
+
+.inverted-style-link a, .inverted-style-link a:link, .inverted-style-link a:active, .inverted-style-link a:visited {
+    text-decoration: none;
+    padding: 1px 2px 1px 2px;
+    color: white;
+    box-shadow: inset 0 -3px 0 -1px white;
+    transition: box-shadow .15s ease-in-out;
+}
+.inverted-style-link a:hover {
+    color: black;
+    box-shadow: inset 0 -40px 0 -1px white;
+}
 
 .pagination > li > a {
   background-color: white;
@@ -45,23 +68,20 @@
   background-color: #444 !Important;
   border: solid 1px #444;
 }
-.card .custom-link a, .card .custom-link a:link, .card .custom-link a:active, .card .custom-link a:visited {
-    text-decoration: none;
-    padding: 1px 2px 1px 2px;
-    color: black;
-    box-shadow: inset 0 -3px 0 -1px black;
-    transition: box-shadow .15s ease-in-out;
-}
-.card .custom-link a:hover {
-    color: white;
-    box-shadow: inset 0 -40px 0 -1px black;
-}
-
 .customcard h2 {
     color: #FFF;
     font-family: "Sen Bold", sans-serif;
 }
 .customcard p {
     color: #FFF;
+    font-family: "Poppins Regular", sans-serif;
+}
+
+.customrecommends h3 {
+    color: #000;
+    font-family: "Sen Bold", sans-serif;
+}
+.customrecommends p {
+    color: #888;
     font-family: "Poppins Regular", sans-serif;
 }

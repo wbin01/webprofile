@@ -40,8 +40,9 @@
               <p class="card-text text-truncate opacity-0">{{ post.summary }}</p>
             </div>
           </a>
+          <!-- Edit -->
           <div class="position-absolute bottom-0 end-0 translate-middle">
-            {% if user.is_authenticated and user.id == post.user.id %}
+            {% if user.is_authenticated and user.id == post.user.id or user.is_superuser %}
             <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-light active text-dark border border-0 btn-sm">
               <i class="bi bi-pen-fill"></i>
             </a>
