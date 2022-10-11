@@ -71,6 +71,9 @@
 .customcard h2 {
     color: #FFF;
     font-family: "Sen Bold", sans-serif;
+    padding: 0px;
+    margin: 0px;
+    font-size: 25px;
 }
 .customcard p {
     color: #FFF;
@@ -84,4 +87,30 @@
 .customrecommends p {
     color: #888;
     font-family: "Poppins Regular", sans-serif;
+}
+.custom-block {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    background-color: #F5F5F5;
+    border: 10px solid #F00;
+}
+
+.custom-block h2 {
+    color: #000;
+    font-family: "Sen Bold", sans-serif;
+}
+.custom-block p {
+    color: #888;
+    font-family: "Poppins Regular", sans-serif;
+}
+
+.custom-block-post-title {
+    background-color: #555;
+}
+.custom-block-post-title h4 {
+    color: #AAA;
+    font-family: "Sen Bold", sans-serif;
 }

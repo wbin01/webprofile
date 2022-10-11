@@ -23,7 +23,7 @@ from django_resized import ResizedImageField
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200, default='')
+    title = models.CharField(max_length=90, default='')
     url_title = models.CharField(max_length=200, default='')
     image = ResizedImageField(  # models.ImageField
         size=[500, 300], crop=['middle', 'center'],

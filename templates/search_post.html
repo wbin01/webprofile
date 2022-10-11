@@ -25,19 +25,16 @@
           <a href="{% url 'content' post.url_title post.id %}" class="card-link text-dark text-decoration-none">
             <img src="{{ post.image.url }}" class="card-img" alt="...">
             <!-- Image blur -->
-            <div class="customcard rounded-0 rounded-top px-2 py-4" style="position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); background-image: url('{{ post.image.url }}'); background-size: cover; filter: blur(3px);">
+            <div class="customcard rounded-0 rounded-top p-2" style="position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); background-image: url('{{ post.image.url }}'); background-size: cover; filter: blur(3px);">
               <h2 class="opacity-0">{{ post.title }}</h2>
-              <p class="card-text text-truncate opacity-0">{{ post.summary }}</p>
             </div>
             <!-- BG and Text -->
-            <div class="customcard rounded-0 rounded-top px-2 py-4" style="position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); background-color: rgba(0, 0, 0, 0.8);">
+            <div class="customcard rounded-0 rounded-top p-2" style="position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); background-color: rgba(0, 0, 0, 0.8);">
               <h2>{{ post.title }}</h2>
-              <p class="card-text text-truncate">{{ post.summary }}</p>
             </div>
             <!-- Border -->
-            <div class="customcard rounded-0 rounded-top w-100 px-2 py-4" style="position: absolute; top: 0px; left: 0px; border: 10px solid #FFF; border-bottom: 0px;">
+            <div class="customcard rounded-0 rounded-top w-100 p-2" style="position: absolute; top: 0px; left: 0px; border: 10px solid #FFF; border-bottom: 0px;">
               <h2 class="opacity-0">{{ post.title }}</h2>
-              <p class="card-text text-truncate opacity-0">{{ post.summary }}</p>
             </div>
           </a>
           <!-- Edit -->

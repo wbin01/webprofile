@@ -12,19 +12,22 @@
     <div class="position-absolute pb-2 w-100 bottom-0 text-light">
 
         <!-- Block -->
+        <div class="container-md">
         {% if post.is_locked_for_review %}
         <h2 class="text-muted text-center"><i class="bi bi-eye-slash-fill"></i> Bloqueado para análise</h2>
 
           {% if user.is_superuser %}
           <h4 class="text-muted text-center">Visível somente para: '{{ user.username }}' e '{{ post.user.first_name }}'</h4>
           {% else %}
-          <h4 class="text-muted text-center">Visível somente por você {{ post.user.first_name }}</h4>
+          <h4 class="text-muted text-center">Visível somente por você</h4>
           {% endif %}
 
         {% endif %}
 
         <!-- Title -->
         <h1 class="text-center">{{ post.title }}</h1>
+        </div>
+        
         <div class="container-md">
 
         <!-- Edit -->

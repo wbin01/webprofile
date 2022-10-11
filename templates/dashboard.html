@@ -28,19 +28,16 @@
           <a href="{% url 'content' post.url_title post.id %}" class="card-link text-dark text-decoration-none">
             <img src="{{ post.image.url }}" class="card-img" alt="...">
             <!-- Image blur -->
-            <div class="customcard rounded-0 rounded-top px-2 py-4" style="position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); background-image: url('{{ post.image.url }}'); background-size: cover; filter: blur(3px);">
+            <div class="customcard rounded-0 rounded-top p-2" style="position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); background-image: url('{{ post.image.url }}'); background-size: cover; filter: blur(3px);">
               <h2 class="opacity-0">{{ post.title }}</h2>
-              <p class="card-text text-truncate opacity-0">{{ post.summary }}</p>
             </div>
             <!-- BG and Text -->
-            <div class="customcard rounded-0 rounded-top px-2 py-4" style="position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); background-color: rgba(0, 0, 0, 0.8);">
+            <div class="customcard rounded-0 rounded-top p-2" style="position: absolute; top: 10px; left: 10px; width: calc(100% - 20px); background-color: rgba(0, 0, 0, 0.8);">
               <h2>{{ post.title }}</h2>
-              <p class="card-text text-truncate">{{ post.summary }}</p>
             </div>
             <!-- Border -->
-            <div class="customcard rounded-0 rounded-top w-100 px-2 py-4" style="position: absolute; top: 0px; left: 0px; border: 10px solid #FFF; border-bottom: 0px;">
+            <div class="customcard rounded-0 rounded-top w-100 p-2" style="position: absolute; top: 0px; left: 0px; border: 10px solid #FFF; border-bottom: 0px;">
               <h2 class="opacity-0">{{ post.title }}</h2>
-              <p class="card-text text-truncate opacity-0">{{ post.summary }}</p>
             </div>
           </a>
           <!-- Edit -->
@@ -52,24 +49,53 @@
             {% endif %}
           </div>
 
-            {% if post.is_locked_for_review %}
-            <a href="{% url 'content' post.url_title post.id %}" class="card-link text-dark text-decoration-none">
-            <div class="rounded-0 border px-2 py-2 my-0" style="position: absolute; top: 5px; left: 5px; width: calc(100% - 10px); height: calc(100% - 10px); background-color: #F5F5F5;">
-              <h6 class="opacity-25 text-truncate pb-1">{{ post.title }}</h6>
-              <div class="p-0 m-0 w-100" style="height: 2px; background-color: #FFF"></div>
+          <!-- Block content-->
+          {% if post.is_locked_for_review %}
 
-              <h3 class="py-0 my-0">Bloqueado para análise</h3>
-              {% if user.is_superuser %}
-              <p class="text-truncate text-muted py-0 my-0"> Visível por você e o usuário '{{ post.user.first_name }}'</p>
-              {% else %}
-              <p class="text-truncate text-muted py-0 my-0"> Visível somente por você</p>
-              {% endif %}
-              <p class="pt-2"><small>{{ post.review_reason }}</small></p>
+          <div class="custom-block border p-2">
+
+            <a href="{% url 'content' post.url_title post.id %}" class="text-decoration-none">
+            <div class="custom-block-post-title rounded-0 rounded-top p-1">
+              <h4 class="text-truncate">{{ post.title }}</h4>
             </div>
             </a>
-            {% endif %}
 
-          </a>
+            <h2 class="py-0 my-0">Bloqueado para análise</h2>
+            {% if user.is_superuser %}
+            <p class="text-truncate py-0 my-0"> Visível por você e o usuário '{{ post.user.first_name }}'</p>
+            {% else %}
+            <p class="text-truncate py-0 my-0"> Visível somente por você</p>
+            {% endif %}
+            <!--<p class="pt-2"><small>{{ post.review_reason }}</small></p>-->
+
+            <!-- Button trigger modal -->
+            <div class="position-absolute bottom-0 start-0 p-1">
+            <button type="button" class="btn btn-light active text-dark border border-0" data-bs-toggle="modal" data-bs-target="#staticBackdropDetailPost">
+              <i class="bi bi-info-circle-fill"></i>
+            </button>
+            <a type="button" class="btn btn-light active text-dark border border-0" href="{% url 'content' post.url_title post.id %}">
+              <i class="bi bi-eye-fill"></i>
+            </a>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade modal-lg" id="staticBackdropDetailPost" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropDetailPostLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropDetailPostLabel">Detalhes do bloqueio</h1>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    {{ post.review_reason|safe }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        {% endif %}
         </div>
 
       </div>
