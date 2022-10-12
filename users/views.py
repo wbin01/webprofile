@@ -20,7 +20,7 @@ def dashboard(request, username):
         return redirect('index')
 
     # Posts
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or not request.user.is_superuser and username != request.user.username:
         posts = views_tools.separate_posts_into_quantity_groups(
             posts_list=Post.objects.order_by(  # type: ignore
                 '-publication_date').filter(
@@ -28,7 +28,7 @@ def dashboard(request, username):
                 is_published=True,
                 is_locked_for_review=False),
             items_quantity=2)
-    else:
+    else:  # mostrra
         posts = views_tools.separate_posts_into_quantity_groups(
             posts_list=Post.objects.order_by(  # type: ignore
                 '-publication_date').filter(

@@ -1,4 +1,6 @@
 import json
+import logging
+
 from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 # from django.contrib.auth.models import User
@@ -125,7 +127,7 @@ def search_user(request):
 
 
 def content(request, url_title, post_id):
-    print(url_title)
+    logging.info(url_title)
 
     # Post content
     post = Post.objects.get(pk=post_id)  # type: ignore
@@ -241,58 +243,59 @@ def edit(request, url_title, post_id, url_to_go_back):
     # Access
     if (request.user.id == post_to_edit.user.id or
             request.user.is_superuser):
-        # Form
-        post_forms = PostForms(
-            initial={
-                'user': post_to_edit.user.id,
-                'title': post_to_edit.title,
-                'url_title': post_to_edit.url_title,
-                'image': post_to_edit.image.url,
-                'summary': post_to_edit.summary,
-                'content': post_to_edit.content,
-                'category': post_to_edit.category,
-                'publication_date': timezone.now(),
-                'is_published': post_to_edit.is_published,
-                'is_for_main_page': post_to_edit.is_for_main_page,
-                'is_locked_for_review': post_to_edit.is_locked_for_review,
-                'review_reason': post_to_edit.review_reason,
-            })
+        if not post_to_edit.is_locked_for_review or request.user.is_superuser:
+            # Form
+            post_forms = PostForms(
+                initial={
+                    'user': post_to_edit.user.id,
+                    'title': post_to_edit.title,
+                    'url_title': post_to_edit.url_title,
+                    'image': post_to_edit.image.url,
+                    'summary': post_to_edit.summary,
+                    'content': post_to_edit.content,
+                    'category': post_to_edit.category,
+                    'publication_date': timezone.now(),
+                    'is_published': post_to_edit.is_published,
+                    'is_for_main_page': post_to_edit.is_for_main_page,
+                    'is_locked_for_review': post_to_edit.is_locked_for_review,
+                    'review_reason': post_to_edit.review_reason,
+                })
 
-        # Image Label with old image name
-        post_forms['image'].label = (
-                    '<h5>Imagem</h5>'
-                    '<small class="text-muted">Capa do card</small></br>'
-                    '<small class="text-primary text-opacity-50"> ' +
-                    str(post_to_edit.image.url.split("/")[-1]) +
-                    '</small>')
+            # Image Label with old image name
+            post_forms['image'].label = (
+                        '<h5>Imagem</h5>'
+                        '<small class="text-muted">Capa do card</small></br>'
+                        '<small class="text-primary text-opacity-50"> ' +
+                        str(post_to_edit.image.url.split("/")[-1]) +
+                        '</small>')
 
-        print('INITIALS')
-        print('is_published', post_to_edit.is_published)
-        print('is_for_main_page', post_to_edit.is_for_main_page)
-        print('is_locked_for_review', post_to_edit.is_locked_for_review)
+            print('INITIALS')
+            print('is_published', post_to_edit.is_published)
+            print('is_for_main_page', post_to_edit.is_for_main_page)
+            print('is_locked_for_review', post_to_edit.is_locked_for_review)
 
-        # Profile
-        try:
-            user_profile = get_object_or_404(Profile, user=request.user.id)
-        except Exception as err:
-            print(err)
-            user_profile = None
+            # Profile
+            try:
+                user_profile = get_object_or_404(Profile, user=request.user.id)
+            except Exception as err:
+                print(err)
+                user_profile = None
 
-        # Context
-        context = {
-            'url_context': 'edit',
-            'url_to_go_back': url_to_go_back,
-            'post_forms': post_forms,
-            'post_id': post_id,
-            'post_user_id': post_to_edit.user.id,  # post
-            'post_user_first_name': post_to_edit.user.first_name,  # post
-            'post_title': post_to_edit.title,  # post
-            'post': post_to_edit,
-            'url_title': url_title,
-            'message_err': None,
-            'user_profile': user_profile}
+            # Context
+            context = {
+                'url_context': 'edit',
+                'url_to_go_back': url_to_go_back,
+                'post_forms': post_forms,
+                'post_id': post_id,
+                'post_user_id': post_to_edit.user.id,  # post
+                'post_user_first_name': post_to_edit.user.first_name,  # post
+                'post_title': post_to_edit.title,  # post
+                'post': post_to_edit,
+                'url_title': url_title,
+                'message_err': None,
+                'user_profile': user_profile}
 
-        return render(request, 'edit.html', context)
+            return render(request, 'edit.html', context)
 
     return redirect('index')
 

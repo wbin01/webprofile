@@ -27,21 +27,25 @@
         <!-- Title -->
         <h1 class="text-center">{{ post.title }}</h1>
         </div>
-        
+
         <div class="container-md">
-
-        <!-- Edit -->
-        {% if user.is_authenticated and user.id == post.user.id or user.is_superuser %}
-        <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-dark text-light active border border-0 btn-sm"><i class="bi bi-pen-fill"></i></a>
-
         <!-- Closed eye icon -->
         {% if not post.is_published %}
         <i class="bi bi-eye-slash-fill"></i>
         {% endif %}
 
+        <!-- Name user and date -->
+        <small class="text-muted inverted-style-link"><a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>
+
+        <!-- Edit -->
+        {% if user.id == post.user.id or user.is_superuser %}
+          {% if not post.is_locked_for_review or user.is_superuser %}
+            <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-dark text-light active border border-0 btn-sm">
+              <i class="bi bi-pen-fill"></i>
+            </a>
+          {% endif %}
         {% endif %}
 
-        <small class="text-muted inverted-style-link"><a href="{% url 'dashboard' post.user.username %}" class="text-decoration-none">{{ post.user.first_name }}</a> - {{ post.publication_date }}</small>
         </div>
     </div>
     <!-- /USER -->
