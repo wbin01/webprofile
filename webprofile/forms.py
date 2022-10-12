@@ -21,6 +21,11 @@ class PostForms(forms.ModelForm):
         label='<h5>Bloqueado para revisão</h5>',
         initial=False, required=False)
 
+    review_reason = QuillFormField(
+        label=('<h5>Mensagem sobre a revisão</h5><small class="text-muted">'
+               'Salve com um texto mínimo padrão, e depois com mais tempo, '
+               'atualize com os detalhes.</small>'))
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
@@ -48,15 +53,11 @@ class PostForms(forms.ModelForm):
             'category': (
                 '<h5>Categoria</h5><small class="text-muted">'
                 'Separe por vírgula</small>'),
-            'review_reason': (
-                '<h5>Mensagem da revisão</h5><small class="text-muted">'
-                'Breve motivo do bloqueio (105 Caracteres). '
-                'Coloque os detalhes na notificação.</small>'),
         }
 
         widgets = {
             'summary': forms.Textarea(attrs={'rows': 2}),  # 'cols': 15
-            'review_reason': forms.Textarea(attrs={'rows': 2}),
+            # 'review_reason': forms.Textarea(attrs={'rows': 2}),
             # 'content': forms.Textarea(attrs={'rows': 10}),
         }
 
