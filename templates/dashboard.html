@@ -51,8 +51,7 @@
 
           <!-- Block content-->
           {% if post.is_locked_for_review %}
-
-          <div class="custom-block border p-2">
+          <div class="custom-block p-2 border">
 
             <a href="{% url 'content' post.url_title post.id %}" class="text-decoration-none">
             <div class="custom-block-post-title rounded-0 rounded-top p-1">
@@ -66,7 +65,6 @@
             {% else %}
             <p class="text-truncate py-0 my-0"> Visível somente por você</p>
             {% endif %}
-            <!--<p class="pt-2"><small>{{ post.review_reason }}</small></p>-->
 
             <!-- Button trigger modal -->
             <div class="position-absolute bottom-0 start-0 p-1">
