@@ -66,28 +66,40 @@
             <p class="text-truncate py-0 my-0"> Visível somente por você</p>
             {% endif %}
 
-            <!-- Button trigger modal -->
+            <!-- Reason info -->
             <div class="position-absolute bottom-0 start-0 p-1">
             <button type="button" class="btn btn-light active text-dark border border-0" data-bs-toggle="modal" data-bs-target="#staticBackdropDetailPost">
               <i class="bi bi-info-circle-fill"></i>
             </button>
+            <!-- View post -->
             <a type="button" class="btn btn-light active text-dark border border-0" href="{% url 'content' post.url_title post.id %}">
               <i class="bi bi-eye-fill"></i>
             </a>
+            <!-- Edit -->
+            {% if user.is_superuser %}
+            <a href="{% url 'edit' post.url_title post.id url_context %}" type="button" class="btn btn-light active text-dark border border-0">
+              <i class="bi bi-pen-fill"></i>
+            </a>
+            {% endif %}
+
             </div>
 
             <!-- Modal -->
             <div class="modal fade modal-lg" id="staticBackdropDetailPost" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropDetailPostLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
+
                   <div class="modal-header">
                     <h1 class="modal-title fs-5" id="staticBackdropDetailPostLabel">Detalhes do bloqueio</h1>
-
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
+
                   <div class="modal-body">
-                    {{ post.review_reason|safe }}
+                    <section class="review-reason">
+                    {{ post.review_reason | safe }}
+                    </section>
                   </div>
+
                 </div>
               </div>
             </div>

@@ -20,7 +20,10 @@ def dashboard(request, username):
         return redirect('index')
 
     # Posts
-    if not request.user.is_authenticated or not request.user.is_superuser and username != request.user.username:
+    if (
+            not request.user.is_authenticated
+            or not request.user.is_superuser
+            and username != request.user.username):
         posts = views_tools.separate_posts_into_quantity_groups(
             posts_list=Post.objects.order_by(  # type: ignore
                 '-publication_date').filter(

@@ -22,14 +22,14 @@ def index(request):
             .filter(is_locked_for_review=False)),
         items_quantity=2)
 
-    carousel_posts = (
-        [posts[0][0], posts[0][1], posts[1][0]]
-        if posts and len(posts) >= 2 else [])
-
     # Posts per page
     paginator = Paginator(posts, 2)
     page = request.GET.get('page')
     posts_per_page = paginator.get_page(page)
+
+    carousel_posts = (
+        [posts[0][0], posts[0][1], posts[1][0]]
+        if posts and len(posts) >= 2 else [])
 
     # Context
     context = {
@@ -269,11 +269,6 @@ def edit(request, url_title, post_id, url_to_go_back):
                         str(post_to_edit.image.url.split("/")[-1]) +
                         '</small>')
 
-            print('INITIALS')
-            print('is_published', post_to_edit.is_published)
-            print('is_for_main_page', post_to_edit.is_for_main_page)
-            print('is_locked_for_review', post_to_edit.is_locked_for_review)
-
             # Profile
             try:
                 user_profile = get_object_or_404(Profile, user=request.user.id)
@@ -356,7 +351,9 @@ def update(request, post_id):
                     True if 'is_published' in request.POST else False)
 
             if 'review_reason' in request.POST:
-                post.review_reason = request.POST['review_reason']
+                reason = request.POST['review_reason']
+                reason_text = json.loads(reason)['html'] if reason else ''
+                post.review_reason = reason_text
 
             # Save updated post
             post.save()
