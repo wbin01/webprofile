@@ -20,8 +20,14 @@
             {% csrf_token %}
             {% for field in user_forms.visible_fields %}
             <div class="form-group mb-2">
+
+                {% if field.name == 'is_posts_admin' %}
+                {{ field }}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% else %}
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                 {{ field }}
+                {% endif %}
             </div>
             {% for error in field.errors %}
             <section class="alert alert-danger" role="alert">

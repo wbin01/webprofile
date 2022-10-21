@@ -41,14 +41,18 @@ class LoginForms(forms.ModelForm):
 
 
 class SignUpForms(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            if visible.name != 'is_posts_admin':
+                visible.field.widget.attrs['class'] = 'form-control'
 
     class Meta:
         model = FormUser
-        fields = '__all__'
+
+        exclude = ['is_posts_admin']  # fields = '__all__'
+
         labels = {
             'name': 'Nome',
             'username': 'Nome de usuário (Letras)',
@@ -56,6 +60,7 @@ class SignUpForms(forms.ModelForm):
             'password': 'Senha (Mínimo 8 letras e números)',
             'password_confirm': 'Senha novamente',
         }
+
         widgets = {
             'password': forms.PasswordInput(),
             'password_confirm': forms.PasswordInput(),
