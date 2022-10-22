@@ -40,18 +40,13 @@ class PostForms(forms.ModelForm):
 
     class Meta:
         model = Post
-        exclude = ['user', 'publication_date', 'url_title']
+        exclude = ['user', 'publication_date', 'url_title', 'summary']
 
         labels = {
             'title': '<h5>Título</h5>',
-            'image': (
-                '<h5>Imagem</h5>'
-                '<small class="text-muted">Capa do card</small>'),
-            'summary': (
-                '<h5>Resumo</h5><small class="text-muted">'
-                'Apresentação resumida do card</small>'),
+            'image': '<h5>Imagem de capa</h5>',
             'category': (
-                '<h5>Categoria</h5><small class="text-muted">'
+                '<h5>Tags</h5><small class="text-muted">'
                 'Separe por vírgula</small>'),
         }
 

@@ -207,7 +207,7 @@ def create(request, url_to_go_back):
             title=request.POST['title'],
             url_title=views_tools.normalize_title(request.POST['title']),
             image=request.FILES.get('image', 'post-default.svg'),
-            summary=request.POST['summary'],
+            # summary=request.POST['summary'],
             content=content_text,
             category=request.POST['category'].lower().strip(),
             publication_date=timezone.now(),
