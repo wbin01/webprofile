@@ -2,9 +2,7 @@
 
 Python Django web site
 
-#### Screens
-
-Home page
+### Screens
 
 ![Image](data/home.png "screenshot")
 
